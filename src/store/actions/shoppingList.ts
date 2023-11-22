@@ -32,6 +32,21 @@ interface UpdateShoppingItemFailureAction {
   payload: string
 }
 
+// Delete shopping item
+interface DeleteShoppingItemAction {
+  type: ShoppingListActionType.DELETE
+}
+
+interface DeleteShoppingItemSuccessAction {
+  type: ShoppingListActionType.DELETE_SUCCESS
+  payload: number
+}
+
+interface DeleteShoppingItemFailureAction {
+  type: ShoppingListActionType.DELETE_ERROR
+  payload: string
+}
+
 export type ShoppingListAction =
   | FetchShoppingListAction
   | FetchShoppingListSuccessAction
@@ -39,3 +54,6 @@ export type ShoppingListAction =
   | UpdateShoppingItemAction
   | UpdateShoppingItemSuccessAction
   | UpdateShoppingItemFailureAction
+  | DeleteShoppingItemAction
+  | DeleteShoppingItemSuccessAction
+  | DeleteShoppingItemFailureAction

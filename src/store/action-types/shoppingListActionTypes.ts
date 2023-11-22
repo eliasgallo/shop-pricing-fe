@@ -5,4 +5,7 @@ export enum ShoppingListActionType {
   UPDATE,
   UPDATE_SUCCESS,
   UPDATE_ERROR,
+  DELETE,
+  DELETE_SUCCESS,
+  DELETE_ERROR,
 }

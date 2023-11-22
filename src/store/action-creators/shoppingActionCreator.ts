@@ -67,6 +67,35 @@ export const updateShoppingItem = (item: ShoppingItem) => {
   }
 }
 
+export const deleteShoppingItem = (item: ShoppingItem) => {
+  return async (dispatch: Dispatch<ShoppingListAction>) => {
+    // TODO: rename to ShoppingListActionType.DELETING
+    dispatch({ type: ShoppingListActionType.DELETE })
+    try {
+      await axios.delete(`${BASE_URL}/shopping_items`, {
+        data: JSON.stringify({ ids: [item.id] }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      })
+      dispatch({
+        type: ShoppingListActionType.DELETE_SUCCESS,
+        payload: item.id!,
+      })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        let msg = 'Failed to update shopping item'
+        if (error instanceof Error) msg = error.message
+        dispatch({
+          type: ShoppingListActionType.UPDATE_ERROR,
+          payload: msg,
+        })
+      }
+    }
+  }
+}
+
 // ;(async () => {
 //   setLoading(true)
 //   const headers: HeadersInit = new Headers()

@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { ShoppingItemType } from './response-api-types'
+import { PriceUnitTypes, ShoppingItem } from '../store/common-models'
 
 type ShopListRowProps = {
-  item: ShoppingItemType
-  updateItem: (item: ShoppingItemType) => void
+  item: ShoppingItem
+  updateItem: (item: ShoppingItem) => void
   editButtonClick: () => void
 }
 
@@ -13,41 +13,55 @@ const Container = styled.div`
   border-radius: 5px;
   display: flex;
   position: relative;
+  justify-content: space-between;
 `
 
-const ItemInfo = styled.div`
-  margin-right: auto;
-  padding: 10px 0;
-  padding-left: 10px;
-  width: 100%; // click area
+const ItemInfo = styled.label`
+  padding: 10px 0 10px 5px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
-const EditButton = styled.label`
-  padding: 10px;
-  align-self: center;
+const EditButton = styled.button`
+  padding: 0 20px;
+  background-color: #24a0ed;
+  color: white;
+  font-weight: bold;
+  border: none;
 `
 
 const Strikethrough = styled.div`
   position: absolute;
   top: calc(50% + 1px);
+  left: 0;
   border-bottom: 2px solid;
   width: 100%;
 `
 
-export const ShopListRow = ({ item, updateItem }: ShopListRowProps) => {
+export const ShopListRow = ({
+  item,
+  updateItem,
+  editButtonClick,
+}: ShopListRowProps) => {
   // const checkLabel: string = item.checked ? '🟩' : '⬜️'
-  const itemInfo: string = ` ${item.quantity_value} ${item.quantity_type} ${item.name} ${item.price}${item.price_unit}`
+  const itemInfo: string = ` ${item.quantity_value} ${item.quantity_type} ${
+    item.name
+  } ${item.price}${PriceUnitTypes[item.price_unit]}${item.offer && '🔖'}`
 
-  const itemChecked = () => {
+  const itemChecked = (): void => {
     item.checked = !item.checked
     updateItem(item)
   }
 
   return (
     <Container>
-      <ItemInfo onClick={itemChecked}>{`${itemInfo}`}</ItemInfo>
-      <EditButton>{'>'}</EditButton>
-      {item.checked && <Strikethrough />}
+      <ItemInfo onClick={itemChecked}>
+        {`${itemInfo}`}
+        {item.checked && <Strikethrough />}
+      </ItemInfo>
+      <EditButton onClick={editButtonClick}>ℹ</EditButton>
     </Container>
   )
 }

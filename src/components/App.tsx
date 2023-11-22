@@ -13,6 +13,7 @@ import { store } from '../store'
 import { Home } from './Home'
 import { PriceControl } from './PriceControl'
 import { ShopList } from './ShopList'
+import { DetailsShopItemPage } from './DetailsShopItemPage'
 
 const AppContainer = styled.div`
   padding: 10px;
@@ -43,6 +44,10 @@ const router: Router = createBrowserRouter(
       <Route
         path='shop-list'
         element={<ShopList />}
+      />
+      <Route
+        path='shop-list/:id'
+        element={<DetailsShopItemPage />}
       />
     </Route>
   )
