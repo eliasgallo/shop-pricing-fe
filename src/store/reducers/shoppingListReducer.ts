@@ -9,13 +9,13 @@ import {
 interface ShoppingListState {
   loading: boolean
   error: string | null
-  shoppingList: ShoppingListType
+  shopList: ShoppingListType
 }
 
 const initialState = {
   loading: false,
   error: null,
-  shoppingList: {},
+  shopList: {},
 }
 
 const storeSeperator = (list: ShoppingItem[]): ShoppingListType => {
@@ -67,75 +67,75 @@ export const shopListReducer = (
 ): ShoppingListState => {
   switch (action.type) {
     case ShoppingListActionType.FETCHING:
-      return { loading: true, error: null, shoppingList: state.shoppingList }
+      return { loading: true, error: null, shopList: state.shopList }
     case ShoppingListActionType.FETCH_SUCCESS:
       return {
         loading: false,
         error: null,
-        shoppingList: sortList(storeSeperator(action.payload)),
+        shopList: sortList(storeSeperator(action.payload)),
       }
     case ShoppingListActionType.FETCH_ERROR:
       return {
         loading: false,
         error: action.payload,
-        shoppingList: state.shoppingList,
+        shopList: state.shopList,
       }
     case ShoppingListActionType.UPDATING:
-      return { loading: true, error: null, shoppingList: state.shoppingList }
+      return { loading: true, error: null, shopList: state.shopList }
     case ShoppingListActionType.UPDATE_SUCCESS: {
       const findItem = (list: ShoppingItem[]): ShoppingItem | undefined =>
         list.find((e) => e.id === action.payload.newItem.id!)
       const oldItemStore = findItem(Object.values(state.shopList).flat())!.store
       const newList: ShoppingListType = replaceItem(
-        { ...state.shoppingList },
+        { ...state.shopList },
         action.payload.newItem,
         oldItemStore
       )
-      return { loading: false, error: null, shoppingList: newList }
+      return { loading: false, error: null, shopList: newList }
     }
     case ShoppingListActionType.UPDATE_ERROR:
       return {
         loading: false,
         error: action.payload,
-        shoppingList: state.shoppingList,
+        shopList: state.shopList,
       }
     case ShoppingListActionType.DELETING:
-      return { loading: true, error: null, shoppingList: state.shoppingList }
+      return { loading: true, error: null, shopList: state.shopList }
     case ShoppingListActionType.DELETE_SUCCESS: {
       const { store, id } = action.payload
       // state.shoppingList[store] = sliceItemId(state.shoppingList[store], id!)
       // return { loading: false, error: null, shoppingList: state.shoppingList }
-      const newStoreList = sliceItemId(state.shoppingList[store], id!)
+      const newStoreList = sliceItemId(state.shopList[store], id!)
       const newState = Object.assign(
-        { ...state.shoppingList },
+        { ...state.shopList },
         { [store]: newStoreList }
       )
-      return { loading: false, error: null, shoppingList: newState }
+      return { loading: false, error: null, shopList: newState }
     }
     case ShoppingListActionType.DELETE_ERROR:
       return {
         loading: false,
         error: action.payload,
-        shoppingList: state.shoppingList,
+        shopList: state.shopList,
       }
     case ShoppingListActionType.CREATING:
-      return { loading: true, error: null, shoppingList: state.shoppingList }
+      return { loading: true, error: null, shopList: state.shopList }
     case ShoppingListActionType.CREATE_SUCCESS: {
       const newItem: ShoppingItem = action.payload
-      const newStoreList: ShoppingItem[] = state.shoppingList[newItem.store]
+      const newStoreList: ShoppingItem[] = (state.shopList[newItem.store] || [])
         .concat(newItem)
         .sort(shopItemOrder)
       const newState: ShoppingListType = Object.assign(
-        { ...state.shoppingList },
+        { ...state.shopList },
         { [newItem.store]: newStoreList }
       )
-      return { loading: false, error: null, shoppingList: newState }
+      return { loading: false, error: null, shopList: newState }
     }
     case ShoppingListActionType.CREATE_ERROR:
       return {
         loading: false,
         error: action.payload,
-        shoppingList: state.shoppingList,
+        shopList: state.shopList,
       }
     default:
       return state

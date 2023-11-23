@@ -45,7 +45,7 @@ const Section = styled.div`
 export function ShopList() {
   const { fetchShoppingList, updateShoppingItem } = useActions()
   const {
-    shoppingList = {},
+    shopList: shoppingList = {},
     loading,
     error,
   } = useAppSelector((state) => state.shopping)

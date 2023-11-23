@@ -20,11 +20,11 @@ export const DetailsShopItemPage: React.FC = () => {
   const { updateShoppingItem, deleteShoppingItem, createShoppingItem } =
     useActions()
   const {
-    shoppingList,
+    shopList,
     loading,
     error,
   }: {
-    shoppingList: ShoppingListType
+    shopList: ShoppingListType
     loading: boolean
     error: string | null
   } = useAppSelector((state) => state.shopping)
@@ -39,7 +39,7 @@ export const DetailsShopItemPage: React.FC = () => {
     // TODO: Move to an util file, also exists in reducer
     const findItem = (list: ShoppingItem[]): ShoppingItem | undefined =>
       list.find((e) => e.id === parseInt(id!))
-    return findItem(Object.values(shoppingList).flat()) || NewShoppingItem
+    return findItem(Object.values(shopList).flat()) || NewShoppingItem
   }
 
   const item = getItem()
