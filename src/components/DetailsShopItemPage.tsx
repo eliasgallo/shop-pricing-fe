@@ -10,7 +10,8 @@ import { Spinner } from './Spinner'
 export const DetailsShopItemPage: React.FC = () => {
   const navigate: NavigateFunction = useNavigate()
   const navigateBack = (): void => navigate('..', { relative: 'path' })
-  const { updateShoppingItem, deleteShoppingItem } = useActions()
+  const { updateShoppingItem, deleteShoppingItem, createShoppingItem } =
+    useActions()
   const {
     shoppingList,
     loading,
@@ -19,6 +20,7 @@ export const DetailsShopItemPage: React.FC = () => {
     useAppSelector((state) => state.shopping)
   let { id }: { id: string | undefined } = useParams<'id'>()
   const getItem = (): ShoppingItem => {
+    if (id === 'new') return NewShoppingItem
     if (!id) return NewShoppingItem
     const findItem = (list: ShoppingItem[]): ShoppingItem | undefined =>
       list.find((e) => e.id === parseInt(id!))
@@ -30,7 +32,7 @@ export const DetailsShopItemPage: React.FC = () => {
       <DetailsShopItemForm
         item={{ ...getItem() }}
         onSave={(i) => {
-          updateShoppingItem(i)
+          i.id ? updateShoppingItem(i) : createShoppingItem(i)
           navigateBack()
         }}
         onCancel={navigateBack}

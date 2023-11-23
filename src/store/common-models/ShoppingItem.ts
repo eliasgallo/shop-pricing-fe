@@ -33,8 +33,8 @@ export const NewShoppingItem: ShoppingItem = {
   name: '',
   offer: true,
   price: 0,
-  price_unit: PriceUnitTypes.krUnit,
-  quantity_type: QuantityTypes.kg,
+  price_unit: 'krUnit',
+  quantity_type: 'kg',
   quantity_value: 0,
   store: '',
 }

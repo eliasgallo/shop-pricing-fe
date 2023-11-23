@@ -87,7 +87,38 @@ export const deleteShoppingItem = (item: ShoppingItem) => {
         let msg = 'Failed to update shopping item'
         if (error instanceof Error) msg = error.message
         dispatch({
-          type: ShoppingListActionType.UPDATE_ERROR,
+          type: ShoppingListActionType.CREATE_ERROR,
+          payload: msg,
+        })
+      }
+    }
+  }
+}
+
+export const createShoppingItem = (item: ShoppingItem) => {
+  return async (dispatch: Dispatch<ShoppingListAction>) => {
+    dispatch({ type: ShoppingListActionType.CREATING })
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/shopping_items`,
+        JSON.stringify(item),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        }
+      )
+      dispatch({
+        type: ShoppingListActionType.CREATE_SUCCESS,
+        payload: response.data,
+      })
+    } catch (error: any) {
+      if (error instanceof Error) {
+        let msg = 'Failed to create shopping item'
+        if (error instanceof Error) msg = error.message
+        dispatch({
+          type: ShoppingListActionType.CREATE_ERROR,
           payload: msg,
         })
       }

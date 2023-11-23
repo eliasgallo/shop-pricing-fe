@@ -8,4 +8,7 @@ export enum ShoppingListActionType {
   DELETING,
   DELETE_SUCCESS,
   DELETE_ERROR,
+  CREATING,
+  CREATE_SUCCESS,
+  CREATE_ERROR,
 }

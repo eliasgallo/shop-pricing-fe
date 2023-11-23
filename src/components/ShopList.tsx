@@ -7,6 +7,11 @@ import { useAppSelector } from '../hooks/useTypeSelector'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { ShoppingItem } from '../store/common-models'
 
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
 const ShopListRowWrapper = styled.div`
   margin-top: 5px;
 `
@@ -14,6 +19,16 @@ const ShopListRowWrapper = styled.div`
 const List = styled.ul`
   list-style: none;
   padding: 0;
+`
+
+const NewItem = styled.div`
+  align-self: flex-end;
+  /* background: #58ff00; */
+  background-color: #24a0ed;
+  color: white;
+  padding: 5px 5px;
+  border: 2px solid black;
+  border-radius: 5px;
 `
 
 export function ShopList() {
@@ -31,7 +46,16 @@ export function ShopList() {
 
   return (
     <>
-      <h1>Shop list</h1>
+      <HeaderContainer>
+        <h1>Shop list</h1>
+        <NewItem
+          onClick={() => {
+            navigate(`./new`, { relative: 'path' })
+          }}
+        >
+          New Item ＋
+        </NewItem>
+      </HeaderContainer>
       <List>
         {shoppingList.map((item: ShoppingItem) => {
           return (

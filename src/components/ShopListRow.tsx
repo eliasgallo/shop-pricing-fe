@@ -48,7 +48,9 @@ export const ShopListRow = ({
   // const checkLabel: string = item.checked ? '🟩' : '⬜️'
   const itemInfo: string = ` ${item.quantity_value} ${item.quantity_type} ${
     item.name
-  } ${item.price}${PriceUnitTypes[item.price_unit]}${item.offer && '🔖'}`
+  } ${item.price}${PriceUnitTypes[item.price_unit]}${
+    (item.offer && '🔖') || ''
+  }`
 
   const itemChecked = (): void => {
     item.checked = !item.checked
