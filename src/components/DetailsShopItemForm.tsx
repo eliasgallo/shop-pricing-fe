@@ -28,6 +28,7 @@ const OfferWrapper = styled.label``
 
 export type ShopItemFormProps = {
   item: ShoppingItem
+  isNewItem: boolean
   onSave: (item: ShoppingItem) => void
   onCancel: () => void
   onDelete: (item: ShoppingItem) => void
@@ -38,7 +39,7 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
 
   return (
     <>
-      {!item.id && <h1>Create new item</h1>}
+      {props.isNewItem && <h1>Create new item</h1>}
       <FormContainer>
         <FormSection>
           <input
@@ -166,16 +167,18 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
             Cancel
           </button>
         </FormSection>
-        <FormSection>
-          <button
-            onClick={(e) => {
-              e.preventDefault()
-              props.onDelete(item)
-            }}
-          >
-            Delete
-          </button>
-        </FormSection>
+        {!props.isNewItem && (
+          <FormSection>
+            <button
+              onClick={(e) => {
+                e.preventDefault()
+                props.onDelete(item)
+              }}
+            >
+              Delete
+            </button>
+          </FormSection>
+        )}
       </FormContainer>
     </>
   )

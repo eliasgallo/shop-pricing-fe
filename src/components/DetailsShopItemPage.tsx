@@ -42,10 +42,11 @@ export const DetailsShopItemPage: React.FC = () => {
     return findItem(Object.values(shoppingList).flat()) || NewShoppingItem
   }
 
+  const item = getItem()
   return (
     <>
       <DetailsShopItemForm
-        item={{ ...getItem() }}
+        item={{ ...item }}
         onSave={(i) => {
           i.id ? updateShoppingItem(i) : createShoppingItem(i)
           navigateBack()
@@ -55,6 +56,7 @@ export const DetailsShopItemPage: React.FC = () => {
           deleteShoppingItem(i)
           navigateBack()
         }}
+        isNewItem={!item.id}
       />
       {error && `Error message: ${error}`}
       {loading && <Spinner />}
