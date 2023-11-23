@@ -19,13 +19,13 @@ export const shopListReducer = (
   action: ShoppingListAction
 ): ShoppingListState => {
   switch (action.type) {
-    case ShoppingListActionType.FETCH:
+    case ShoppingListActionType.FETCHING:
       return { loading: true, error: null, shoppingList: [] }
     case ShoppingListActionType.FETCH_SUCCESS:
       return { loading: false, error: null, shoppingList: action.payload }
     case ShoppingListActionType.FETCH_ERROR:
       return { loading: false, error: action.payload, shoppingList: [] }
-    case ShoppingListActionType.UPDATE:
+    case ShoppingListActionType.UPDATING:
       return { loading: true, error: null, shoppingList: state.shoppingList }
     case ShoppingListActionType.UPDATE_SUCCESS: {
       const newShoppingList = state.shoppingList.map((item) =>
@@ -48,7 +48,7 @@ export const shopListReducer = (
         error: action.payload,
         shoppingList: state.shoppingList,
       }
-    case ShoppingListActionType.DELETE:
+    case ShoppingListActionType.DELETING:
       return { loading: true, error: null, shoppingList: [] }
     case ShoppingListActionType.DELETE_SUCCESS: {
       const newShoppingList = state.shoppingList.filter(

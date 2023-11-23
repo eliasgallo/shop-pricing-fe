@@ -9,7 +9,7 @@ const token = '7796b4f81de5b07bb87350842135496e5194db9d'
 
 export const fetchShoppingList = () => {
   return async (dispatch: Dispatch<ShoppingListAction>): Promise<void> => {
-    dispatch({ type: ShoppingListActionType.FETCH })
+    dispatch({ type: ShoppingListActionType.FETCHING })
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/shopping_items`,
@@ -37,7 +37,7 @@ export const fetchShoppingList = () => {
 
 export const updateShoppingItem = (item: ShoppingItem) => {
   return async (dispatch: Dispatch<ShoppingListAction>) => {
-    dispatch({ type: ShoppingListActionType.UPDATE })
+    dispatch({ type: ShoppingListActionType.UPDATING })
     try {
       const response = await axios.put(
         `${BASE_URL}/shopping_items`,
@@ -69,8 +69,7 @@ export const updateShoppingItem = (item: ShoppingItem) => {
 
 export const deleteShoppingItem = (item: ShoppingItem) => {
   return async (dispatch: Dispatch<ShoppingListAction>) => {
-    // TODO: rename to ShoppingListActionType.DELETING
-    dispatch({ type: ShoppingListActionType.DELETE })
+    dispatch({ type: ShoppingListActionType.DELETING })
     try {
       await axios.delete(`${BASE_URL}/shopping_items`, {
         data: JSON.stringify({ ids: [item.id] }),

@@ -4,7 +4,7 @@ import { ShoppingItem } from '../common-models/ShoppingItem'
 
 // Fetch shopping list
 interface FetchShoppingListAction {
-  type: ShoppingListActionType.FETCH
+  type: ShoppingListActionType.FETCHING
 }
 
 interface FetchShoppingListSuccessAction {
@@ -19,7 +19,7 @@ interface FetchShoppingListFailureAction {
 
 // Update shopping item
 interface UpdateShoppingItemAction {
-  type: ShoppingListActionType.UPDATE
+  type: ShoppingListActionType.UPDATING
 }
 
 interface UpdateShoppingItemSuccessAction {
@@ -34,7 +34,7 @@ interface UpdateShoppingItemFailureAction {
 
 // Delete shopping item
 interface DeleteShoppingItemAction {
-  type: ShoppingListActionType.DELETE
+  type: ShoppingListActionType.DELETING
 }
 
 interface DeleteShoppingItemSuccessAction {
