@@ -52,7 +52,7 @@ export const updateShoppingItem = (item: ShoppingItem) => {
       )
       dispatch({
         type: ShoppingListActionType.UPDATE_SUCCESS,
-        payload: response.data,
+        payload: { oldItem: item, newItem: response.data },
       })
     } catch (error: any) {
       if (error instanceof Error) {
@@ -80,7 +80,7 @@ export const deleteShoppingItem = (item: ShoppingItem) => {
       })
       dispatch({
         type: ShoppingListActionType.DELETE_SUCCESS,
-        payload: item.id!,
+        payload: item,
       })
     } catch (error: any) {
       if (error instanceof Error) {

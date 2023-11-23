@@ -178,16 +178,5 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
         </FormSection>
       </FormContainer>
     </>
-    // Empty name Section or no Section?
-    //   name
-    //   store
-    // Quantity
-    //   Quantity : st or kg
-    //   Offer / Campaign yes/no
-    // Price
-    //   price : kr/st etc
-    // Save
-    // Cancel
-    // Delete
   )
 }

@@ -14,6 +14,24 @@ export const QuantityTypes: { [key: string]: string } = {
   currency: 'kr',
 }
 
+export const defaultStores = [
+  'Willys',
+  'Lidl',
+  'Ica',
+  'Ica Kvantum',
+  'Ica Maxi',
+  'Coop',
+  'Coop Stora',
+  'Coop Konsum',
+  'Xtra',
+  'Dollar Store',
+]
+
+export const emptyStore = 'Any Store'
+
+export type ShoppingListType = { [key: string]: ShoppingItem[] }
+
+// TODO: move this to a global types.d.ts file and change to type instead of interface
 export interface ShoppingItem {
   id?: number
   checked: boolean
@@ -23,7 +41,7 @@ export interface ShoppingItem {
   price_unit: string
   quantity_type: string
   quantity_value: number
-  store?: string
+  store: string
   readonly created_at?: string
   readonly updated_at?: string
 }
@@ -36,7 +54,7 @@ export const NewShoppingItem: ShoppingItem = {
   price_unit: 'krUnit',
   quantity_type: 'kg',
   quantity_value: 0,
-  store: '',
+  store: emptyStore,
 }
 
 // TODO

@@ -24,7 +24,7 @@ interface UpdateShoppingItemAction {
 
 interface UpdateShoppingItemSuccessAction {
   type: ShoppingListActionType.UPDATE_SUCCESS
-  payload: ShoppingItem
+  payload: { oldItem: ShoppingItem; newItem: ShoppingItem }
 }
 
 interface UpdateShoppingItemFailureAction {
@@ -39,7 +39,7 @@ interface DeleteShoppingItemAction {
 
 interface DeleteShoppingItemSuccessAction {
   type: ShoppingListActionType.DELETE_SUCCESS
-  payload: number
+  payload: ShoppingItem
 }
 
 interface DeleteShoppingItemFailureAction {

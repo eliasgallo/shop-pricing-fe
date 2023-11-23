@@ -6,6 +6,7 @@ import { useActions } from '../hooks/useActions'
 import { useAppSelector } from '../hooks/useTypeSelector'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { ShoppingItem } from '../store/common-models'
+import { LocationStateNewItem } from '../types'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -31,17 +32,27 @@ const NewItem = styled.div`
   border-radius: 5px;
 `
 
+const SectionButton = styled.div`
+  color: #24a0ed;
+  min-width: 30%; // increase click size in case the name is short
+`
+const Section = styled.div`
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
+`
+
 export function ShopList() {
   const { fetchShoppingList, updateShoppingItem } = useActions()
   const {
-    shoppingList = [],
+    shoppingList = {},
     loading,
     error,
   } = useAppSelector((state) => state.shopping)
   const navigate: NavigateFunction = useNavigate()
 
   useEffect(() => {
-    if (shoppingList.length === 0) fetchShoppingList()
+    if (Object.keys(shoppingList).length === 0) fetchShoppingList()
   }, [])
 
   return (
@@ -57,20 +68,34 @@ export function ShopList() {
         </NewItem>
       </HeaderContainer>
       <List>
-        {shoppingList.map((item: ShoppingItem) => {
+        {Object.keys(shoppingList).map((store: string) => {
           return (
-            <li key={item.id}>
-              <ShopListRowWrapper>
-                <ShopListRow
-                  key={item.id}
-                  item={{ ...item }}
-                  updateItem={updateShoppingItem}
-                  editButtonClick={() =>
-                    navigate(`./${item.id}`, { relative: 'path' })
-                  }
-                />
-              </ShopListRowWrapper>
-            </li>
+            <Section key={store}>
+              <SectionButton
+                onClick={() => {
+                  const storeState: LocationStateNewItem = { store }
+                  navigate(`./new`, { relative: 'path', state: storeState })
+                }}
+              >
+                {store} (+)
+              </SectionButton>
+              {shoppingList[store].map((item: ShoppingItem) => {
+                return (
+                  <li key={item.id}>
+                    <ShopListRowWrapper>
+                      <ShopListRow
+                        key={item.id}
+                        item={{ ...item }}
+                        updateItem={updateShoppingItem}
+                        editButtonClick={() =>
+                          navigate(`./${item.id}`, { relative: 'path' })
+                        }
+                      />
+                    </ShopListRowWrapper>
+                  </li>
+                )
+              })}
+            </Section>
           )
         })}
         {error && `Error message: ${error}`}
