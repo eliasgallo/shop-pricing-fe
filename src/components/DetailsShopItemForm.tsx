@@ -3,6 +3,7 @@ import { PriceUnitTypes, QuantityTypes } from '../store'
 import { styled } from 'styled-components'
 import { ShoppingItem } from '../types'
 import { InputWithSuggestions } from './shared/InputWithSuggestions'
+import { SelectorComponent } from './shared/SelectorComponent'
 
 const FormContainer = styled.form`
   display: flex;
@@ -76,27 +77,16 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
                 })
               }
             />
-            <select
-              name='quantity_type'
-              value={item.quantity_type}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+            <SelectorComponent
+              allValues={QuantityTypes}
+              selectedValue={item.quantity_type}
+              onChange={(value) =>
                 setItem({
                   ...item,
-                  quantity_type: e.target.value,
+                  quantity_type: value,
                 })
               }
-            >
-              {Object.keys(QuantityTypes).map((key: string) => {
-                return (
-                  <option
-                    key={key}
-                    value={key}
-                  >
-                    {QuantityTypes[key]}
-                  </option>
-                )
-              })}
-            </select>
+            />
           </InputSelectWrapper>
         </FormSection>
         <FormSection>
@@ -111,27 +101,16 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
                 setItem({ ...item, price: parseInt(e.target.value) })
               }
             />
-            <select
-              name='price_unit'
-              value={item.price_unit.toString()}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+            <SelectorComponent
+              allValues={PriceUnitTypes}
+              selectedValue={item.price_unit}
+              onChange={(value) =>
                 setItem({
                   ...item,
-                  price_unit: e.target.value,
+                  price_unit: value,
                 })
               }
-            >
-              {Object.keys(PriceUnitTypes).map((key: string) => {
-                return (
-                  <option
-                    key={key}
-                    value={key}
-                  >
-                    {PriceUnitTypes[key]}
-                  </option>
-                )
-              })}
-            </select>
+            />
           </InputSelectWrapper>
         </FormSection>
         <FormSection>
