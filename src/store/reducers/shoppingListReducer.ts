@@ -1,25 +1,40 @@
 import { ShoppingItem, ShoppingListType } from '../../types'
+import { concatDistinct } from '../../utils/uniqueArray'
 import { ShoppingListActionType } from '../action-types'
 import { ShoppingListAction } from '../actions'
+
+const defaultStores = [
+  'Willys',
+  'Lidl',
+  'Ica',
+  'Ica Kvantum',
+  'Ica Maxi',
+  'Coop',
+  'Coop Stora',
+  'Coop Konsum',
+  'Xtra',
+  'Dollar Store',
+]
 
 interface ShoppingListState {
   loading: boolean
   error: string | null
   shopList: ShoppingListType
+  storeSuggestions: string[]
 }
 
 const initialState = {
   loading: false,
   error: null,
   shopList: {},
+  storeSuggestions: defaultStores,
 }
 
 const storeSeperator = (list: ShoppingItem[]): ShoppingListType => {
   const result: { [key: string]: ShoppingItem[] } = {}
   list.forEach((item: ShoppingItem): void => {
-    const store = item.store || emptyStore
-    const storeList = (result[store] || []).concat([item])
-    result[store] = storeList
+    const store: string = item.store
+    result[store] = (result[store] || []).concat([item])
   })
   return result
 }
@@ -46,7 +61,7 @@ const replaceItem = (
   // remove item
   list[oldItemStore] = sliceItemId(list[oldItemStore], newItem.id!)
   // add item
-  list[newItem.store] = list[newItem.store]
+  list[newItem.store] = (list[newItem.store] || [])
     .concat([newItem])
     .sort(shopItemOrder)
   return list
@@ -63,21 +78,26 @@ export const shopListReducer = (
 ): ShoppingListState => {
   switch (action.type) {
     case ShoppingListActionType.FETCHING:
-      return { loading: true, error: null, shopList: state.shopList }
+      return Object.assign({ ...state }, { loading: true, error: null })
     case ShoppingListActionType.FETCH_SUCCESS:
-      return {
-        loading: false,
-        error: null,
-        shopList: sortList(storeSeperator(action.payload)),
-      }
+      return Object.assign(
+        { ...state },
+        {
+          loading: false,
+          shopList: sortList(storeSeperator(action.payload)),
+          storeSuggestions: concatDistinct<string, string>(
+            defaultStores,
+            Object.keys(state.shopList)
+          ),
+        }
+      )
     case ShoppingListActionType.FETCH_ERROR:
-      return {
-        loading: false,
-        error: action.payload,
-        shopList: state.shopList,
-      }
+      return Object.assign(
+        { ...state },
+        { loading: false, error: action.payload }
+      )
     case ShoppingListActionType.UPDATING:
-      return { loading: true, error: null, shopList: state.shopList }
+      return Object.assign({ ...state }, { loading: true, error: null })
     case ShoppingListActionType.UPDATE_SUCCESS: {
       const findItem = (list: ShoppingItem[]): ShoppingItem | undefined =>
         list.find((e) => e.id === action.payload.newItem.id!)
@@ -87,16 +107,25 @@ export const shopListReducer = (
         action.payload.newItem,
         oldItemStore
       )
-      return { loading: false, error: null, shopList: newList }
+      return Object.assign(
+        { ...state },
+        {
+          loading: false,
+          shopList: newList,
+          storeSuggestions: concatDistinct<string, string>(
+            defaultStores,
+            Object.keys(newList)
+          ),
+        }
+      )
     }
     case ShoppingListActionType.UPDATE_ERROR:
-      return {
-        loading: false,
-        error: action.payload,
-        shopList: state.shopList,
-      }
+      return Object.assign(
+        { ...state },
+        { loading: false, error: action.payload }
+      )
     case ShoppingListActionType.DELETING:
-      return { loading: true, error: null, shopList: state.shopList }
+      return Object.assign({ ...state }, { loading: true, error: null })
     case ShoppingListActionType.DELETE_SUCCESS: {
       const { store, id } = action.payload
       // state.shoppingList[store] = sliceItemId(state.shoppingList[store], id!)
@@ -106,33 +135,38 @@ export const shopListReducer = (
         { ...state.shopList },
         { [store]: newStoreList }
       )
-      return { loading: false, error: null, shopList: newState }
+      return Object.assign({ ...state }, { loading: false, shopList: newState })
     }
     case ShoppingListActionType.DELETE_ERROR:
-      return {
-        loading: false,
-        error: action.payload,
-        shopList: state.shopList,
-      }
+      return Object.assign(
+        { ...state },
+        { loading: true, error: action.payload }
+      )
     case ShoppingListActionType.CREATING:
-      return { loading: true, error: null, shopList: state.shopList }
+      return Object.assign({ ...state }, { loading: true, error: null })
     case ShoppingListActionType.CREATE_SUCCESS: {
       const newItem: ShoppingItem = action.payload
       const newStoreList: ShoppingItem[] = (state.shopList[newItem.store] || [])
         .concat(newItem)
         .sort(shopItemOrder)
-      const newState: ShoppingListType = Object.assign(
+      const newList: ShoppingListType = Object.assign(
         { ...state.shopList },
         { [newItem.store]: newStoreList }
       )
-      return { loading: false, error: null, shopList: newState }
+      return Object.assign(
+        { ...state },
+        {
+          loading: false,
+          shopList: newList,
+          storeSuggestions: concatDistinct(defaultStores, Object.keys(newList)),
+        }
+      )
     }
     case ShoppingListActionType.CREATE_ERROR:
-      return {
-        loading: false,
-        error: action.payload,
-        shopList: state.shopList,
-      }
+      return Object.assign(
+        { ...state },
+        { loading: false, error: action.payload }
+      )
     default:
       return state
   }
