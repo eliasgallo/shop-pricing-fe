@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { PriceUnitTypes } from '../store/common-models'
+import { PriceUnitTypes, QuantityTypes } from '../store'
 import { ShoppingItem } from '../types'
 
 type ShopListRowProps = {
@@ -47,9 +47,9 @@ export const ShopListRow = ({
   editButtonClick,
 }: ShopListRowProps) => {
   // const checkLabel: string = item.checked ? '🟩' : '⬜️'
-  const itemInfo: string = ` ${item.quantity_value} ${item.quantity_type} ${
-    item.name
-  } ${item.price}${PriceUnitTypes[item.price_unit]}${
+  const itemInfo: string = ` ${item.quantity_value} ${
+    QuantityTypes[item.quantity_type]
+  } ${item.name} ${item.price}${PriceUnitTypes[item.price_unit]}${
     (item.offer && '🔖') || ''
   }`
 
