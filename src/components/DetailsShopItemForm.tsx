@@ -2,6 +2,7 @@ import { ChangeEvent, useState } from 'react'
 import { PriceUnitTypes, QuantityTypes } from '../store'
 import { styled } from 'styled-components'
 import { ShoppingItem } from '../types'
+import { InputWithSuggestions } from './shared/InputWithSuggestions'
 
 const FormContainer = styled.form`
   display: flex;
@@ -33,6 +34,7 @@ export type ShopItemFormProps = {
   onSave: (item: ShoppingItem) => void
   onCancel: () => void
   onDelete: (item: ShoppingItem) => void
+  storeSuggestions: string[]
 }
 
 export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
@@ -52,14 +54,11 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
               setItem({ ...item, name: e.target.value })
             }
           />
-          <input
-            type='text'
-            name='store'
-            placeholder='Store'
-            value={item.store}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setItem({ ...item, store: e.target.value })
-            }
+          <InputWithSuggestions
+            suggestions={props.storeSuggestions}
+            currentValue={item.store}
+            onChange={(value) => setItem({ ...item, store: value })}
+            inputPlaceholder='Store'
           />
         </FormSection>
         <FormSection>

@@ -34,10 +34,12 @@ export const DetailsShopItemPage: React.FC = () => {
     shopList,
     loading,
     error,
+    storeSuggestions,
   }: {
     shopList: ShoppingListType
     loading: boolean
     error: string | null
+    storeSuggestions: string[]
   } = useAppSelector((state) => state.shopping)
   let { id }: { id: string | undefined } = useParams<'id'>()
   const getItem = (): ShoppingItem => {
@@ -68,6 +70,7 @@ export const DetailsShopItemPage: React.FC = () => {
           navigateBack()
         }}
         isNewItem={!item.id}
+        storeSuggestions={storeSuggestions}
       />
       {error && `Error message: ${error}`}
       {loading && <Spinner />}
