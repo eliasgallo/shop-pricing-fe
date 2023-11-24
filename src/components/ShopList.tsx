@@ -32,6 +32,7 @@ const NewItem = styled.div`
 `
 
 const SectionButton = styled.div`
+  cursor: pointer;
   color: #24a0ed;
   min-width: 30%; // increase click size in case the name is short
 `
