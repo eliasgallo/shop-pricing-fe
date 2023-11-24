@@ -1,10 +1,6 @@
+import { ShoppingItem, ShoppingListType } from '../../types'
 import { ShoppingListActionType } from '../action-types'
 import { ShoppingListAction } from '../actions'
-import {
-  ShoppingItem,
-  ShoppingListType,
-  emptyStore,
-} from '../common-models/ShoppingItem'
 
 interface ShoppingListState {
   loading: boolean

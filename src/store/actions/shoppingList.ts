@@ -1,6 +1,6 @@
 // TODO use namespace to group related actions?
+import { ShoppingItem } from '../../types'
 import { ShoppingListActionType } from '../action-types'
-import { ShoppingItem } from '../common-models/ShoppingItem'
 
 // Fetch shopping list
 interface FetchShoppingListAction {

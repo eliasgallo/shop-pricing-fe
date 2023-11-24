@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import { PriceUnitTypes, ShoppingItem } from '../store/common-models'
+import { PriceUnitTypes } from '../store/common-models'
+import { ShoppingItem } from '../types'
 
 type ShopListRowProps = {
   item: ShoppingItem

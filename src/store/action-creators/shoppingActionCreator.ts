@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { ShoppingListActionType } from '../action-types'
 import { ShoppingListAction } from '../actions'
 import { Dispatch } from 'redux'
-import { ShoppingItem } from '../common-models'
+import { ShoppingItem } from '../../types'
 
 const BASE_URL = 'http://localhost:4000'
 const token = '7796b4f81de5b07bb87350842135496e5194db9d'

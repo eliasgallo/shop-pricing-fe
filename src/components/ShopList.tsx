@@ -5,8 +5,7 @@ import { Spinner } from './Spinner'
 import { useActions } from '../hooks/useActions'
 import { useAppSelector } from '../hooks/useTypeSelector'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { ShoppingItem } from '../store/common-models'
-import { LocationStateNewItem } from '../types'
+import { LocationStateNewItem, ShoppingItem } from '../types'
 
 const HeaderContainer = styled.div`
   display: flex;

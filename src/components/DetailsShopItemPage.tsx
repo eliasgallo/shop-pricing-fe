@@ -4,11 +4,22 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom'
-import { NewShoppingItem, ShoppingItem, ShoppingListType } from '../store'
 import { useAppSelector } from '../hooks/useTypeSelector'
 import { DetailsShopItemForm } from './DetailsShopItemForm'
 import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
+import { ShoppingItem, ShoppingListType } from '../types'
+
+export const NewShoppingItem: ShoppingItem = {
+  checked: false,
+  name: '',
+  offer: true,
+  price: 0,
+  price_unit: 'krUnit',
+  quantity_type: 'kg',
+  quantity_value: 0,
+  store: 'Any store',
+}
 
 // TODO: what happens if list is not fetched yet.
 // Maybe fetch item if useParams has an id but there is no item in store

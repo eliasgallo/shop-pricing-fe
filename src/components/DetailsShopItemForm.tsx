@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react'
-import { PriceUnitTypes, QuantityTypes, ShoppingItem } from '../store'
+import { PriceUnitTypes, QuantityTypes } from '../store'
 import { styled } from 'styled-components'
+import { ShoppingItem } from '../types'
 
 const FormContainer = styled.form`
   display: flex;
