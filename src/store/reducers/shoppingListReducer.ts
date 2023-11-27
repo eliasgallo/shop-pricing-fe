@@ -2,6 +2,7 @@ import { ShoppingItem, ShoppingListType } from '../../types'
 import { concatDistinct } from '../../utils/uniqueArray'
 import { ShoppingListActionType } from '../action-types'
 import { ShoppingListAction } from '../actions'
+import { findWithId } from '../../utils/findItem'
 
 const defaultStores = [
   'Willys',
@@ -56,10 +57,12 @@ const shopItemOrder = (a: ShoppingItem, b: ShoppingItem): number => {
 const replaceItem = (
   list: ShoppingListType,
   newItem: ShoppingItem,
-  oldItemStore: string
+  oldItemStore: string | undefined
 ): ShoppingListType => {
-  // remove item
-  list[oldItemStore] = sliceItemId(list[oldItemStore], newItem.id!)
+  if (oldItemStore) {
+    // remove item
+    list[oldItemStore] = sliceItemId(list[oldItemStore], newItem.id!)
+  }
   // add item
   list[newItem.store] = (list[newItem.store] || [])
     .concat([newItem])
@@ -94,13 +97,15 @@ export const shopListReducer = (
     case ShoppingListActionType.UPDATING:
       return { ...state, loading: true, error: null }
     case ShoppingListActionType.UPDATE_SUCCESS: {
-      const findItem = (list: ShoppingItem[]): ShoppingItem | undefined =>
-        list.find((e) => e.id === action.payload.newItem.id!)
-      const oldItemStore = findItem(Object.values(state.shopList).flat())!.store
+      const oldItemInList = findWithId<ShoppingItem>(
+        Object.values(state.shopList).flat(),
+        action.payload.newItem.id!
+      )
+
       const newList: ShoppingListType = replaceItem(
         { ...state.shopList },
         action.payload.newItem,
-        oldItemStore
+        oldItemInList?.store
       )
       return {
         ...state,

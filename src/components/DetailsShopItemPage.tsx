@@ -9,6 +9,7 @@ import { DetailsShopItemForm } from './DetailsShopItemForm'
 import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
 import { ShoppingItem, ShoppingListType } from '../types'
+import { findWithId } from '../utils/findItem'
 
 export const NewShoppingItem: ShoppingItem = {
   checked: false,
@@ -48,11 +49,11 @@ export const DetailsShopItemPage: React.FC = () => {
       const item = NewShoppingItem
       item.store = store
       return item
+    } else if (id) {
+      const items: ShoppingItem[] = Object.values(shopList).flat()
+      return findWithId<ShoppingItem>(items, parseInt(id!)) || NewShoppingItem
     }
-    // TODO: Move to an util file, also exists in reducer
-    const findItem = (list: ShoppingItem[]): ShoppingItem | undefined =>
-      list.find((e) => e.id === parseInt(id!))
-    return findItem(Object.values(shopList).flat()) || NewShoppingItem
+    return NewShoppingItem
   }
 
   const item = getItem()
