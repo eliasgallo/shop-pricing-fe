@@ -42,7 +42,7 @@ export const DetailsShopItemPage: React.FC = () => {
     error: string | null
     storeSuggestions: string[]
   } = useAppSelector((state) => state.shopping)
-  let { id }: { id: string | undefined } = useParams<'id'>()
+  const { id }: { id: string | undefined } = useParams<'id'>()
   const getItem = (): ShoppingItem => {
     if (id === 'new') {
       const store = location.state?.store || ''

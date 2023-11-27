@@ -25,7 +25,7 @@ export const fetchShoppingList = () => {
         type: ShoppingListActionType.FETCH_SUCCESS,
         payload: list,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to fetch shopping list'
         if (error instanceof Error) msg = error.message
@@ -54,7 +54,7 @@ export const updateShoppingItem = (item: ShoppingItem) => {
         type: ShoppingListActionType.UPDATE_SUCCESS,
         payload: { oldItem: item, newItem: response.data },
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to update shopping item'
         if (error instanceof Error) msg = error.message
@@ -82,12 +82,12 @@ export const deleteShoppingItem = (item: ShoppingItem) => {
         type: ShoppingListActionType.DELETE_SUCCESS,
         payload: item,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to update shopping item'
         if (error instanceof Error) msg = error.message
         dispatch({
-          type: ShoppingListActionType.CREATE_ERROR,
+          type: ShoppingListActionType.DELETE_ERROR,
           payload: msg,
         })
       }
@@ -113,7 +113,7 @@ export const createShoppingItem = (item: ShoppingItem) => {
         type: ShoppingListActionType.CREATE_SUCCESS,
         payload: response.data,
       })
-    } catch (error: any) {
+    } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to create shopping item'
         if (error instanceof Error) msg = error.message

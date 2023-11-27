@@ -8,7 +8,6 @@ type ShopListRowProps = {
   editButtonClick: () => void
 }
 
-// TODO: prettier
 const Container = styled.div`
   border: solid 2px;
   border-radius: 5px;
