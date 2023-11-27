@@ -4,17 +4,18 @@ import { ShoppingListActionType } from '../action-types'
 import { ShoppingListAction } from '../actions'
 import { findWithId } from '../../utils/findItem'
 
+// TODO: move to backend
 const defaultStores = [
   'Willys',
   'Lidl',
   'Ica',
-  'Ica Kvantum',
-  'Ica Maxi',
+  'Ica kvantum',
+  'Ica maxi',
   'Coop',
-  'Coop Stora',
-  'Coop Konsum',
+  'Coop stora',
+  'Coop konsum',
   'Xtra',
-  'Dollar Store',
+  'Dollar store',
 ]
 
 interface ShoppingListState {
@@ -59,15 +60,14 @@ const replaceItem = (
   newItem: ShoppingItem,
   oldItemStore: string | undefined
 ): ShoppingListType => {
-  if (oldItemStore) {
-    // remove item
-    list[oldItemStore] = sliceItemId(list[oldItemStore], newItem.id!)
-  }
-  // add item
-  list[newItem.store] = (list[newItem.store] || [])
+  const listAfterRemoval = oldItemStore
+    ? { ...list, [oldItemStore]: sliceItemId(list[oldItemStore], newItem.id!) }
+    : { ...list }
+
+  const newStoreList = (listAfterRemoval[newItem.store] || [])
     .concat([newItem])
     .sort(shopItemOrder)
-  return list
+  return { ...listAfterRemoval, [newItem.store]: newStoreList }
 }
 
 const sliceItemId = <T extends { id?: number }>(
@@ -103,7 +103,7 @@ export const shopListReducer = (
       )
 
       const newList: ShoppingListType = replaceItem(
-        { ...state.shopList },
+        state.shopList,
         action.payload.newItem,
         oldItemInList?.store
       )
