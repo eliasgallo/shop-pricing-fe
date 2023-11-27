@@ -9,7 +9,7 @@ import { DetailsShopItemForm } from './DetailsShopItemForm'
 import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
 import { ShoppingItem, ShoppingListType } from '../types'
-import { findWithId } from '../utils/findItem'
+import { findWithId } from '../utils/listUtils'
 
 export const NewShoppingItem: ShoppingItem = {
   checked: false,

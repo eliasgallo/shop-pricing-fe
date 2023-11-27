@@ -1,8 +1,7 @@
 import { ShoppingItem, ShoppingListType } from '../../types'
-import { concatDistinct } from '../../utils/uniqueArray'
 import { ShoppingListActionType } from '../action-types'
 import { ShoppingListAction } from '../actions'
-import { findWithId } from '../../utils/findItem'
+import { findWithId, concatDistinct } from '../../utils/listUtils'
 
 // TODO: move to backend
 const defaultStores = [
