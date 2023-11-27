@@ -1,7 +1,7 @@
 import { ShoppingItem, ShoppingListType } from '../../types'
 import { ShoppingListActionType } from '../action-types'
 import { ShoppingListAction } from '../actions'
-import { findWithId, concatDistinct } from '../../utils/listUtils'
+import { findWithId, concatDistinct, keyList } from '../../utils/listUtils'
 
 // TODO: move to backend
 const defaultStores = [
@@ -24,20 +24,11 @@ interface ShoppingListState {
   storeSuggestions: string[]
 }
 
-const initialState = {
+const initialState: ShoppingListState = {
   loading: false,
   error: null,
   shopList: {},
   storeSuggestions: defaultStores,
-}
-
-const storeSeperator = (list: ShoppingItem[]): ShoppingListType => {
-  const result: { [key: string]: ShoppingItem[] } = {}
-  list.forEach((item: ShoppingItem): void => {
-    const store: string = item.store
-    result[store] = (result[store] || []).concat([item])
-  })
-  return result
 }
 
 const sortList = (list: ShoppingListType): ShoppingListType => {
@@ -85,7 +76,7 @@ export const shopListReducer = (
       return {
         ...state,
         loading: false,
-        shopList: sortList(storeSeperator(action.payload)),
+        shopList: sortList(keyList(action.payload, 'store')),
         storeSuggestions: concatDistinct<string, string>(
           defaultStores,
           Object.keys(state.shopList)
