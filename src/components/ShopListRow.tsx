@@ -41,17 +41,22 @@ const Strikethrough = styled.div`
   width: 100%;
 `
 
+const itemInfo = (item: ShoppingItem): string => {
+  const quantity =
+    item.quantity_value > 0 &&
+    `${item.quantity_value}${QuantityTypes[item.quantity_type]}`
+  const price =
+    item.price > 0 && `${item.price}${PriceUnitTypes[item.price_unit]}`
+  const offer = item.offer && '🔖'
+  return [quantity, item.name, price, offer].filter(Boolean).join(' ')
+}
+
 export const ShopListRow = ({
   item,
   updateItem,
   editButtonClick,
 }: ShopListRowProps) => {
   // const checkLabel: string = item.checked ? '🟩' : '⬜️'
-  const itemInfo: string = ` ${item.quantity_value} ${
-    QuantityTypes[item.quantity_type]
-  } ${item.name} ${item.price}${PriceUnitTypes[item.price_unit]}${
-    (item.offer && '🔖') || ''
-  }`
 
   const itemChecked = (): void => {
     item.checked = !item.checked
@@ -61,7 +66,7 @@ export const ShopListRow = ({
   return (
     <Container>
       <ItemInfo onClick={itemChecked}>
-        {`${itemInfo}`}
+        {itemInfo(item)}
         {item.checked && <Strikethrough />}
       </ItemInfo>
       <EditButton onClick={editButtonClick}>ℹ</EditButton>
