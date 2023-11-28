@@ -36,3 +36,35 @@ export const fetchPriceControlList = () => {
     }
   }
 }
+
+export const updatePriceControlItem = (item: PriceControlItem) => {
+  return async (dispatch: Dispatch<PriceControlAction>) => {
+    dispatch({ type: PriceControlActionType.UPDATING })
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/price_control_items`,
+        JSON.stringify(item),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        }
+      )
+      dispatch({
+        type: PriceControlActionType.UPDATE_SUCCESS,
+        payload: { oldItem: item, newItem: response.data },
+      })
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        let msg = 'Failed to update price control item'
+        if (error instanceof Error) msg = error.message
+        dispatch({
+          type: PriceControlActionType.UPDATE_ERROR,
+          payload: msg,
+        })
+      }
+    }
+  }
+}
+

@@ -1,9 +1,14 @@
 import { ChangeEvent, useState } from 'react'
-import { PriceUnitTypes, QuantityTypes } from '../store'
 import { styled } from 'styled-components'
-import { ShoppingItem } from '../types'
-import { InputWithSuggestions } from './shared/InputWithSuggestions'
+import { PriceControlItem } from '../types'
 import { SelectorComponent } from './shared/SelectorComponent'
+import {
+  CategoryType,
+  PriceUnitTypes,
+  ReliabilityType,
+  TagType,
+} from '../store'
+import { concatDistinct } from '../utils/listUtils'
 
 const FormContainer = styled.form`
   display: grid;
@@ -26,18 +31,21 @@ const InputSelectWrapper = styled.div`
   }
 `
 
-const OfferWrapper = styled.label``
-
-export type ShopItemFormProps = {
-  item: ShoppingItem
+export type DetailsPriceFormProps = {
+  item: PriceControlItem
   isNewItem: boolean
-  onSave: (item: ShoppingItem) => void
+  onSave: (item: PriceControlItem) => void
   onCancel: () => void
   onDelete: () => void
-  storeSuggestions: string[]
 }
 
-export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
+const toggleTag = (tags: string[], tagKey: string) => {
+  return tags.includes(tagKey)
+    ? tags.filter((tag) => tag !== tagKey)
+    : concatDistinct(tags, [tagKey])
+}
+
+export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
   const [item, setItem] = useState(props.item)
 
   return (
@@ -59,75 +67,78 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
               setItem({ ...item, name: e.target.value })
             }
           />
-          <InputWithSuggestions
-            suggestions={props.storeSuggestions}
-            currentValue={item.store}
-            onChange={(value) => setItem({ ...item, store: value })}
-            inputPlaceholder='Store'
-          />
         </FormSection>
         <FormSection>
-          <label>Quantity</label>
-          <InputSelectWrapper>
-            <input
-              type='number'
-              placeholder='quantity'
-              min={0}
-              value={item.quantity_value || ''}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setItem({
-                  ...item,
-                  quantity_value: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <SelectorComponent
-              allValues={QuantityTypes}
-              selectedValue={item.quantity_type}
-              onChange={(value) =>
-                setItem({
-                  ...item,
-                  quantity_type: value,
-                })
-              }
-            />
-          </InputSelectWrapper>
-        </FormSection>
-        <FormSection>
-          <label>Price</label>
           <InputSelectWrapper>
             <input
               type='number'
               placeholder='price'
               min={0}
-              value={item.price || ''}
+              value={item.comparison_price || ''}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setItem({ ...item, price: parseInt(e.target.value) })
+                setItem({
+                  ...item,
+                  comparison_price: parseInt(e.target.value) || 0,
+                })
               }
             />
             <SelectorComponent
               allValues={PriceUnitTypes}
-              selectedValue={item.price_unit}
+              selectedValue={item.comparison_price_unit}
               onChange={(value) =>
                 setItem({
                   ...item,
-                  price_unit: value,
+                  comparison_price_unit: value,
                 })
               }
             />
           </InputSelectWrapper>
         </FormSection>
         <FormSection>
-          <OfferWrapper>
-            Offer? 🔖
-            <input
-              type='checkbox'
-              name='offer'
-              placeholder='Offer?'
-              checked={item.offer}
-              onChange={() => setItem({ ...item, offer: !item.offer })}
-            />
-          </OfferWrapper>
+          Reliability
+          <SelectorComponent
+            allValues={ReliabilityType}
+            selectedValue={item.reliability}
+            onChange={(value) =>
+              setItem({
+                ...item,
+                reliability: value,
+              })
+            }
+          />
+        </FormSection>
+        <FormSection>
+          Category
+          <SelectorComponent
+            allValues={CategoryType}
+            selectedValue={item.category}
+            onChange={(value) =>
+              setItem({
+                ...item,
+                category: value,
+              })
+            }
+          />
+        </FormSection>
+        <FormSection>
+          {Object.keys(TagType).map((tagKey) => {
+            return (
+              <label key={tagKey}>
+                {TagType[tagKey]}
+                <input
+                  type='checkbox'
+                  name={tagKey}
+                  checked={item.tags.includes(tagKey)}
+                  onChange={() =>
+                    setItem({
+                      ...item,
+                      tags: toggleTag(item.tags, tagKey),
+                    })
+                  }
+                />
+              </label>
+            )
+          })}
         </FormSection>
         <button type='submit'>Save</button>
         <button

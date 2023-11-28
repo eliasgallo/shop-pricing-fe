@@ -14,6 +14,7 @@ import { Home } from './Home'
 import { PriceControl } from './PriceControl'
 import { ShopList } from './ShopList'
 import { DetailsShopItemPage } from './DetailsShopItemPage'
+import { DetailsPricePage } from './DetailsPricePage'
 
 const AppContainer = styled.div`
   padding: 10px;
@@ -40,6 +41,10 @@ const router: Router = createBrowserRouter(
       <Route
         path='price-control'
         element={<PriceControl />}
+      />
+      <Route
+        path='price-control/:id'
+        element={<DetailsPricePage />}
       />
       <Route
         path='shop-list'
