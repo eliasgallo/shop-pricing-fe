@@ -26,9 +26,11 @@ export const DetailsPricePage: React.FC = () => {
   const navigateBack = (): void => navigate('..', { relative: 'path' })
   const location = useLocation()
 
-  const { updatePriceControlItem, deletePriceControlItem } = useActions()
-  const createPriceControlItem = (i: PriceControlItem) =>
-    console.log('can not create yet')
+  const {
+    updatePriceControlItem,
+    deletePriceControlItem,
+    createPriceControlItem,
+  } = useActions()
   const {
     priceList,
     loading,

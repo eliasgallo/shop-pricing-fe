@@ -96,3 +96,33 @@ export const deletePriceControlItem = (item: PriceControlItem) => {
   }
 }
 
+export const createPriceControlItem = (item: PriceControlItem) => {
+  return async (dispatch: Dispatch<PriceControlAction>) => {
+    dispatch({ type: PriceControlActionType.CREATING })
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/price_control_items`,
+        JSON.stringify(item),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: token,
+          },
+        }
+      )
+      dispatch({
+        type: PriceControlActionType.CREATE_SUCCESS,
+        payload: response.data,
+      })
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        let msg = 'Failed to create price control item'
+        if (error instanceof Error) msg = error.message
+        dispatch({
+          type: PriceControlActionType.CREATE_ERROR,
+          payload: msg,
+        })
+      }
+    }
+  }
+}

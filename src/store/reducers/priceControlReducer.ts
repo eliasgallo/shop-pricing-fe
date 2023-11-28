@@ -100,6 +100,27 @@ export const priceListReducer = (
     }
     case PriceControlActionType.DELETE_ERROR:
       return { ...state, loading: true, error: action.payload }
+    case PriceControlActionType.CREATING:
+      return { ...state, loading: true, error: null }
+    case PriceControlActionType.CREATE_SUCCESS: {
+      const newItem: PriceControlItem = action.payload
+      const newList: PriceControlItem[] = (
+        state.priceList[newItem.category] || []
+      )
+        .concat(newItem)
+        .sort((left, right) => lowerCaseSort(left.name, right.name))
+      const newState: PriceListType = {
+        ...state.priceList,
+        [newItem.category]: newList,
+      }
+      return {
+        ...state,
+        loading: false,
+        priceList: newState,
+      }
+    }
+    case PriceControlActionType.CREATE_ERROR:
+      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }
