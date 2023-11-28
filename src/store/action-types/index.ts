@@ -1,1 +1,2 @@
-export * from './shoppingListActionTypes'
+export * from './shoppingListActionType'
+export * from './priceControlActionType'
