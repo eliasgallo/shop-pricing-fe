@@ -4,15 +4,18 @@ type Props = {
   selectedValue: string
   onChange: (value: string) => void
   allValues: { [key: string]: string }
+  name: string
 }
 
 export const SelectorComponent = ({
   selectedValue,
   onChange,
   allValues,
+  name,
 }: Props) => {
   return (
     <select
+      name={name}
       value={selectedValue}
       onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
     >

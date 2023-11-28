@@ -52,7 +52,7 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
         <FormSection>
           <input
             type='text'
-            name='name'
+            name='shop_item_name'
             placeholder='Name'
             value={item.name}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -67,55 +67,63 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
           />
         </FormSection>
         <FormSection>
-          <label>Quantity</label>
-          <InputSelectWrapper>
-            <input
-              type='number'
-              placeholder='quantity'
-              min={0}
-              value={item.quantity_value || ''}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setItem({
-                  ...item,
-                  quantity_value: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <SelectorComponent
-              allValues={QuantityTypes}
-              selectedValue={item.quantity_type}
-              onChange={(value) =>
-                setItem({
-                  ...item,
-                  quantity_type: value,
-                })
-              }
-            />
-          </InputSelectWrapper>
+          <label>
+            Quantity
+            <InputSelectWrapper>
+              <input
+                type='number'
+                name='quantity'
+                placeholder='quantity'
+                min={0}
+                value={item.quantity_value || ''}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setItem({
+                    ...item,
+                    quantity_value: parseInt(e.target.value) || 0,
+                  })
+                }
+              />
+              <SelectorComponent
+                name='quantity'
+                allValues={QuantityTypes}
+                selectedValue={item.quantity_type}
+                onChange={(value) =>
+                  setItem({
+                    ...item,
+                    quantity_type: value,
+                  })
+                }
+              />
+            </InputSelectWrapper>
+          </label>
         </FormSection>
         <FormSection>
-          <label>Price</label>
-          <InputSelectWrapper>
-            <input
-              type='number'
-              placeholder='price'
-              min={0}
-              value={item.price || ''}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setItem({ ...item, price: parseInt(e.target.value) })
-              }
-            />
-            <SelectorComponent
-              allValues={PriceUnitTypes}
-              selectedValue={item.price_unit}
-              onChange={(value) =>
-                setItem({
-                  ...item,
-                  price_unit: value,
-                })
-              }
-            />
-          </InputSelectWrapper>
+          <label>
+            Price
+            <InputSelectWrapper>
+              <input
+                type='number'
+                name='price'
+                placeholder='price'
+                min={0}
+                value={item.price || ''}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setItem({ ...item, price: parseInt(e.target.value) })
+                }
+              />
+              <SelectorComponent
+                name='price'
+                allValues={PriceUnitTypes}
+                selectedValue={item.price_unit}
+                onChange={(value) =>
+                  setItem({
+                    ...item,
+                    price_unit: value,
+                  })
+                }
+              />
+            </InputSelectWrapper>
+          </label>
         </FormSection>
         <FormSection>
           <OfferWrapper>

@@ -60,7 +60,7 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
         <FormSection>
           <input
             type='text'
-            name='name'
+            name='price_item_name'
             placeholder='Name'
             value={item.name}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -72,6 +72,7 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
           <InputSelectWrapper>
             <input
               type='number'
+              name='price'
               placeholder='price'
               min={0}
               value={item.comparison_price || ''}
@@ -83,6 +84,7 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
               }
             />
             <SelectorComponent
+              name='comparison_price_unit'
               allValues={PriceUnitTypes}
               selectedValue={item.comparison_price_unit}
               onChange={(value) =>
@@ -97,6 +99,7 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
         <FormSection>
           Reliability
           <SelectorComponent
+            name='reliability'
             allValues={ReliabilityType}
             selectedValue={item.reliability}
             onChange={(value) =>
@@ -110,6 +113,7 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
         <FormSection>
           Category
           <SelectorComponent
+            name='category'
             allValues={CategoryType}
             selectedValue={item.category}
             onChange={(value) =>
