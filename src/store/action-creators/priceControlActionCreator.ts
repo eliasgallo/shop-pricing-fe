@@ -68,3 +68,31 @@ export const updatePriceControlItem = (item: PriceControlItem) => {
   }
 }
 
+export const deletePriceControlItem = (item: PriceControlItem) => {
+  return async (dispatch: Dispatch<PriceControlAction>) => {
+    dispatch({ type: PriceControlActionType.DELETING })
+    try {
+      await axios.delete(`${BASE_URL}/price_control_items`, {
+        data: JSON.stringify({ ids: [item.id] }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: token,
+        },
+      })
+      dispatch({
+        type: PriceControlActionType.DELETE_SUCCESS,
+        payload: item,
+      })
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        let msg = 'Failed to delete price control item'
+        if (error instanceof Error) msg = error.message
+        dispatch({
+          type: PriceControlActionType.DELETE_ERROR,
+          payload: msg,
+        })
+      }
+    }
+  }
+}
+

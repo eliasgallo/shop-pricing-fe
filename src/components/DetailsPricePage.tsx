@@ -21,18 +21,14 @@ export const NewPriceControlItem: PriceControlItem = {
   tags: [],
 }
 
-// TODO: what happens if list is not fetched yet.
-// Maybe fetch item if useParams has an id but there is no item in store
 export const DetailsPricePage: React.FC = () => {
   const navigate: NavigateFunction = useNavigate()
   const navigateBack = (): void => navigate('..', { relative: 'path' })
   const location = useLocation()
 
-  const { updatePriceControlItem } = useActions()
+  const { updatePriceControlItem, deletePriceControlItem } = useActions()
   const createPriceControlItem = (i: PriceControlItem) =>
     console.log('can not create yet')
-  const deletePriceControlItem = (i: PriceControlItem) =>
-    console.log('can not delete yet')
   const {
     priceList,
     loading,

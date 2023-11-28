@@ -90,6 +90,16 @@ export const priceListReducer = (
     }
     case PriceControlActionType.UPDATE_ERROR:
       return { ...state, loading: false, error: action.payload }
+    case PriceControlActionType.DELETING:
+      return { ...state, loading: true, error: null }
+    case PriceControlActionType.DELETE_SUCCESS: {
+      const { category, id } = action.payload
+      const newStoreList = sliceItemId(state.priceList[category], id!)
+      const newState = { ...state.priceList, [category]: newStoreList }
+      return { ...state, loading: false, priceList: newState }
+    }
+    case PriceControlActionType.DELETE_ERROR:
+      return { ...state, loading: true, error: action.payload }
     default:
       return state
   }
