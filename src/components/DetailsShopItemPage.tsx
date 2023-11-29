@@ -65,9 +65,8 @@ export const DetailsShopItemPage: React.FC = () => {
           i.id ? updateShoppingItem(i) : createShoppingItem(i)
           navigateBack()
         }}
-        onCancel={navigateBack}
         onDelete={() => {
-          deleteShoppingItem(item)
+          if (item.id) deleteShoppingItem(item)
           navigateBack()
         }}
         isNewItem={!item.id}

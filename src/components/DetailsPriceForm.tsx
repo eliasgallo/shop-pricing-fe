@@ -15,7 +15,6 @@ export type DetailsPriceFormProps = {
   item: PriceControlItem
   isNewItem: boolean
   onSave: (item: PriceControlItem) => void
-  onCancel: () => void
   onDelete: () => void
 }
 
@@ -118,18 +117,10 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
         <button type='submit'>Save</button>
         <button
           type='button'
-          onClick={props.onCancel}
+          onClick={props.onDelete}
         >
-          Cancel
+          Delete
         </button>
-        {!props.isNewItem && (
-          <button
-            type='button'
-            onClick={props.onDelete}
-          >
-            Delete
-          </button>
-        )}
       </FormContainer>
     </>
   )

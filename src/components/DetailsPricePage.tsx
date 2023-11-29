@@ -63,9 +63,8 @@ export const DetailsPricePage: React.FC = () => {
           i.id ? updatePriceControlItem(i) : createPriceControlItem(i)
           navigateBack()
         }}
-        onCancel={navigateBack}
         onDelete={() => {
-          deletePriceControlItem(item)
+          if (item.id) deletePriceControlItem(item)
           navigateBack()
         }}
         isNewItem={!item.id}

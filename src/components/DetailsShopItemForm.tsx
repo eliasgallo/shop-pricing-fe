@@ -10,7 +10,6 @@ export type ShopItemFormProps = {
   item: ShoppingItem
   isNewItem: boolean
   onSave: (item: ShoppingItem) => void
-  onCancel: () => void
   onDelete: () => void
   storeSuggestions: string[]
 }
@@ -105,18 +104,10 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
         <button type='submit'>Save</button>
         <button
           type='button'
-          onClick={props.onCancel}
+          onClick={props.onDelete}
         >
-          Cancel
+          Delete
         </button>
-        {!props.isNewItem && (
-          <button
-            type='button'
-            onClick={props.onDelete}
-          >
-            Delete
-          </button>
-        )}
       </FormContainer>
     </>
   )
