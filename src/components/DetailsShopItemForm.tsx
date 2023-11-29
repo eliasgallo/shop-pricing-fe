@@ -1,27 +1,10 @@
 import { ChangeEvent, useState } from 'react'
 import { PriceUnitTypes, QuantityTypes } from '../store'
-import { styled } from 'styled-components'
 import { ShoppingItem } from '../types'
 import { InputWithSuggestions } from './shared/InputWithSuggestions'
 import { SelectorComponent } from './shared/SelectorComponent'
 import { CheckboxComponent } from './shared/CheckboxComponent'
-
-const FormContainer = styled.form`
-  display: grid;
-  gap: 20px;
-  margin-right: auto;
-  margin-left: auto;
-  width: fit-content;
-`
-
-const InputSelectWrapper = styled.div`
-  display: flex;
-  select {
-    flex-grow: 1;
-    text-align: center;
-    margin-left: 10px;
-  }
-`
+import { FormContainer, SelectorWrapper } from './shared/SharedElements'
 
 export type ShopItemFormProps = {
   item: ShoppingItem
@@ -61,7 +44,7 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
         />
         <label>
           Quantity
-          <InputSelectWrapper>
+          <SelectorWrapper>
             <input
               type='number'
               name='quantity'
@@ -86,11 +69,11 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
                 })
               }
             />
-          </InputSelectWrapper>
+          </SelectorWrapper>
         </label>
         <label>
           Price
-          <InputSelectWrapper>
+          <SelectorWrapper>
             <input
               type='number'
               name='price'
@@ -112,7 +95,7 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
                 })
               }
             />
-          </InputSelectWrapper>
+          </SelectorWrapper>
         </label>
         <CheckboxComponent
           label='Offer? 🔖'

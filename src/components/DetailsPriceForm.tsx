@@ -1,5 +1,4 @@
 import { ChangeEvent, useState } from 'react'
-import { styled } from 'styled-components'
 import { PriceControlItem } from '../types'
 import { SelectorComponent } from './shared/SelectorComponent'
 import {
@@ -10,23 +9,7 @@ import {
 } from '../store'
 import { concatDistinct } from '../utils/listUtils'
 import { CheckboxComponent } from './shared/CheckboxComponent'
-
-const FormContainer = styled.form`
-  display: grid;
-  gap: 20px;
-  margin-right: auto;
-  margin-left: auto;
-  width: fit-content;
-`
-
-const InputSelectWrapper = styled.div`
-  display: flex;
-  select {
-    flex-grow: 1;
-    text-align: center;
-    margin-left: 10px;
-  }
-`
+import { FormContainer, SelectorWrapper } from './shared/SharedElements'
 
 export type DetailsPriceFormProps = {
   item: PriceControlItem
@@ -63,7 +46,7 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
             setItem({ ...item, name: e.target.value })
           }
         />
-        <InputSelectWrapper>
+        <SelectorWrapper>
           <input
             type='number'
             name='price'
@@ -88,8 +71,8 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
               })
             }
           />
-        </InputSelectWrapper>
-        <InputSelectWrapper>
+        </SelectorWrapper>
+        <SelectorWrapper>
           Reliability
           <SelectorComponent
             name='reliability'
@@ -102,8 +85,8 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
               })
             }
           />
-        </InputSelectWrapper>
-        <InputSelectWrapper>
+        </SelectorWrapper>
+        <SelectorWrapper>
           Category
           <SelectorComponent
             name='category'
@@ -116,7 +99,7 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
               })
             }
           />
-        </InputSelectWrapper>
+        </SelectorWrapper>
         {Object.keys(TagType).map((tagKey) => {
           return (
             <CheckboxComponent
