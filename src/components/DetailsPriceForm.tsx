@@ -9,6 +9,7 @@ import {
   TagType,
 } from '../store'
 import { concatDistinct } from '../utils/listUtils'
+import { CheckboxComponent } from './shared/CheckboxComponent'
 
 const FormContainer = styled.form`
   display: grid;
@@ -118,20 +119,17 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
         </InputSelectWrapper>
         {Object.keys(TagType).map((tagKey) => {
           return (
-            <label key={tagKey}>
-              {TagType[tagKey]}
-              <input
-                type='checkbox'
-                name={tagKey}
-                checked={item.tags.includes(tagKey)}
-                onChange={() =>
-                  setItem({
-                    ...item,
-                    tags: toggleTag(item.tags, tagKey),
-                  })
-                }
-              />
-            </label>
+            <CheckboxComponent
+              key={tagKey}
+              label={TagType[tagKey]}
+              isChecked={item.tags.includes(tagKey)}
+              onChange={() =>
+                setItem({
+                  ...item,
+                  tags: toggleTag(item.tags, tagKey),
+                })
+              }
+            />
           )
         })}
         <button type='submit'>Save</button>

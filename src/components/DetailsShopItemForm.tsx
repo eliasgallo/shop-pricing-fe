@@ -4,6 +4,7 @@ import { styled } from 'styled-components'
 import { ShoppingItem } from '../types'
 import { InputWithSuggestions } from './shared/InputWithSuggestions'
 import { SelectorComponent } from './shared/SelectorComponent'
+import { CheckboxComponent } from './shared/CheckboxComponent'
 
 const FormContainer = styled.form`
   display: grid;
@@ -113,16 +114,11 @@ export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
             />
           </InputSelectWrapper>
         </label>
-        <label>
-          Offer? 🔖
-          <input
-            type='checkbox'
-            name='offer'
-            placeholder='Offer?'
-            checked={item.offer}
-            onChange={() => setItem({ ...item, offer: !item.offer })}
-          />
-        </label>
+        <CheckboxComponent
+          label='Offer? 🔖'
+          isChecked={item.offer}
+          onChange={() => setItem({ ...item, offer: !item.offer })}
+        />
         <button type='submit'>Save</button>
         <button
           type='button'
