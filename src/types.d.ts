@@ -1,6 +1,6 @@
 // Shopping
 export interface LocationStateNewItem {
-  store: string
+  data: string
 }
 
 export type ShoppingItem = {

@@ -8,7 +8,7 @@ import { useAppSelector } from '../hooks/useTypeSelector'
 import { DetailsShopItemForm } from './DetailsShopItemForm'
 import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
-import { ShoppingItem, ShoppingListType } from '../types'
+import { LocationStateNewItem, ShoppingItem, ShoppingListType } from '../types'
 import { findWithId } from '../utils/listUtils'
 
 export const NewShoppingItem: ShoppingItem = {
@@ -45,9 +45,9 @@ export const DetailsShopItemPage: React.FC = () => {
   const { id }: { id: string | undefined } = useParams<'id'>()
   const getItem = (): ShoppingItem => {
     if (id === 'new') {
-      const store = location.state?.store || ''
       const item = NewShoppingItem
-      item.store = store
+      const state: LocationStateNewItem | null = location.state
+      item.store = state?.data || NewShoppingItem.store
       return item
     } else if (id) {
       const items: ShoppingItem[] = Object.values(shopList).flat()

@@ -73,7 +73,7 @@ export function ShopList() {
             <Section key={store}>
               <SectionButton
                 onClick={() => {
-                  const storeState: LocationStateNewItem = { store }
+                  const storeState: LocationStateNewItem = { data: store }
                   navigate(`./new`, { relative: 'path', state: storeState })
                 }}
               >

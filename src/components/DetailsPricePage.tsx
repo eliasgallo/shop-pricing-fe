@@ -8,7 +8,7 @@ import { useAppSelector } from '../hooks/useTypeSelector'
 import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
 import { findWithId } from '../utils/listUtils'
-import { PriceControlItem } from '../types'
+import { LocationStateNewItem, PriceControlItem } from '../types'
 import { PriceListType } from '../store/reducers/priceControlReducer'
 import { DetailsPriceForm } from './DetailsPriceForm'
 
@@ -44,7 +44,8 @@ export const DetailsPricePage: React.FC = () => {
   const getItem = (): PriceControlItem => {
     let item = NewPriceControlItem
     if (id === 'new') {
-      item.category = location.state?.store || NewPriceControlItem.category
+      const state: LocationStateNewItem | null = location.state
+      item.category = state?.data || NewPriceControlItem.category
     } else if (id) {
       const items: PriceControlItem[] = Object.values(priceList).flat()
       const foundItemWithId = findWithId<PriceControlItem>(items, parseInt(id))

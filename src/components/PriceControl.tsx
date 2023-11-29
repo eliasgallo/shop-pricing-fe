@@ -73,9 +73,8 @@ export const PriceControl = () => {
             <Section key={category}>
               <SectionButton
                 onClick={() => {
-                  // TODO: change from store to data
-                  const storeState: LocationStateNewItem = { store: category }
-                  navigate(`./new`, { relative: 'path', state: storeState })
+                  const catState: LocationStateNewItem = { data: category }
+                  navigate(`./new`, { relative: 'path', state: catState })
                 }}
               >
                 {category} (+)
