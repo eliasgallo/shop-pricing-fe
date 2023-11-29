@@ -18,16 +18,12 @@ const FormContainer = styled.form`
   width: fit-content;
 `
 
-const FormSection = styled.div`
-  flex-direction: column;
-  display: flex;
-`
-
 const InputSelectWrapper = styled.div`
   display: flex;
   select {
     flex-grow: 1;
     text-align: center;
+    margin-left: 10px;
   }
 `
 
@@ -57,46 +53,42 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
           props.onSave(item)
         }}
       >
-        <FormSection>
+        <input
+          type='text'
+          name='price_item_name'
+          placeholder='name'
+          value={item.name}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setItem({ ...item, name: e.target.value })
+          }
+        />
+        <InputSelectWrapper>
           <input
-            type='text'
-            name='price_item_name'
-            placeholder='Name'
-            value={item.name}
+            type='number'
+            name='price'
+            placeholder='price'
+            min={0}
+            value={item.comparison_price || ''}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setItem({ ...item, name: e.target.value })
+              setItem({
+                ...item,
+                comparison_price: parseInt(e.target.value) || 0,
+              })
             }
           />
-        </FormSection>
-        <FormSection>
-          <InputSelectWrapper>
-            <input
-              type='number'
-              name='price'
-              placeholder='price'
-              min={0}
-              value={item.comparison_price || ''}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setItem({
-                  ...item,
-                  comparison_price: parseInt(e.target.value) || 0,
-                })
-              }
-            />
-            <SelectorComponent
-              name='comparison_price_unit'
-              allValues={PriceUnitTypes}
-              selectedValue={item.comparison_price_unit}
-              onChange={(value) =>
-                setItem({
-                  ...item,
-                  comparison_price_unit: value,
-                })
-              }
-            />
-          </InputSelectWrapper>
-        </FormSection>
-        <FormSection>
+          <SelectorComponent
+            name='comparison_price_unit'
+            allValues={PriceUnitTypes}
+            selectedValue={item.comparison_price_unit}
+            onChange={(value) =>
+              setItem({
+                ...item,
+                comparison_price_unit: value,
+              })
+            }
+          />
+        </InputSelectWrapper>
+        <InputSelectWrapper>
           Reliability
           <SelectorComponent
             name='reliability'
@@ -109,8 +101,8 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
               })
             }
           />
-        </FormSection>
-        <FormSection>
+        </InputSelectWrapper>
+        <InputSelectWrapper>
           Category
           <SelectorComponent
             name='category'
@@ -123,27 +115,25 @@ export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
               })
             }
           />
-        </FormSection>
-        <FormSection>
-          {Object.keys(TagType).map((tagKey) => {
-            return (
-              <label key={tagKey}>
-                {TagType[tagKey]}
-                <input
-                  type='checkbox'
-                  name={tagKey}
-                  checked={item.tags.includes(tagKey)}
-                  onChange={() =>
-                    setItem({
-                      ...item,
-                      tags: toggleTag(item.tags, tagKey),
-                    })
-                  }
-                />
-              </label>
-            )
-          })}
-        </FormSection>
+        </InputSelectWrapper>
+        {Object.keys(TagType).map((tagKey) => {
+          return (
+            <label key={tagKey}>
+              {TagType[tagKey]}
+              <input
+                type='checkbox'
+                name={tagKey}
+                checked={item.tags.includes(tagKey)}
+                onChange={() =>
+                  setItem({
+                    ...item,
+                    tags: toggleTag(item.tags, tagKey),
+                  })
+                }
+              />
+            </label>
+          )
+        })}
         <button type='submit'>Save</button>
         <button
           type='button'
