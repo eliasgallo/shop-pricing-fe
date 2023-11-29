@@ -15,6 +15,7 @@ import { PriceControl } from './PriceControl'
 import { ShopList } from './ShopList'
 import { DetailsShopItemPage } from './DetailsShopItemPage'
 import { DetailsPricePage } from './DetailsPricePage'
+import { BreadcrumbsTrails } from './BreadcrumbTrails'
 
 const AppContainer = styled.div`
   padding: 10px;
@@ -23,6 +24,7 @@ const AppContainer = styled.div`
 const AppRoot = (): JSX.Element => {
   return (
     <AppContainer>
+      <BreadcrumbsTrails />
       <Outlet />
     </AppContainer>
   )
