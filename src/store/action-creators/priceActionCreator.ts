@@ -4,7 +4,7 @@ import { PriceAction } from '../actions'
 import { Dispatch } from 'redux'
 import { PriceItem } from '../../types'
 
-const BASE_URL = 'http://localhost:4000'
+const BASE_URL = process.env.BE_BASE_URL
 const token = '7796b4f81de5b07bb87350842135496e5194db9d'
 
 export const fetchPriceList = () => {
