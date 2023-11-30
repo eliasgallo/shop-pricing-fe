@@ -1,5 +1,10 @@
 import { Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { styled } from 'styled-components'
+
+const Wrapper = styled.div`
+  margin-bottom: 10px;
+`
 
 export const BreadcrumbsTrails: React.FC = () => {
   const location = useLocation()
@@ -8,7 +13,7 @@ export const BreadcrumbsTrails: React.FC = () => {
       ? [location.pathname]
       : location.pathname.split('/')
   return (
-    <>
+    <Wrapper>
       {crumbs.map((path, index) => {
         const linkTo = `.${crumbs.slice(0, index + 1).join('/')}`
         const pathName = `${index > 0 ? path : '🏠'}`
@@ -25,6 +30,6 @@ export const BreadcrumbsTrails: React.FC = () => {
           </Fragment>
         )
       })}
-    </>
+    </Wrapper>
   )
 }
