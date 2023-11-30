@@ -1,11 +1,9 @@
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { ShopListRow } from './ShopListRow'
-import { Spinner } from './Spinner'
-import { useActions } from '../hooks/useActions'
-import { useAppSelector } from '../hooks/useTypeSelector'
+import { Spinner } from '../Spinner'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { LocationStateNewItem, ShopItem } from '../types'
+import { LocationStateNewItem, ShopItem, ShopListType } from '../../types'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -42,17 +40,25 @@ const Section = styled.div`
   }
 `
 
-export function ShopList() {
-  const { fetchShopList, updateShopItem } = useActions()
-  const {
-    shopList = {},
-    loading,
-    error,
-  } = useAppSelector((state) => state.shop)
+type ShopListProps = {
+  shopList: ShopListType
+  loading: boolean
+  error: null | string
+  fetchList: () => void
+  updateItem: (item: ShopItem) => void
+}
+
+export const ShopListContainer: React.FC<ShopListProps> = ({
+  shopList,
+  loading,
+  error,
+  fetchList,
+  updateItem,
+}) => {
   const navigate: NavigateFunction = useNavigate()
 
   useEffect(() => {
-    if (Object.keys(shopList).length === 0) fetchShopList()
+    if (Object.keys(shopList).length === 0) fetchList()
   }, [])
 
   return (
@@ -86,7 +92,7 @@ export function ShopList() {
                       <ShopListRow
                         key={item.id}
                         item={{ ...item }}
-                        updateItem={updateShopItem}
+                        updateItem={updateItem}
                         editButtonClick={() =>
                           navigate(`./${item.id}`, { relative: 'path' })
                         }

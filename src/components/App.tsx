@@ -13,8 +13,8 @@ import { store } from '../store'
 import { Home } from './Home'
 import { PriceList } from './PriceList'
 import { ShopList } from './ShopList'
-import { ShopItemDetailsPage } from './ShopItemDetailsPage'
-import { PriceDetailsPage } from './PriceDetailsPage'
+import { ShopItemDetails } from './ShopItemDetails'
+import { PriceItemDetails } from './PriceItemDetails'
 import { BreadcrumbsTrails } from './BreadcrumbTrails'
 
 const AppContainer = styled.div`
@@ -46,7 +46,7 @@ const router: Router = createBrowserRouter(
       />
       <Route
         path='price-control/:id'
-        element={<PriceDetailsPage />}
+        element={<PriceItemDetails />}
       />
       <Route
         path='shop-list'
@@ -54,7 +54,7 @@ const router: Router = createBrowserRouter(
       />
       <Route
         path='shop-list/:id'
-        element={<ShopItemDetailsPage />}
+        element={<ShopItemDetails />}
       />
     </Route>
   )

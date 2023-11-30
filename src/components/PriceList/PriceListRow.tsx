@@ -4,7 +4,7 @@ import {
   PriceItem,
   ReliabilityType,
   TagTypeShort,
-} from '../types'
+} from '../../types'
 
 type PriceListRowProps = {
   item: PriceItem

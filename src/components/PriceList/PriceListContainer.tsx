@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
-import { useActions } from '../hooks/useActions'
-import { useAppSelector } from '../hooks/useTypeSelector'
-import { Spinner } from './Spinner'
-import { LocationStateNewItem, PriceItem } from '../types'
+import { Spinner } from '../Spinner'
+import { LocationStateNewItem, PriceItem } from '../../types'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { PriceListRow } from './PriceListRow'
+import { PriceListType } from '../../store/reducers/priceReducer'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -41,17 +40,23 @@ const Section = styled.div`
   }
 `
 
-export const PriceList = () => {
+type PriceListProps = {
+  priceList: PriceListType
+  loading: boolean
+  error: string | null
+  fetchList: () => void
+}
+
+export const PriceListContainer: React.FC<PriceListProps> = ({
+  priceList,
+  loading,
+  error,
+  fetchList,
+}: PriceListProps) => {
   const navigate: NavigateFunction = useNavigate()
-  const { fetchPriceList } = useActions()
-  const {
-    priceList = {},
-    loading,
-    error,
-  } = useAppSelector((state) => state.price)
 
   useEffect(() => {
-    if (Object.keys(priceList).length === 0) fetchPriceList()
+    if (Object.keys(priceList).length === 0) fetchList()
   }, [])
 
   return (
@@ -97,7 +102,6 @@ export const PriceList = () => {
             </Section>
           )
         })}
-        {error && `Error message: ${error}`}
       </List>
       {loading && <Spinner />}
     </>

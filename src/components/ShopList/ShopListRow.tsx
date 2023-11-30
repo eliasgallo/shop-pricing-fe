@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { PriceUnitTypes, QuantityTypes, ShopItem } from '../types'
+import { PriceUnitTypes, QuantityTypes, ShopItem } from '../../types'
 
 type ShopListRowProps = {
   item: ShopItem
@@ -54,8 +54,6 @@ export const ShopListRow = ({
   updateItem,
   editButtonClick,
 }: ShopListRowProps) => {
-  // const checkLabel: string = item.checked ? '🟩' : '⬜️'
-
   const itemChecked = (): void => {
     item.checked = !item.checked
     updateItem(item)
