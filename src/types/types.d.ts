@@ -1,9 +1,9 @@
-// Shopping
-export interface LocationStateNewItem {
+export type LocationStateNewItem = {
   data: string
 }
 
-export type ShoppingItem = {
+// Shopping
+export type ShopItem = {
   id?: number
   checked: boolean
   name: string
@@ -17,10 +17,10 @@ export type ShoppingItem = {
   readonly updated_at?: string
 }
 
-export type ShoppingListType = { [key: string]: ShoppingItem[] }
+export type ShopListType = { [key: string]: ShopItem[] }
 
 // Price control
-export type PriceControlItem = {
+export type PriceItem = {
   id?: number
   name: string
   readonly created_at?: string

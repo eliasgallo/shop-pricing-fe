@@ -1,7 +1,7 @@
-import { PriceControlItem } from '../../types'
+import { PriceItem } from '../../types'
 import { findWithId, keyList } from '../../utils/listUtils'
-import { PriceControlActionType } from '../action-types'
-import { PriceControlAction } from '../actions'
+import { PriceActionType } from '../action-types'
+import { PriceAction } from '../actions'
 
 interface PriceControlListState {
   loading: boolean
@@ -15,7 +15,7 @@ const initialState: PriceControlListState = {
   priceList: {},
 }
 
-export type PriceListType = { [key: string]: PriceControlItem[] }
+export type PriceListType = { [key: string]: PriceItem[] }
 
 const lowerCaseSort = (left: string, right: string): number =>
   left.toLowerCase().localeCompare(right.toLowerCase())
@@ -32,7 +32,7 @@ const sortLists = (list: PriceListType): PriceListType => {
 
 const replaceItem = (
   list: PriceListType,
-  newItem: PriceControlItem,
+  newItem: PriceItem,
   oldItemCategory: string | undefined
 ): PriceListType => {
   const listAfterRemoval = oldItemCategory
@@ -56,23 +56,21 @@ const sliceItemId = <T extends { id?: number }>(
 
 export const priceListReducer = (
   state: PriceControlListState = initialState,
-  action: PriceControlAction
+  action: PriceAction
 ): PriceControlListState => {
   switch (action.type) {
-    case PriceControlActionType.FETCHING:
+    case PriceActionType.LOADING:
       return { ...state, loading: true, error: null }
-    case PriceControlActionType.FETCH_SUCCESS:
+    case PriceActionType.LOADING_ERROR:
+      return { ...state, loading: false, error: action.error }
+    case PriceActionType.FETCH_SUCCESS:
       return {
         ...state,
         loading: false,
         priceList: sortLists(keyList(action.payload, 'category')),
       }
-    case PriceControlActionType.FETCH_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    case PriceControlActionType.UPDATING:
-      return { ...state, loading: true, error: null }
-    case PriceControlActionType.UPDATE_SUCCESS: {
-      const oldItemInList = findWithId<PriceControlItem>(
+    case PriceActionType.UPDATE_SUCCESS: {
+      const oldItemInList = findWithId<PriceItem>(
         Object.values(state.priceList).flat(),
         action.payload.newItem.id!
       )
@@ -88,25 +86,15 @@ export const priceListReducer = (
         priceList: newList,
       }
     }
-    case PriceControlActionType.UPDATE_ERROR:
-      return { ...state, loading: false, error: action.payload }
-    case PriceControlActionType.DELETING:
-      return { ...state, loading: true, error: null }
-    case PriceControlActionType.DELETE_SUCCESS: {
+    case PriceActionType.DELETE_SUCCESS: {
       const { category, id } = action.payload
       const newStoreList = sliceItemId(state.priceList[category], id!)
       const newState = { ...state.priceList, [category]: newStoreList }
       return { ...state, loading: false, priceList: newState }
     }
-    case PriceControlActionType.DELETE_ERROR:
-      return { ...state, loading: true, error: action.payload }
-    case PriceControlActionType.CREATING:
-      return { ...state, loading: true, error: null }
-    case PriceControlActionType.CREATE_SUCCESS: {
-      const newItem: PriceControlItem = action.payload
-      const newList: PriceControlItem[] = (
-        state.priceList[newItem.category] || []
-      )
+    case PriceActionType.CREATE_SUCCESS: {
+      const newItem: PriceItem = action.payload
+      const newList: PriceItem[] = (state.priceList[newItem.category] || [])
         .concat(newItem)
         .sort((left, right) => lowerCaseSort(left.name, right.name))
       const newState: PriceListType = {
@@ -119,8 +107,6 @@ export const priceListReducer = (
         priceList: newState,
       }
     }
-    case PriceControlActionType.CREATE_ERROR:
-      return { ...state, loading: false, error: action.payload }
     default:
       return state
   }

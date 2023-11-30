@@ -1,77 +1,39 @@
-// TODO use namespace to group related actions?
-import { ShoppingItem } from '../../types'
-import { ShoppingListActionType } from '../action-types'
+import { ShopItem } from '../../types'
+import { ShopActionType } from '../action-types'
 
-// Fetch shopping list
-interface FetchShoppingListAction {
-  type: ShoppingListActionType.FETCHING
+interface LoadingShopAction {
+  type: ShopActionType.LOADING
 }
 
-interface FetchShoppingListSuccessAction {
-  type: ShoppingListActionType.FETCH_SUCCESS
-  payload: ShoppingItem[]
+interface FailureShopAction {
+  type: ShopActionType.LOADING_ERROR
+  error: string
 }
 
-interface FetchShoppingListFailureAction {
-  type: ShoppingListActionType.FETCH_ERROR
-  payload: string
+interface SuccessShopAction {
+  type: ShopActionType.FETCH_SUCCESS
+  payload: ShopItem[]
 }
 
-// Update shopping item
-interface UpdateShoppingItemAction {
-  type: ShoppingListActionType.UPDATING
+interface UpdateShopItemSuccessAction {
+  type: ShopActionType.UPDATE_SUCCESS
+  payload: { oldItem: ShopItem; newItem: ShopItem }
 }
 
-interface UpdateShoppingItemSuccessAction {
-  type: ShoppingListActionType.UPDATE_SUCCESS
-  payload: { oldItem: ShoppingItem; newItem: ShoppingItem }
+interface DeleteShopItemSuccessAction {
+  type: ShopActionType.DELETE_SUCCESS
+  payload: ShopItem
 }
 
-interface UpdateShoppingItemFailureAction {
-  type: ShoppingListActionType.UPDATE_ERROR
-  payload: string
-}
-
-// Delete shopping item
-interface DeleteShoppingItemAction {
-  type: ShoppingListActionType.DELETING
-}
-
-interface DeleteShoppingItemSuccessAction {
-  type: ShoppingListActionType.DELETE_SUCCESS
-  payload: ShoppingItem
-}
-
-interface DeleteShoppingItemFailureAction {
-  type: ShoppingListActionType.DELETE_ERROR
-  payload: string
-}
-
-// Create shopping item
-interface CreateShoppingItemAction {
-  type: ShoppingListActionType.CREATING
-}
-
-interface CreateShoppingItemSuccessAction {
-  type: ShoppingListActionType.CREATE_SUCCESS
-  payload: ShoppingItem
-}
-
-interface CreateShoppingItemFailureAction {
-  type: ShoppingListActionType.CREATE_ERROR
-  payload: string
+interface CreateShopItemSuccessAction {
+  type: ShopActionType.CREATE_SUCCESS
+  payload: ShopItem
 }
 
 export type ShoppingListAction =
-  | FetchShoppingListAction
-  | FetchShoppingListSuccessAction
-  | FetchShoppingListFailureAction
-  | UpdateShoppingItemAction
-  | UpdateShoppingItemSuccessAction
-  | UpdateShoppingItemFailureAction
-  | DeleteShoppingItemAction
-  | DeleteShoppingItemSuccessAction
-  | DeleteShoppingItemFailureAction
-  | CreateShoppingItemAction
-  | CreateShoppingItemSuccessAction
-  | CreateShoppingItemFailureAction
+  | LoadingShopAction
+  | FailureShopAction
+  | SuccessShopAction
+  | UpdateShopItemSuccessAction
+  | DeleteShopItemSuccessAction
+  | CreateShopItemSuccessAction

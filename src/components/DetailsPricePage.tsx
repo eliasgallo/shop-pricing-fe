@@ -8,11 +8,11 @@ import { useAppSelector } from '../hooks/useTypeSelector'
 import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
 import { findWithId } from '../utils/listUtils'
-import { LocationStateNewItem, PriceControlItem } from '../types'
+import { LocationStateNewItem, PriceItem } from '../types'
 import { PriceListType } from '../store/reducers/priceControlReducer'
 import { DetailsPriceForm } from './DetailsPriceForm'
 
-export const NewPriceControlItem: PriceControlItem = {
+export const NewPriceControlItem: PriceItem = {
   name: '',
   comparison_price: 0,
   comparison_price_unit: 'krUnit',
@@ -41,14 +41,14 @@ export const DetailsPricePage: React.FC = () => {
     error: string | null
   } = useAppSelector((state) => state.priceList)
   const { id }: { id: string | undefined } = useParams<'id'>()
-  const getItem = (): PriceControlItem => {
+  const getItem = (): PriceItem => {
     let item = NewPriceControlItem
     if (id === 'new') {
       const state: LocationStateNewItem | null = location.state
       item.category = state?.data || NewPriceControlItem.category
     } else if (id) {
-      const items: PriceControlItem[] = Object.values(priceList).flat()
-      const foundItemWithId = findWithId<PriceControlItem>(items, parseInt(id))
+      const items: PriceItem[] = Object.values(priceList).flat()
+      const foundItemWithId = findWithId<PriceItem>(items, parseInt(id))
       if (foundItemWithId) item = foundItemWithId
     }
     return item

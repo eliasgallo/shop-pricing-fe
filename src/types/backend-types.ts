@@ -1,6 +1,18 @@
-// TODO: remove this file
+// TODO: should be provided from BE
+export const PriceUnitTypes: { [key: string]: string } = {
+  krKg: 'kr/kg',
+  krL: 'kr/l',
+  krUnit: 'kr/st',
+  krAction: 'kr/action',
+  percentage: '%',
+  kr: 'kr',
+}
 
-// TODO: get it from backend and just handle as strings?!
+export const QuantityTypes: { [key: string]: string } = {
+  kg: 'kg',
+  currency: 'kr',
+}
+
 export const ComparisonPriceType: { [key: string]: string } = {
   krKg: 'kr/kg',
   krL: 'kr/l',

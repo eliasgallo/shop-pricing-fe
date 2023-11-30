@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useActions } from '../hooks/useActions'
 import { useAppSelector } from '../hooks/useTypeSelector'
 import { Spinner } from './Spinner'
-import { LocationStateNewItem, PriceControlItem } from '../types'
+import { LocationStateNewItem, PriceItem } from '../types'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { PriceListRow } from './PriceListRow'
@@ -79,7 +79,7 @@ export const PriceControl = () => {
               >
                 {category} (+)
               </SectionButton>
-              {priceList[category].map((item: PriceControlItem) => {
+              {priceList[category].map((item: PriceItem) => {
                 return (
                   <li key={item.id}>
                     <ListWrapper>

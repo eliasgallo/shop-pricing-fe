@@ -1,15 +1,14 @@
 import { ChangeEvent, useState } from 'react'
-import { PriceUnitTypes, QuantityTypes } from '../store'
-import { ShoppingItem } from '../types'
+import { PriceUnitTypes, QuantityTypes, ShopItem } from '../types'
 import { InputWithSuggestions } from './shared/InputWithSuggestions'
 import { SelectorComponent } from './shared/SelectorComponent'
 import { CheckboxComponent } from './shared/CheckboxComponent'
 import { FormContainer, SelectorWrapper } from './shared/SharedElements'
 
 export type ShopItemFormProps = {
-  item: ShoppingItem
+  item: ShopItem
   isNewItem: boolean
-  onSave: (item: ShoppingItem) => void
+  onSave: (item: ShopItem) => void
   onDelete: () => void
   storeSuggestions: string[]
 }

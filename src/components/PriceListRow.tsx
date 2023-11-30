@@ -1,9 +1,13 @@
 import styled from 'styled-components'
-import { ComparisonPriceType, ReliabilityType, TagTypeShort } from '../store'
-import { PriceControlItem } from '../types'
+import {
+  ComparisonPriceType,
+  PriceItem,
+  ReliabilityType,
+  TagTypeShort,
+} from '../types'
 
 type PriceListRowProps = {
-  item: PriceControlItem
+  item: PriceItem
   onRowClick: () => void
 }
 
@@ -29,7 +33,7 @@ const prettyTags = (tags: string[]): string =>
     .map((tag) => TagTypeShort[tag])
     .join('')
 
-const itemInfo = (item: PriceControlItem): string => {
+const itemInfo = (item: PriceItem): string => {
   const tags = item.tags.length > 0 && prettyTags(item.tags)
   const price =
     item.comparison_price > 0 &&

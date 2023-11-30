@@ -1,10 +1,9 @@
 import styled from 'styled-components'
-import { PriceUnitTypes, QuantityTypes } from '../store'
-import { ShoppingItem } from '../types'
+import { PriceUnitTypes, QuantityTypes, ShopItem } from '../types'
 
 type ShopListRowProps = {
-  item: ShoppingItem
-  updateItem: (item: ShoppingItem) => void
+  item: ShopItem
+  updateItem: (item: ShopItem) => void
   editButtonClick: () => void
 }
 
@@ -40,7 +39,7 @@ const Strikethrough = styled.div`
   width: 100%;
 `
 
-const itemInfo = (item: ShoppingItem): string => {
+const itemInfo = (item: ShopItem): string => {
   const quantity =
     item.quantity_value > 0 &&
     `${item.quantity_value}${QuantityTypes[item.quantity_type]}`

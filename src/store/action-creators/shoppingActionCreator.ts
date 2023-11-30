@@ -1,15 +1,15 @@
 import axios, { AxiosResponse } from 'axios'
-import { ShoppingListActionType } from '../action-types'
+import { ShopActionType } from '../action-types'
 import { ShoppingListAction } from '../actions'
 import { Dispatch } from 'redux'
-import { ShoppingItem } from '../../types'
+import { ShopItem } from '../../types'
 
 const BASE_URL = 'http://localhost:4000'
 const token = '7796b4f81de5b07bb87350842135496e5194db9d'
 
 export const fetchShoppingList = () => {
   return async (dispatch: Dispatch<ShoppingListAction>): Promise<void> => {
-    dispatch({ type: ShoppingListActionType.FETCHING })
+    dispatch({ type: ShopActionType.LOADING })
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/shopping_items`,
@@ -20,24 +20,24 @@ export const fetchShoppingList = () => {
           },
         }
       )
-      const list: ShoppingItem[] = response.data.map((res: ShoppingItem) => res)
+      const list: ShopItem[] = response.data.map((res: ShopItem) => res)
       dispatch({
-        type: ShoppingListActionType.FETCH_SUCCESS,
+        type: ShopActionType.FETCH_SUCCESS,
         payload: list,
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to fetch shopping list'
         if (error instanceof Error) msg = error.message
-        dispatch({ type: ShoppingListActionType.FETCH_ERROR, payload: msg })
+        dispatch({ type: ShopActionType.LOADING_ERROR, error: msg })
       }
     }
   }
 }
 
-export const updateShoppingItem = (item: ShoppingItem) => {
+export const updateShoppingItem = (item: ShopItem) => {
   return async (dispatch: Dispatch<ShoppingListAction>) => {
-    dispatch({ type: ShoppingListActionType.UPDATING })
+    dispatch({ type: ShopActionType.LOADING })
     try {
       const response = await axios.put(
         `${BASE_URL}/shopping_items`,
@@ -51,7 +51,7 @@ export const updateShoppingItem = (item: ShoppingItem) => {
         }
       )
       dispatch({
-        type: ShoppingListActionType.UPDATE_SUCCESS,
+        type: ShopActionType.UPDATE_SUCCESS,
         payload: { oldItem: item, newItem: response.data },
       })
     } catch (error: unknown) {
@@ -59,17 +59,17 @@ export const updateShoppingItem = (item: ShoppingItem) => {
         let msg = 'Failed to update shopping item'
         if (error instanceof Error) msg = error.message
         dispatch({
-          type: ShoppingListActionType.UPDATE_ERROR,
-          payload: msg,
+          type: ShopActionType.LOADING_ERROR,
+          error: msg,
         })
       }
     }
   }
 }
 
-export const deleteShoppingItem = (item: ShoppingItem) => {
+export const deleteShoppingItem = (item: ShopItem) => {
   return async (dispatch: Dispatch<ShoppingListAction>) => {
-    dispatch({ type: ShoppingListActionType.DELETING })
+    dispatch({ type: ShopActionType.LOADING })
     try {
       await axios.delete(`${BASE_URL}/shopping_items`, {
         data: JSON.stringify({ ids: [item.id] }),
@@ -79,25 +79,25 @@ export const deleteShoppingItem = (item: ShoppingItem) => {
         },
       })
       dispatch({
-        type: ShoppingListActionType.DELETE_SUCCESS,
+        type: ShopActionType.DELETE_SUCCESS,
         payload: item,
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
-        let msg = 'Failed to update shopping item'
+        let msg = 'Failed to delete shopping item'
         if (error instanceof Error) msg = error.message
         dispatch({
-          type: ShoppingListActionType.DELETE_ERROR,
-          payload: msg,
+          type: ShopActionType.LOADING_ERROR,
+          error: msg,
         })
       }
     }
   }
 }
 
-export const createShoppingItem = (item: ShoppingItem) => {
+export const createShoppingItem = (item: ShopItem) => {
   return async (dispatch: Dispatch<ShoppingListAction>) => {
-    dispatch({ type: ShoppingListActionType.CREATING })
+    dispatch({ type: ShopActionType.LOADING })
     try {
       const response = await axios.post(
         `${BASE_URL}/shopping_items`,
@@ -110,7 +110,7 @@ export const createShoppingItem = (item: ShoppingItem) => {
         }
       )
       dispatch({
-        type: ShoppingListActionType.CREATE_SUCCESS,
+        type: ShopActionType.CREATE_SUCCESS,
         payload: response.data,
       })
     } catch (error: unknown) {
@@ -118,30 +118,10 @@ export const createShoppingItem = (item: ShoppingItem) => {
         let msg = 'Failed to create shopping item'
         if (error instanceof Error) msg = error.message
         dispatch({
-          type: ShoppingListActionType.CREATE_ERROR,
-          payload: msg,
+          type: ShopActionType.LOADING_ERROR,
+          error: msg,
         })
       }
     }
   }
 }
-
-// ;(async () => {
-//   setLoading(true)
-//   const headers: HeadersInit = new Headers()
-//   headers.set('Content-Type', 'application/json')
-//   headers.set('Authorization', token)
-//   const requestInit: RequestInit = {
-//     headers,
-//     method: 'PUT',
-//     body: JSON.stringify(item),
-//   }
-//   const data = await fetch(`${BASE_URL}/shopping_items`, requestInit)
-//   const jsonItem = await data.json()
-//   setResult(
-//     result.map((i) => {
-//       return i.id === jsonItem.id ? jsonItem : i
-//     })
-//   )
-//   setLoading(false)
-// })()

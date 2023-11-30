@@ -1,76 +1,39 @@
-import { PriceControlItem } from '../../types'
-import { PriceControlActionType } from '../action-types'
+import { PriceItem } from '../../types'
+import { PriceActionType } from '../action-types'
 
-// Fetch price list
-interface FetchPriceControlAction {
-  type: PriceControlActionType.FETCHING
+interface LoadingPriceAction {
+  type: PriceActionType.LOADING
 }
 
-interface FetchPriceControlSuccessAction {
-  type: PriceControlActionType.FETCH_SUCCESS
-  payload: PriceControlItem[]
+interface PriceFailureAction {
+  type: PriceActionType.LOADING_ERROR
+  error: string
 }
 
-interface FetchPriceControlFailureAction {
-  type: PriceControlActionType.FETCH_ERROR
-  payload: string
+interface FetchPriceSuccessAction {
+  type: PriceActionType.FETCH_SUCCESS
+  payload: PriceItem[]
 }
 
-// Update price item
-interface UpdatePriceControlAction {
-  type: PriceControlActionType.UPDATING
+interface UpdatePriceSuccessAction {
+  type: PriceActionType.UPDATE_SUCCESS
+  payload: { oldItem: PriceItem; newItem: PriceItem }
 }
 
-interface UpdatePriceControlSuccessAction {
-  type: PriceControlActionType.UPDATE_SUCCESS
-  payload: { oldItem: PriceControlItem; newItem: PriceControlItem }
+interface DeletePriceSuccessAction {
+  type: PriceActionType.DELETE_SUCCESS
+  payload: PriceItem
 }
 
-interface UpdatePriceControlFailureAction {
-  type: PriceControlActionType.UPDATE_ERROR
-  payload: string
+interface CreatePriceSuccessAction {
+  type: PriceActionType.CREATE_SUCCESS
+  payload: PriceItem
 }
 
-// Delete price item
-interface DeletePriceControlAction {
-  type: PriceControlActionType.DELETING
-}
-
-interface DeletePriceControlSuccessAction {
-  type: PriceControlActionType.DELETE_SUCCESS
-  payload: PriceControlItem
-}
-
-interface DeletePriceControlFailureAction {
-  type: PriceControlActionType.DELETE_ERROR
-  payload: string
-}
-
-// Create price item
-interface CreatePriceControlAction {
-  type: PriceControlActionType.CREATING
-}
-
-interface CreatePriceControlSuccessAction {
-  type: PriceControlActionType.CREATE_SUCCESS
-  payload: PriceControlItem
-}
-
-interface CreatePriceControlFailureAction {
-  type: PriceControlActionType.CREATE_ERROR
-  payload: string
-}
-
-export type PriceControlAction =
-  | FetchPriceControlAction
-  | FetchPriceControlSuccessAction
-  | FetchPriceControlFailureAction
-  | UpdatePriceControlAction
-  | UpdatePriceControlSuccessAction
-  | UpdatePriceControlFailureAction
-  | DeletePriceControlAction
-  | DeletePriceControlSuccessAction
-  | DeletePriceControlFailureAction
-  | CreatePriceControlAction
-  | CreatePriceControlSuccessAction
-  | CreatePriceControlFailureAction
+export type PriceAction =
+  | LoadingPriceAction
+  | PriceFailureAction
+  | FetchPriceSuccessAction
+  | UpdatePriceSuccessAction
+  | DeletePriceSuccessAction
+  | CreatePriceSuccessAction

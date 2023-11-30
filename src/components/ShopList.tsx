@@ -5,7 +5,7 @@ import { Spinner } from './Spinner'
 import { useActions } from '../hooks/useActions'
 import { useAppSelector } from '../hooks/useTypeSelector'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { LocationStateNewItem, ShoppingItem } from '../types'
+import { LocationStateNewItem, ShopItem } from '../types'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -79,7 +79,7 @@ export function ShopList() {
               >
                 {store} (+)
               </SectionButton>
-              {shoppingList[store].map((item: ShoppingItem) => {
+              {shoppingList[store].map((item: ShopItem) => {
                 return (
                   <li key={item.id}>
                     <ShopListRowWrapper>

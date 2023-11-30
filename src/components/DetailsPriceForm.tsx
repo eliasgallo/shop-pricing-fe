@@ -1,20 +1,20 @@
 import { ChangeEvent, useState } from 'react'
-import { PriceControlItem } from '../types'
 import { SelectorComponent } from './shared/SelectorComponent'
 import {
   CategoryType,
+  PriceItem,
   PriceUnitTypes,
   ReliabilityType,
   TagType,
-} from '../store'
+} from '../types'
 import { concatDistinct } from '../utils/listUtils'
 import { CheckboxComponent } from './shared/CheckboxComponent'
 import { FormContainer, SelectorWrapper } from './shared/SharedElements'
 
 export type DetailsPriceFormProps = {
-  item: PriceControlItem
+  item: PriceItem
   isNewItem: boolean
-  onSave: (item: PriceControlItem) => void
+  onSave: (item: PriceItem) => void
   onDelete: () => void
 }
 

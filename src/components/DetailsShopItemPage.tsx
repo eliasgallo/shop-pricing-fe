@@ -8,10 +8,10 @@ import { useAppSelector } from '../hooks/useTypeSelector'
 import { DetailsShopItemForm } from './DetailsShopItemForm'
 import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
-import { LocationStateNewItem, ShoppingItem, ShoppingListType } from '../types'
+import { LocationStateNewItem, ShopItem, ShopListType } from '../types'
 import { findWithId } from '../utils/listUtils'
 
-export const NewShoppingItem: ShoppingItem = {
+export const NewShoppingItem: ShopItem = {
   checked: false,
   name: '',
   offer: true,
@@ -37,21 +37,21 @@ export const DetailsShopItemPage: React.FC = () => {
     error,
     storeSuggestions,
   }: {
-    shopList: ShoppingListType
+    shopList: ShopListType
     loading: boolean
     error: string | null
     storeSuggestions: string[]
   } = useAppSelector((state) => state.shopping)
   const { id }: { id: string | undefined } = useParams<'id'>()
-  const getItem = (): ShoppingItem => {
+  const getItem = (): ShopItem => {
     if (id === 'new') {
       const item = NewShoppingItem
       const state: LocationStateNewItem | null = location.state
       item.store = state?.data || NewShoppingItem.store
       return item
     } else if (id) {
-      const items: ShoppingItem[] = Object.values(shopList).flat()
-      return findWithId<ShoppingItem>(items, parseInt(id!)) || NewShoppingItem
+      const items: ShopItem[] = Object.values(shopList).flat()
+      return findWithId<ShopItem>(items, parseInt(id!)) || NewShoppingItem
     }
     return NewShoppingItem
   }
