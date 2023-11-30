@@ -48,7 +48,7 @@ export const PriceList = () => {
     priceList = {},
     loading,
     error,
-  } = useAppSelector((state) => state.priceList)
+  } = useAppSelector((state) => state.price)
 
   useEffect(() => {
     if (Object.keys(priceList).length === 0) fetchPriceList()

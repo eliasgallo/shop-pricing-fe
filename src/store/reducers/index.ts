@@ -5,7 +5,7 @@ import { priceListReducer } from './priceReducer'
 
 export const reducers = combineReducers({
   shop: shopListReducer,
-  priceList: priceListReducer,
+  price: priceListReducer,
 })
 
 export type RootState = ReturnType<typeof reducers>

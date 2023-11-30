@@ -35,7 +35,7 @@ export const PriceDetailsPage: React.FC = () => {
     priceList: PriceListType
     loading: boolean
     error: string | null
-  } = useAppSelector((state) => state.priceList)
+  } = useAppSelector((state) => state.price)
   const { id }: { id: string | undefined } = useParams<'id'>()
   const getItem = (): PriceItem => {
     let item = NewPriceItem
