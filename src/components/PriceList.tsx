@@ -41,17 +41,17 @@ const Section = styled.div`
   }
 `
 
-export const PriceControl = () => {
+export const PriceList = () => {
   const navigate: NavigateFunction = useNavigate()
-  const { fetchPriceControlList } = useActions()
+  const { fetchPriceList } = useActions()
   const {
-    priceList: priceList = {},
+    priceList = {},
     loading,
     error,
   } = useAppSelector((state) => state.priceList)
 
   useEffect(() => {
-    if (Object.keys(priceList).length === 0) fetchPriceControlList()
+    if (Object.keys(priceList).length === 0) fetchPriceList()
   }, [])
 
   return (

@@ -9,10 +9,10 @@ import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
 import { findWithId } from '../utils/listUtils'
 import { LocationStateNewItem, PriceItem } from '../types'
-import { PriceListType } from '../store/reducers/priceControlReducer'
-import { DetailsPriceForm } from './DetailsPriceForm'
+import { PriceListType } from '../store/reducers/priceReducer'
+import { PriceDetailsForm } from './PriceDetailsForm'
 
-export const NewPriceControlItem: PriceItem = {
+export const NewPriceItem: PriceItem = {
   name: '',
   comparison_price: 0,
   comparison_price_unit: 'krUnit',
@@ -21,16 +21,12 @@ export const NewPriceControlItem: PriceItem = {
   tags: [],
 }
 
-export const DetailsPricePage: React.FC = () => {
+export const PriceDetailsPage: React.FC = () => {
   const navigate: NavigateFunction = useNavigate()
   const navigateBack = (): void => navigate('..', { relative: 'path' })
   const location = useLocation()
 
-  const {
-    updatePriceControlItem,
-    deletePriceControlItem,
-    createPriceControlItem,
-  } = useActions()
+  const { updatePriceItem, deletePriceItem, createPriceItem } = useActions()
   const {
     priceList,
     loading,
@@ -42,10 +38,10 @@ export const DetailsPricePage: React.FC = () => {
   } = useAppSelector((state) => state.priceList)
   const { id }: { id: string | undefined } = useParams<'id'>()
   const getItem = (): PriceItem => {
-    let item = NewPriceControlItem
+    let item = NewPriceItem
     if (id === 'new') {
       const state: LocationStateNewItem | null = location.state
-      item.category = state?.data || NewPriceControlItem.category
+      item.category = state?.data || NewPriceItem.category
     } else if (id) {
       const items: PriceItem[] = Object.values(priceList).flat()
       const foundItemWithId = findWithId<PriceItem>(items, parseInt(id))
@@ -57,14 +53,14 @@ export const DetailsPricePage: React.FC = () => {
   const item = getItem()
   return (
     <>
-      <DetailsPriceForm
+      <PriceDetailsForm
         item={{ ...item }}
         onSave={(i) => {
-          i.id ? updatePriceControlItem(i) : createPriceControlItem(i)
+          i.id ? updatePriceItem(i) : createPriceItem(i)
           navigateBack()
         }}
         onDelete={() => {
-          if (item.id) deletePriceControlItem(item)
+          if (item.id) deletePriceItem(item)
           navigateBack()
         }}
         isNewItem={!item.id}

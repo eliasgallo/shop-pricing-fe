@@ -11,7 +11,7 @@ import { concatDistinct } from '../utils/listUtils'
 import { CheckboxComponent } from './shared/CheckboxComponent'
 import { FormContainer, SelectorWrapper } from './shared/SharedElements'
 
-export type DetailsPriceFormProps = {
+export type PriceDetailsFormProps = {
   item: PriceItem
   isNewItem: boolean
   onSave: (item: PriceItem) => void
@@ -24,7 +24,7 @@ const toggleTag = (tags: string[], tagKey: string) => {
     : concatDistinct(tags, [tagKey])
 }
 
-export const DetailsPriceForm: React.FC<DetailsPriceFormProps> = (props) => {
+export const PriceDetailsForm: React.FC<PriceDetailsFormProps> = (props) => {
   const [item, setItem] = useState(props.item)
 
   return (

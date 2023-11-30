@@ -1,6 +1,6 @@
 import { ShopItem, ShopListType } from '../../types'
 import { ShopActionType } from '../action-types'
-import { ShoppingListAction } from '../actions'
+import { ShopListAction } from '../actions'
 import { findWithId, concatDistinct, keyList } from '../../utils/listUtils'
 
 // TODO: move to backend
@@ -17,14 +17,14 @@ const defaultStores = [
   'Dollar store',
 ]
 
-interface ShoppingListState {
+type ShopListState = {
   loading: boolean
   error: string | null
   shopList: ShopListType
   storeSuggestions: string[]
 }
 
-const initialState: ShoppingListState = {
+const initialState: ShopListState = {
   loading: false,
   error: null,
   shopList: {},
@@ -66,9 +66,9 @@ const sliceItemId = <T extends { id?: number }>(
 ): T[] => list.filter((i) => i.id !== removeId)
 
 export const shopListReducer = (
-  state: ShoppingListState = initialState,
-  action: ShoppingListAction
-): ShoppingListState => {
+  state: ShopListState = initialState,
+  action: ShopListAction
+): ShopListState => {
   switch (action.type) {
     case ShopActionType.LOADING:
       return { ...state, loading: true, error: null }
@@ -79,7 +79,7 @@ export const shopListReducer = (
         ...state,
         loading: false,
         shopList: sortList(keyList(action.payload, 'store')),
-        storeSuggestions: concatDistinct<string, string>(
+        storeSuggestions: concatDistinct(
           defaultStores,
           Object.keys(state.shopList)
         ),
@@ -99,16 +99,11 @@ export const shopListReducer = (
         ...state,
         loading: false,
         shopList: newList,
-        storeSuggestions: concatDistinct<string, string>(
-          defaultStores,
-          Object.keys(newList)
-        ),
+        storeSuggestions: concatDistinct(defaultStores, Object.keys(newList)),
       }
     }
     case ShopActionType.DELETE_SUCCESS: {
       const { store, id } = action.payload
-      // state.shoppingList[store] = sliceItemId(state.shoppingList[store], id!)
-      // return { loading: false, error: null, shoppingList: state.shoppingList }
       const newStoreList = sliceItemId(state.shopList[store], id!)
       const newState = { ...state.shopList, [store]: newStoreList }
       return { ...state, loading: false, shopList: newState }

@@ -5,7 +5,7 @@ interface LoadingPriceAction {
   type: PriceActionType.LOADING
 }
 
-interface PriceFailureAction {
+interface FailurePriceAction {
   type: PriceActionType.LOADING_ERROR
   error: string
 }
@@ -32,7 +32,7 @@ interface CreatePriceSuccessAction {
 
 export type PriceAction =
   | LoadingPriceAction
-  | PriceFailureAction
+  | FailurePriceAction
   | FetchPriceSuccessAction
   | UpdatePriceSuccessAction
   | DeletePriceSuccessAction

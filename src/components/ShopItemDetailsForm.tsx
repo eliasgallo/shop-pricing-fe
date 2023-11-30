@@ -5,7 +5,7 @@ import { SelectorComponent } from './shared/SelectorComponent'
 import { CheckboxComponent } from './shared/CheckboxComponent'
 import { FormContainer, SelectorWrapper } from './shared/SharedElements'
 
-export type ShopItemFormProps = {
+export type FormProps = {
   item: ShopItem
   isNewItem: boolean
   onSave: (item: ShopItem) => void
@@ -13,7 +13,7 @@ export type ShopItemFormProps = {
   storeSuggestions: string[]
 }
 
-export const DetailsShopItemForm: React.FC<ShopItemFormProps> = (props) => {
+export const ShopItemDetailsForm: React.FC<FormProps> = (props) => {
   const [item, setItem] = useState(props.item)
 
   return (

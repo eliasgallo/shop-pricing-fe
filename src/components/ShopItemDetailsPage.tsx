@@ -5,13 +5,13 @@ import {
   useParams,
 } from 'react-router-dom'
 import { useAppSelector } from '../hooks/useTypeSelector'
-import { DetailsShopItemForm } from './DetailsShopItemForm'
+import { ShopItemDetailsForm } from './ShopItemDetailsForm'
 import { useActions } from '../hooks/useActions'
 import { Spinner } from './Spinner'
 import { LocationStateNewItem, ShopItem, ShopListType } from '../types'
 import { findWithId } from '../utils/listUtils'
 
-export const NewShoppingItem: ShopItem = {
+export const NewShopItem: ShopItem = {
   checked: false,
   name: '',
   offer: true,
@@ -24,13 +24,12 @@ export const NewShoppingItem: ShopItem = {
 
 // TODO: what happens if list is not fetched yet.
 // Maybe fetch item if useParams has an id but there is no item in store
-export const DetailsShopItemPage: React.FC = () => {
+export const ShopItemDetailsPage: React.FC = () => {
   const navigate: NavigateFunction = useNavigate()
   const navigateBack = (): void => navigate('..', { relative: 'path' })
   const location = useLocation()
 
-  const { updateShoppingItem, deleteShoppingItem, createShoppingItem } =
-    useActions()
+  const { updateShopItem, deleteShopItem, createShopItem } = useActions()
   const {
     shopList,
     loading,
@@ -41,32 +40,32 @@ export const DetailsShopItemPage: React.FC = () => {
     loading: boolean
     error: string | null
     storeSuggestions: string[]
-  } = useAppSelector((state) => state.shopping)
+  } = useAppSelector((state) => state.shop)
   const { id }: { id: string | undefined } = useParams<'id'>()
   const getItem = (): ShopItem => {
     if (id === 'new') {
-      const item = NewShoppingItem
+      const item = NewShopItem
       const state: LocationStateNewItem | null = location.state
-      item.store = state?.data || NewShoppingItem.store
+      item.store = state?.data || NewShopItem.store
       return item
     } else if (id) {
       const items: ShopItem[] = Object.values(shopList).flat()
-      return findWithId<ShopItem>(items, parseInt(id!)) || NewShoppingItem
+      return findWithId<ShopItem>(items, parseInt(id!)) || NewShopItem
     }
-    return NewShoppingItem
+    return NewShopItem
   }
 
   const item = getItem()
   return (
     <>
-      <DetailsShopItemForm
+      <ShopItemDetailsForm
         item={{ ...item }}
         onSave={(i) => {
-          i.id ? updateShoppingItem(i) : createShoppingItem(i)
+          i.id ? updateShopItem(i) : createShopItem(i)
           navigateBack()
         }}
         onDelete={() => {
-          if (item.id) deleteShoppingItem(item)
+          if (item.id) deleteShopItem(item)
           navigateBack()
         }}
         isNewItem={!item.id}

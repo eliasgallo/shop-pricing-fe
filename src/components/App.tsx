@@ -11,10 +11,10 @@ import { Provider } from 'react-redux'
 
 import { store } from '../store'
 import { Home } from './Home'
-import { PriceControl } from './PriceControl'
+import { PriceList } from './PriceList'
 import { ShopList } from './ShopList'
-import { DetailsShopItemPage } from './DetailsShopItemPage'
-import { DetailsPricePage } from './DetailsPricePage'
+import { ShopItemDetailsPage } from './ShopItemDetailsPage'
+import { PriceDetailsPage } from './PriceDetailsPage'
 import { BreadcrumbsTrails } from './BreadcrumbTrails'
 
 const AppContainer = styled.div`
@@ -42,11 +42,11 @@ const router: Router = createBrowserRouter(
       />
       <Route
         path='price-control'
-        element={<PriceControl />}
+        element={<PriceList />}
       />
       <Route
         path='price-control/:id'
-        element={<DetailsPricePage />}
+        element={<PriceDetailsPage />}
       />
       <Route
         path='shop-list'
@@ -54,7 +54,7 @@ const router: Router = createBrowserRouter(
       />
       <Route
         path='shop-list/:id'
-        element={<DetailsShopItemPage />}
+        element={<ShopItemDetailsPage />}
       />
     </Route>
   )

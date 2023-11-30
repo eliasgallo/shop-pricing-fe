@@ -3,13 +3,13 @@ import { findWithId, keyList } from '../../utils/listUtils'
 import { PriceActionType } from '../action-types'
 import { PriceAction } from '../actions'
 
-interface PriceControlListState {
+export type PriceListState = {
   loading: boolean
   error: string | null
   priceList: PriceListType
 }
 
-const initialState: PriceControlListState = {
+const initialState: PriceListState = {
   loading: false,
   error: null,
   priceList: {},
@@ -55,9 +55,9 @@ const sliceItemId = <T extends { id?: number }>(
 ): T[] => list.filter((i) => i.id !== removeId)
 
 export const priceListReducer = (
-  state: PriceControlListState = initialState,
+  state: PriceListState = initialState,
   action: PriceAction
-): PriceControlListState => {
+): PriceListState => {
   switch (action.type) {
     case PriceActionType.LOADING:
       return { ...state, loading: true, error: null }

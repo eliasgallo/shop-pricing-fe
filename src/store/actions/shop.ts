@@ -30,7 +30,7 @@ interface CreateShopItemSuccessAction {
   payload: ShopItem
 }
 
-export type ShoppingListAction =
+export type ShopListAction =
   | LoadingShopAction
   | FailureShopAction
   | SuccessShopAction

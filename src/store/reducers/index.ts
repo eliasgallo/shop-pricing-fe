@@ -1,10 +1,10 @@
 // configureStore
 import { combineReducers } from 'redux'
-import { shopListReducer } from './shoppingListReducer'
-import { priceListReducer } from './priceControlReducer'
+import { shopListReducer } from './shopListReducer'
+import { priceListReducer } from './priceReducer'
 
 export const reducers = combineReducers({
-  shopping: shopListReducer,
+  shop: shopListReducer,
   priceList: priceListReducer,
 })
 

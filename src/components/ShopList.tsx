@@ -43,16 +43,16 @@ const Section = styled.div`
 `
 
 export function ShopList() {
-  const { fetchShoppingList, updateShoppingItem } = useActions()
+  const { fetchShopList, updateShopItem } = useActions()
   const {
-    shopList: shoppingList = {},
+    shopList = {},
     loading,
     error,
-  } = useAppSelector((state) => state.shopping)
+  } = useAppSelector((state) => state.shop)
   const navigate: NavigateFunction = useNavigate()
 
   useEffect(() => {
-    if (Object.keys(shoppingList).length === 0) fetchShoppingList()
+    if (Object.keys(shopList).length === 0) fetchShopList()
   }, [])
 
   return (
@@ -68,7 +68,7 @@ export function ShopList() {
         </NewItem>
       </HeaderContainer>
       <List>
-        {Object.keys(shoppingList).map((store: string) => {
+        {Object.keys(shopList).map((store: string) => {
           return (
             <Section key={store}>
               <SectionButton
@@ -79,14 +79,14 @@ export function ShopList() {
               >
                 {store} (+)
               </SectionButton>
-              {shoppingList[store].map((item: ShopItem) => {
+              {shopList[store].map((item: ShopItem) => {
                 return (
                   <li key={item.id}>
                     <ShopListRowWrapper>
                       <ShopListRow
                         key={item.id}
                         item={{ ...item }}
-                        updateItem={updateShoppingItem}
+                        updateItem={updateShopItem}
                         editButtonClick={() =>
                           navigate(`./${item.id}`, { relative: 'path' })
                         }

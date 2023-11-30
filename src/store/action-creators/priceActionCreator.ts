@@ -1,18 +1,18 @@
 import axios, { AxiosResponse } from 'axios'
-import { ShopActionType } from '../action-types'
-import { ShoppingListAction } from '../actions'
+import { PriceActionType } from '../action-types'
+import { PriceAction } from '../actions'
 import { Dispatch } from 'redux'
-import { ShopItem } from '../../types'
+import { PriceItem } from '../../types'
 
 const BASE_URL = 'http://localhost:4000'
 const token = '7796b4f81de5b07bb87350842135496e5194db9d'
 
-export const fetchShoppingList = () => {
-  return async (dispatch: Dispatch<ShoppingListAction>): Promise<void> => {
-    dispatch({ type: ShopActionType.LOADING })
+export const fetchPriceList = () => {
+  return async (dispatch: Dispatch<PriceAction>): Promise<void> => {
+    dispatch({ type: PriceActionType.LOADING })
     try {
       const response: AxiosResponse = await axios.get(
-        `${BASE_URL}/shopping_items`,
+        `${BASE_URL}/price_control_items`,
         {
           headers: {
             'Content-Type': 'application/json',
@@ -20,28 +20,27 @@ export const fetchShoppingList = () => {
           },
         }
       )
-      const list: ShopItem[] = response.data.map((res: ShopItem) => res)
+      const list: PriceItem[] = response.data.map((res: PriceItem) => res)
       dispatch({
-        type: ShopActionType.FETCH_SUCCESS,
+        type: PriceActionType.FETCH_SUCCESS,
         payload: list,
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
-        let msg = 'Failed to fetch shopping list'
+        let msg = 'Failed to fetch price list'
         if (error instanceof Error) msg = error.message
-        dispatch({ type: ShopActionType.LOADING_ERROR, error: msg })
+        dispatch({ type: PriceActionType.LOADING_ERROR, error: msg })
       }
     }
   }
 }
 
-export const updateShoppingItem = (item: ShopItem) => {
-  return async (dispatch: Dispatch<ShoppingListAction>) => {
-    dispatch({ type: ShopActionType.LOADING })
+export const updatePriceItem = (item: PriceItem) => {
+  return async (dispatch: Dispatch<PriceAction>) => {
+    dispatch({ type: PriceActionType.LOADING })
     try {
       const response = await axios.put(
-        `${BASE_URL}/shopping_items`,
-        // TODO: just update the changed fields
+        `${BASE_URL}/price_control_items`,
         JSON.stringify(item),
         {
           headers: {
@@ -51,15 +50,15 @@ export const updateShoppingItem = (item: ShopItem) => {
         }
       )
       dispatch({
-        type: ShopActionType.UPDATE_SUCCESS,
+        type: PriceActionType.UPDATE_SUCCESS,
         payload: { oldItem: item, newItem: response.data },
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
-        let msg = 'Failed to update shopping item'
+        let msg = 'Failed to update price item'
         if (error instanceof Error) msg = error.message
         dispatch({
-          type: ShopActionType.LOADING_ERROR,
+          type: PriceActionType.LOADING_ERROR,
           error: msg,
         })
       }
@@ -67,11 +66,11 @@ export const updateShoppingItem = (item: ShopItem) => {
   }
 }
 
-export const deleteShoppingItem = (item: ShopItem) => {
-  return async (dispatch: Dispatch<ShoppingListAction>) => {
-    dispatch({ type: ShopActionType.LOADING })
+export const deletePriceItem = (item: PriceItem) => {
+  return async (dispatch: Dispatch<PriceAction>) => {
+    dispatch({ type: PriceActionType.LOADING })
     try {
-      await axios.delete(`${BASE_URL}/shopping_items`, {
+      await axios.delete(`${BASE_URL}/price_control_items`, {
         data: JSON.stringify({ ids: [item.id] }),
         headers: {
           'Content-Type': 'application/json',
@@ -79,15 +78,15 @@ export const deleteShoppingItem = (item: ShopItem) => {
         },
       })
       dispatch({
-        type: ShopActionType.DELETE_SUCCESS,
+        type: PriceActionType.DELETE_SUCCESS,
         payload: item,
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
-        let msg = 'Failed to delete shopping item'
+        let msg = 'Failed to delete price item'
         if (error instanceof Error) msg = error.message
         dispatch({
-          type: ShopActionType.LOADING_ERROR,
+          type: PriceActionType.LOADING_ERROR,
           error: msg,
         })
       }
@@ -95,12 +94,12 @@ export const deleteShoppingItem = (item: ShopItem) => {
   }
 }
 
-export const createShoppingItem = (item: ShopItem) => {
-  return async (dispatch: Dispatch<ShoppingListAction>) => {
-    dispatch({ type: ShopActionType.LOADING })
+export const createPriceItem = (item: PriceItem) => {
+  return async (dispatch: Dispatch<PriceAction>) => {
+    dispatch({ type: PriceActionType.LOADING })
     try {
       const response = await axios.post(
-        `${BASE_URL}/shopping_items`,
+        `${BASE_URL}/price_control_items`,
         JSON.stringify(item),
         {
           headers: {
@@ -110,15 +109,15 @@ export const createShoppingItem = (item: ShopItem) => {
         }
       )
       dispatch({
-        type: ShopActionType.CREATE_SUCCESS,
+        type: PriceActionType.CREATE_SUCCESS,
         payload: response.data,
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
-        let msg = 'Failed to create shopping item'
+        let msg = 'Failed to create price item'
         if (error instanceof Error) msg = error.message
         dispatch({
-          type: ShopActionType.LOADING_ERROR,
+          type: PriceActionType.LOADING_ERROR,
           error: msg,
         })
       }
