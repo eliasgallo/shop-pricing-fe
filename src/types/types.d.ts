@@ -31,3 +31,5 @@ export type PriceItem = {
   category: string
   tags: string[]
 }
+
+export type PriceListType = { [key: string]: PriceItem[] }

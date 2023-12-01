@@ -6,8 +6,7 @@ import {
   updatePriceItem,
 } from '../../store/action-creators'
 import { PriceDetailsContainer } from './PriceItemDetailsContainer'
-import { PriceListType } from '../../store/reducers/priceReducer'
-import { LocationStateNewItem, PriceItem } from '../../types'
+import { LocationStateNewItem, PriceItem, PriceListType } from '../../types'
 import { useLocation, useParams } from 'react-router-dom'
 import { findWithId } from '../../utils/listUtils'
 

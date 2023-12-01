@@ -1,4 +1,4 @@
-import { PriceItem } from '../../types'
+import { PriceItem, PriceListType } from '../../types'
 import { findWithId, keyList } from '../../utils/listUtils'
 import { PriceActionType } from '../action-types'
 import { PriceAction } from '../actions'
@@ -14,8 +14,6 @@ const initialState: PriceListState = {
   error: null,
   priceList: {},
 }
-
-export type PriceListType = { [key: string]: PriceItem[] }
 
 const lowerCaseSort = (left: string, right: string): number =>
   left.toLowerCase().localeCompare(right.toLowerCase())

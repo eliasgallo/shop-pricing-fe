@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { RootState } from '../../store'
 import { fetchPriceList } from '../../store/action-creators'
-import { PriceListType } from '../../store/reducers/priceReducer'
+import { PriceListType } from '../../types'
 import { PriceListContainer } from './PriceListContainer'
 
 type StateProps = {

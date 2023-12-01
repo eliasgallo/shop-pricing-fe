@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
 import { Spinner } from '../Spinner'
-import { LocationStateNewItem, PriceItem } from '../../types'
+import { LocationStateNewItem, PriceItem, PriceListType } from '../../types'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { PriceListRow } from './PriceListRow'
-import { PriceListType } from '../../store/reducers/priceReducer'
 
 const HeaderContainer = styled.div`
   display: flex;
