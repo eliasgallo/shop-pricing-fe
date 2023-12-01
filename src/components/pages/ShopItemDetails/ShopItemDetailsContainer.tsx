@@ -6,6 +6,7 @@ import { InputWithSuggestions } from '@shared/InputWithSuggestions'
 import { SelectorComponent } from '@shared/SelectorComponent'
 import { CheckboxComponent } from '@shared/CheckboxComponent'
 import { ChangeEvent, useState } from 'react'
+import { DecimalInput } from '@shared/DecimalInput'
 
 type ShopItemDetailsProps = {
   shopItem: ShopItem
@@ -84,14 +85,12 @@ export const ShopItemDetailsContainer: React.FC<ShopItemDetailsProps> = ({
         <label>
           Price
           <SelectorWrapper>
-            <input
-              type='number'
+            <DecimalInput
+              decimals={2}
               name='price'
-              placeholder='price'
-              min={0}
-              value={item.price || ''}
-              onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                setItem({ ...item, price: parseInt(e.target.value) })
+              startValue={item.price}
+              valueChanged={(newValue: number) =>
+                setItem({ ...item, price: newValue })
               }
             />
             <SelectorComponent

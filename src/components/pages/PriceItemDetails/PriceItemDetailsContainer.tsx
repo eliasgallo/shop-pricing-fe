@@ -12,6 +12,7 @@ import { CheckboxComponent } from '@shared/CheckboxComponent'
 import { FormContainer, SelectorWrapper } from '@shared/SharedElements'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { Spinner } from '@shared/Spinner'
+import { DecimalInput } from '@shared/DecimalInput'
 
 const toggleTag = (tags: string[], tagKey: string) => {
   return tags.includes(tagKey)
@@ -58,17 +59,12 @@ export const PriceDetailsContainer: React.FC<PriceDetailsProps> = ({
           }
         />
         <SelectorWrapper>
-          <input
-            type='number'
+          <DecimalInput
+            decimals={2}
             name='price'
-            placeholder='price'
-            min={0}
-            value={item.comparison_price || ''}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setItem({
-                ...item,
-                comparison_price: parseInt(e.target.value) || 0,
-              })
+            startValue={item.comparison_price}
+            valueChanged={(newValue: number) =>
+              setItem({ ...item, comparison_price: newValue })
             }
           />
           <SelectorComponent
