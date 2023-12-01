@@ -1,5 +1,5 @@
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { Spinner } from '../Spinner'
+import { Spinner } from '../shared/Spinner'
 import { PriceUnitTypes, QuantityTypes, ShopItem } from '../../types'
 import { FormContainer, SelectorWrapper } from '../shared/SharedElements'
 import { InputWithSuggestions } from '../shared/InputWithSuggestions'

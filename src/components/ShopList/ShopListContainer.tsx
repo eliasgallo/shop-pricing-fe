@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { ShopListRow } from './ShopListRow'
-import { Spinner } from '../Spinner'
+import { Spinner } from '../shared/Spinner'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { LocationStateNewItem, ShopItem, ShopListType } from '../../types'
 

@@ -11,7 +11,7 @@ import { concatDistinct } from '../../utils/listUtils'
 import { CheckboxComponent } from '../shared/CheckboxComponent'
 import { FormContainer, SelectorWrapper } from '../shared/SharedElements'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { Spinner } from '../Spinner'
+import { Spinner } from '../shared/Spinner'
 
 const toggleTag = (tags: string[], tagKey: string) => {
   return tags.includes(tagKey)
