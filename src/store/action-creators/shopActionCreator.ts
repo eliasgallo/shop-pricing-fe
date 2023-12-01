@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { ShopActionType } from '../action-types'
 import { ShopListAction } from '../actions'
 import { Dispatch } from 'redux'
-import { ShopItem } from '../../types'
+import { ShopItem } from '@types'
 
 const BASE_URL = process.env.BE_BASE_URL
 const token = '7796b4f81de5b07bb87350842135496e5194db9d'

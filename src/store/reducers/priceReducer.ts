@@ -1,5 +1,5 @@
-import { PriceItem, PriceListType } from '../../types'
-import { findWithId, keyList } from '../../utils/listUtils'
+import { PriceItem, PriceListType } from '@types'
+import { findWithId, keyList } from '@utils/listUtils'
 import { PriceActionType } from '../action-types'
 import { PriceAction } from '../actions'
 

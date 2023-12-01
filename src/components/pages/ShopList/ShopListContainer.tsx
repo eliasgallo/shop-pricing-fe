@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import { ShopListRow } from './ShopListRow'
-import { Spinner } from '../shared/Spinner'
+import { Spinner } from '@shared/Spinner'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { LocationStateNewItem, ShopItem, ShopListType } from '../../types'
+import { LocationStateNewItem, ShopItem, ShopListType } from '@types'
 
 const HeaderContainer = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
-import { ShopItem, ShopListType } from '../../types'
+import { ShopItem, ShopListType } from '@types'
 import { ShopActionType } from '../action-types'
 import { ShopListAction } from '../actions'
-import { findWithId, concatDistinct, keyList } from '../../utils/listUtils'
+import { findWithId, concatDistinct, keyList } from '@utils/listUtils'
 
 // TODO: move to backend
 const defaultStores = [

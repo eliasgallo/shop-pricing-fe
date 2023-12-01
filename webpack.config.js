@@ -24,6 +24,14 @@ module.exports = {
   },
   resolve: {
     extensions: [".*", ".js", ".jsx", ".ts", ".tsx", ".png"],
+    alias: {
+      '@pages': path.resolve(__dirname, "./src/components/pages/"),
+      '@shared': path.resolve(__dirname, "./src/components/shared/"),
+      '@utils': path.resolve(__dirname, "./src/utils/"),
+      '@images': path.resolve(__dirname, "./src/images/"),
+      '@store': path.resolve(__dirname, "./src/store"),
+      '@types': path.resolve(__dirname, "./src/types"),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({

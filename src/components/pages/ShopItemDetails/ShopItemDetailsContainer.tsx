@@ -1,10 +1,10 @@
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { Spinner } from '../shared/Spinner'
-import { PriceUnitTypes, QuantityTypes, ShopItem } from '../../types'
-import { FormContainer, SelectorWrapper } from '../shared/SharedElements'
-import { InputWithSuggestions } from '../shared/InputWithSuggestions'
-import { SelectorComponent } from '../shared/SelectorComponent'
-import { CheckboxComponent } from '../shared/CheckboxComponent'
+import { Spinner } from '@shared/Spinner'
+import { PriceUnitTypes, QuantityTypes, ShopItem } from '@types'
+import { FormContainer, SelectorWrapper } from '@shared/SharedElements'
+import { InputWithSuggestions } from '@shared/InputWithSuggestions'
+import { SelectorComponent } from '@shared/SelectorComponent'
+import { CheckboxComponent } from '@shared/CheckboxComponent'
 import { ChangeEvent, useState } from 'react'
 
 type ShopItemDetailsProps = {

@@ -9,12 +9,12 @@ import {
 import styled from 'styled-components'
 import { Provider } from 'react-redux'
 
-import { store } from '../store'
-import { Home } from './Home'
-import { PriceList } from './PriceList'
-import { ShopList } from './ShopList'
-import { ShopItemDetails } from './ShopItemDetails'
-import { PriceItemDetails } from './PriceItemDetails'
+import { store } from '@store'
+import { Home } from '@pages/Home'
+import { PriceList } from '@pages/PriceList'
+import { ShopList } from '@pages/ShopList'
+import { ShopItemDetails } from '@pages/ShopItemDetails'
+import { PriceItemDetails } from '@pages/PriceItemDetails'
 import { BreadcrumbsTrails } from './BreadcrumbTrails'
 
 const AppContainer = styled.div`

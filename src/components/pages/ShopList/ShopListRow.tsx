@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { PriceUnitTypes, QuantityTypes, ShopItem } from '../../types'
+import { PriceUnitTypes, QuantityTypes, ShopItem } from '@types'
 
 type ShopListRowProps = {
   item: ShopItem

@@ -1,13 +1,13 @@
 import { connect } from 'react-redux'
-import { RootState } from '../../store'
 import {
+  RootState,
   createShopItem,
   deleteShopItem,
   updateShopItem,
-} from '../../store/action-creators'
-import { LocationStateNewItem, ShopItem, ShopListType } from '../../types'
+} from '@store'
+import { LocationStateNewItem, ShopItem, ShopListType } from '@types'
 import { useLocation, useParams } from 'react-router-dom'
-import { findWithId } from '../../utils/listUtils'
+import { findWithId } from '@utils/listUtils'
 import { ShopItemDetailsContainer } from './ShopItemDetailsContainer'
 
 type StateProps = {

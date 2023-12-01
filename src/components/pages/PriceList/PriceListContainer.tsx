@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
-import { Spinner } from '../shared/Spinner'
-import { LocationStateNewItem, PriceItem, PriceListType } from '../../types'
+import { Spinner } from '@shared/Spinner'
+import { LocationStateNewItem, PriceItem, PriceListType } from '@types'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { PriceListRow } from './PriceListRow'

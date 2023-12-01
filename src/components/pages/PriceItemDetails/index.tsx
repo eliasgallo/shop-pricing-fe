@@ -1,14 +1,10 @@
 import { connect } from 'react-redux'
-import { RootState } from '../../store'
-import {
-  createPriceItem,
-  deletePriceItem,
-  updatePriceItem,
-} from '../../store/action-creators'
+import { RootState } from '@store'
+import { createPriceItem, deletePriceItem, updatePriceItem } from '@store'
 import { PriceDetailsContainer } from './PriceItemDetailsContainer'
-import { LocationStateNewItem, PriceItem, PriceListType } from '../../types'
+import { LocationStateNewItem, PriceItem, PriceListType } from '@types'
 import { useLocation, useParams } from 'react-router-dom'
-import { findWithId } from '../../utils/listUtils'
+import { findWithId } from '@utils/listUtils'
 
 type StateProps = {
   priceList: PriceListType

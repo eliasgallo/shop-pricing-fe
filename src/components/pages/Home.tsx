@@ -1,6 +1,6 @@
 import { styled } from 'styled-components'
-import ShopCartImage from '../images/shopcart.png'
-import BoutiqueImage from '../images/boutique.png'
+import ShopCartImage from '@images/shopcart.png'
+import BoutiqueImage from '@images/boutique.png'
 import { Link } from 'react-router-dom'
 
 const HomeContainer = styled.div`

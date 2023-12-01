@@ -1,4 +1,4 @@
-import { PriceItem } from '../../types'
+import { PriceItem } from '@types'
 import { PriceActionType } from '../action-types'
 
 interface LoadingPriceAction {

@@ -1,17 +1,17 @@
 import { ChangeEvent, useState } from 'react'
-import { SelectorComponent } from '../shared/SelectorComponent'
+import { SelectorComponent } from '@shared/SelectorComponent'
 import {
   CategoryType,
   PriceItem,
   PriceUnitTypes,
   ReliabilityType,
   TagType,
-} from '../../types'
-import { concatDistinct } from '../../utils/listUtils'
-import { CheckboxComponent } from '../shared/CheckboxComponent'
-import { FormContainer, SelectorWrapper } from '../shared/SharedElements'
+} from '@types'
+import { concatDistinct } from '@utils/listUtils'
+import { CheckboxComponent } from '@shared/CheckboxComponent'
+import { FormContainer, SelectorWrapper } from '@shared/SharedElements'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { Spinner } from '../shared/Spinner'
+import { Spinner } from '@shared/Spinner'
 
 const toggleTag = (tags: string[], tagKey: string) => {
   return tags.includes(tagKey)

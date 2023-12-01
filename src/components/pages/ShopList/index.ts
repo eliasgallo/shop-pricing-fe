@@ -1,7 +1,6 @@
 import { connect } from 'react-redux'
-import { RootState } from '../../store'
-import { ShopItem, ShopListType } from '../../types'
-import { fetchShopList, updateShopItem } from '../../store/action-creators'
+import { RootState, fetchShopList, updateShopItem } from '@store'
+import { ShopItem, ShopListType } from '@types'
 import { ShopListContainer } from './ShopListContainer'
 
 type StateProps = {
