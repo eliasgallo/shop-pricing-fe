@@ -9,7 +9,7 @@ dotenv.config();
 module.exports = {
   context: __dirname,
   entry: './src/index.tsx',
-  output: { publicPath: '/' },
+  output: { publicPath: './' },
   module: {
     rules: [
       {
@@ -35,14 +35,14 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, "public", "index.html"),
+      template: path.join(__dirname, "index.html"),
     }),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(process.env)
     }),
   ],
   devServer: {
-    // static: { directory: path.join(__dirname, "public") },
+    // static: { directory: path.join(__dirname) },
     // port: 3000,
     historyApiFallback: true,
   },
