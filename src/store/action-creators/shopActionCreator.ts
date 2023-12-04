@@ -3,22 +3,21 @@ import { ShopActionType } from '../action-types'
 import { ShopListAction } from '../actions'
 import { Dispatch } from 'redux'
 import { ShopItem } from '@types'
+import { RootState } from '../reducers'
+import { withAuthHeader } from './headers'
 
 const BASE_URL = process.env.BE_BASE_URL
-const token = '7796b4f81de5b07bb87350842135496e5194db9d'
 
 export const fetchShopList = () => {
-  return async (dispatch: Dispatch<ShopListAction>): Promise<void> => {
+  return async (
+    dispatch: Dispatch<ShopListAction>,
+    getState: () => RootState
+  ): Promise<void> => {
     dispatch({ type: ShopActionType.LOADING })
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/shopping_items`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-        }
+        { headers: withAuthHeader(getState().login.session?.token) }
       )
       const list: ShopItem[] = response.data.map((res: ShopItem) => res)
       dispatch({
@@ -36,19 +35,17 @@ export const fetchShopList = () => {
 }
 
 export const updateShopItem = (item: ShopItem) => {
-  return async (dispatch: Dispatch<ShopListAction>) => {
+  return async (
+    dispatch: Dispatch<ShopListAction>,
+    getState: () => RootState
+  ) => {
     dispatch({ type: ShopActionType.LOADING })
     try {
       const response = await axios.put(
         `${BASE_URL}/shopping_items`,
         // TODO: just update the changed fields
         JSON.stringify(item),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-        }
+        { headers: withAuthHeader(getState().login.session?.token) }
       )
       dispatch({
         type: ShopActionType.UPDATE_SUCCESS,
@@ -68,15 +65,15 @@ export const updateShopItem = (item: ShopItem) => {
 }
 
 export const deleteShopItem = (item: ShopItem) => {
-  return async (dispatch: Dispatch<ShopListAction>) => {
+  return async (
+    dispatch: Dispatch<ShopListAction>,
+    getState: () => RootState
+  ) => {
     dispatch({ type: ShopActionType.LOADING })
     try {
       await axios.delete(`${BASE_URL}/shopping_items`, {
         data: JSON.stringify({ ids: [item.id] }),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: token,
-        },
+        headers: withAuthHeader(getState().login.session?.token),
       })
       dispatch({
         type: ShopActionType.DELETE_SUCCESS,
@@ -96,18 +93,16 @@ export const deleteShopItem = (item: ShopItem) => {
 }
 
 export const createShopItem = (item: ShopItem) => {
-  return async (dispatch: Dispatch<ShopListAction>) => {
+  return async (
+    dispatch: Dispatch<ShopListAction>,
+    getState: () => RootState
+  ) => {
     dispatch({ type: ShopActionType.LOADING })
     try {
       const response = await axios.post(
         `${BASE_URL}/shopping_items`,
         JSON.stringify(item),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: token,
-          },
-        }
+        { headers: withAuthHeader(getState().login.session?.token) }
       )
       dispatch({
         type: ShopActionType.CREATE_SUCCESS,
