@@ -11,6 +11,7 @@ import { Provider } from 'react-redux'
 
 import { store } from '@store'
 import { Home } from '@pages/Home'
+import { Login } from '@pages/Login'
 import { PriceList } from '@pages/PriceList'
 import { ShopList } from '@pages/ShopList'
 import { ShopItemDetails } from '@pages/ShopItemDetails'
@@ -39,6 +40,10 @@ const router: Router = createBrowserRouter(
       <Route
         index
         element={<Home />}
+      />
+      <Route
+        path='login'
+        element={<Login />}
       />
       <Route
         path='price-control'
