@@ -17,6 +17,7 @@ import { ShopList } from '@pages/ShopList'
 import { ShopItemDetails } from '@pages/ShopItemDetails'
 import { PriceItemDetails } from '@pages/PriceItemDetails'
 import { BreadcrumbsTrails } from './BreadcrumbTrails'
+import { Protected } from './Protected'
 
 const AppContainer = styled.div`
   padding: 10px;
@@ -47,19 +48,35 @@ const router: Router = createBrowserRouter(
       />
       <Route
         path='price-control'
-        element={<PriceList />}
+        element={
+          <Protected>
+            <PriceList />
+          </Protected>
+        }
       />
       <Route
         path='price-control/:id'
-        element={<PriceItemDetails />}
+        element={
+          <Protected>
+            <PriceItemDetails />
+          </Protected>
+        }
       />
       <Route
         path='shop-list'
-        element={<ShopList />}
+        element={
+          <Protected>
+            <ShopList />
+          </Protected>
+        }
       />
       <Route
         path='shop-list/:id'
-        element={<ShopItemDetails />}
+        element={
+          <Protected>
+            <ShopItemDetails />
+          </Protected>
+        }
       />
     </Route>
   )
