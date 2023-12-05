@@ -19,7 +19,7 @@ export const fetchShopList = () => {
         `${BASE_URL}/shopping_items`,
         { headers: withAuthHeader(getState().login.session?.token) }
       )
-      const list: ShopItem[] = response.data.map((res: ShopItem) => res)
+      const list: ShopItem[] = response.data['data']
       dispatch({
         type: ShopActionType.FETCH_SUCCESS,
         payload: list,
@@ -49,7 +49,7 @@ export const updateShopItem = (item: ShopItem) => {
       )
       dispatch({
         type: ShopActionType.UPDATE_SUCCESS,
-        payload: { oldItem: item, newItem: response.data },
+        payload: { oldItem: item, newItem: response.data['data'] },
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -106,7 +106,7 @@ export const createShopItem = (item: ShopItem) => {
       )
       dispatch({
         type: ShopActionType.CREATE_SUCCESS,
-        payload: response.data,
+        payload: response.data['data'],
       })
     } catch (error: unknown) {
       if (error instanceof Error) {

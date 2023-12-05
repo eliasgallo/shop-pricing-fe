@@ -19,7 +19,7 @@ export const fetchPriceList = () => {
         `${BASE_URL}/price_control_items`,
         { headers: withAuthHeader(getState().login.session?.token) }
       )
-      const list: PriceItem[] = response.data.map((res: PriceItem) => res)
+      const list: PriceItem[] = response.data['data']
       dispatch({
         type: PriceActionType.FETCH_SUCCESS,
         payload: list,
@@ -45,7 +45,7 @@ export const updatePriceItem = (item: PriceItem) => {
       )
       dispatch({
         type: PriceActionType.UPDATE_SUCCESS,
-        payload: { oldItem: item, newItem: response.data },
+        payload: { oldItem: item, newItem: response.data['data'] },
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -96,7 +96,7 @@ export const createPriceItem = (item: PriceItem) => {
       )
       dispatch({
         type: PriceActionType.CREATE_SUCCESS,
-        payload: response.data,
+        payload: response.data['data'],
       })
     } catch (error: unknown) {
       if (error instanceof Error) {
