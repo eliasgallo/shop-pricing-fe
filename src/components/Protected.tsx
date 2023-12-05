@@ -25,7 +25,7 @@ const ProtectedComponent: React.FC<ProtectedProps> = ({
 }
 
 const mapStateToProps = (state: RootState) => {
-  const session = state.login.session
+  const session = state.session
   return {
     isLoggedIn: Boolean(
       session &&

@@ -2,6 +2,7 @@ import { Dispatch } from 'redux'
 import { LoginAction } from '../actions'
 import axios from 'axios'
 import { LoginActionType } from '../action-types'
+import { addSession } from './sessionActionCreator'
 
 const BASE_URL = process.env.BE_BASE_URL
 
@@ -14,15 +15,12 @@ export const login = (username: string, pwd: string) => {
         JSON.stringify({ login: username, password: pwd }),
         { headers: { 'Content-Type': 'application/json' } }
       )
-
-      dispatch({
-        type: LoginActionType.LOGIN_SUCCESS,
-        payload: {
-          token: response.data['token'],
-          expiry: response.data['expiry_date'],
-          username: response.data['username'],
-        },
+      addSession(dispatch, {
+        token: response.data['token'],
+        expiry: response.data['expiry_date'],
+        username: response.data['username'],
       })
+      dispatch({ type: LoginActionType.LOGIN_SUCCESS })
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to login'

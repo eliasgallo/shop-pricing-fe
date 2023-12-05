@@ -1,3 +1,5 @@
+import { dateInFuture } from './dateUtils'
+
 const LOGIN_STORAGE_KEY = 'SHOP_PRICE_LOGIN_STORAGE_KEY' as const
 
 export const storeUser = (user: User): void => {
@@ -8,10 +10,7 @@ export const storeUser = (user: User): void => {
 
 export const retrieveUser = (): User | undefined => {
   const retrievedData = getUser()
-  if (
-    isUser(retrievedData) &&
-    new Date(retrievedData.expiry).getTime() > new Date().getTime()
-  ) {
+  if (isUser(retrievedData) && dateInFuture(retrievedData.expiry)) {
     return { ...retrievedData }
   }
   clearUser()
@@ -27,24 +26,21 @@ type User = {
   token: string
 }
 
-const isUser = (data: any): data is User => {
-  return (
-    typeof data.expiry === 'string' &&
-    typeof data.username === 'string' &&
-    typeof data.token === 'string'
-  )
-}
+const isUser = (data: User | Record<string, never>): data is User =>
+  typeof data.expiry === 'string' &&
+  typeof data.username === 'string' &&
+  typeof data.token === 'string'
 
 const storageAvailable = (): boolean => {
   return typeof Storage !== 'undefined'
 }
 
-const getUser = (): User | {} => {
+const getUser = (): User | Record<string, never> => {
   if (storageAvailable()) {
-    const jsonUser = JSON.parse(localStorage.getItem(LOGIN_STORAGE_KEY) || '{}')
-    if (jsonUser['token']) {
-      return { ...jsonUser }
-    }
+    const jsonUser: User | Record<string, never> = JSON.parse(
+      localStorage.getItem(LOGIN_STORAGE_KEY) || '{}'
+    )
+    return { ...jsonUser }
   }
   return {}
 }

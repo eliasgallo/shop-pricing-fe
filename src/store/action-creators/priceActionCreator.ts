@@ -17,7 +17,7 @@ export const fetchPriceList = () => {
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/price_control_items`,
-        { headers: withAuthHeader(getState().login.session?.token) }
+        { headers: withAuthHeader(getState().session.token) }
       )
       const list: PriceItem[] = response.data['data']
       dispatch({
@@ -41,7 +41,7 @@ export const updatePriceItem = (item: PriceItem) => {
       const response = await axios.put(
         `${BASE_URL}/price_control_items`,
         JSON.stringify(item),
-        { headers: withAuthHeader(getState().login.session?.token) }
+        { headers: withAuthHeader(getState().session.token) }
       )
       dispatch({
         type: PriceActionType.UPDATE_SUCCESS,
@@ -66,7 +66,7 @@ export const deletePriceItem = (item: PriceItem) => {
     try {
       await axios.delete(`${BASE_URL}/price_control_items`, {
         data: JSON.stringify({ ids: [item.id] }),
-        headers: withAuthHeader(getState().login.session?.token),
+        headers: withAuthHeader(getState().session.token),
       })
       dispatch({
         type: PriceActionType.DELETE_SUCCESS,
@@ -92,7 +92,7 @@ export const createPriceItem = (item: PriceItem) => {
       const response = await axios.post(
         `${BASE_URL}/price_control_items`,
         JSON.stringify(item),
-        { headers: withAuthHeader(getState().login.session?.token) }
+        { headers: withAuthHeader(getState().session.token) }
       )
       dispatch({
         type: PriceActionType.CREATE_SUCCESS,

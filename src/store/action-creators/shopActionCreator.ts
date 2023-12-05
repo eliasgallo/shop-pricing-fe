@@ -17,7 +17,7 @@ export const fetchShopList = () => {
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/shopping_items`,
-        { headers: withAuthHeader(getState().login.session?.token) }
+        { headers: withAuthHeader(getState().session.token) }
       )
       const list: ShopItem[] = response.data['data']
       dispatch({
@@ -45,7 +45,7 @@ export const updateShopItem = (item: ShopItem) => {
         `${BASE_URL}/shopping_items`,
         // TODO: just update the changed fields
         JSON.stringify(item),
-        { headers: withAuthHeader(getState().login.session?.token) }
+        { headers: withAuthHeader(getState().session.token) }
       )
       dispatch({
         type: ShopActionType.UPDATE_SUCCESS,
@@ -73,7 +73,7 @@ export const deleteShopItem = (item: ShopItem) => {
     try {
       await axios.delete(`${BASE_URL}/shopping_items`, {
         data: JSON.stringify({ ids: [item.id] }),
-        headers: withAuthHeader(getState().login.session?.token),
+        headers: withAuthHeader(getState().session.token),
       })
       dispatch({
         type: ShopActionType.DELETE_SUCCESS,
@@ -102,7 +102,7 @@ export const createShopItem = (item: ShopItem) => {
       const response = await axios.post(
         `${BASE_URL}/shopping_items`,
         JSON.stringify(item),
-        { headers: withAuthHeader(getState().login.session?.token) }
+        { headers: withAuthHeader(getState().session.token) }
       )
       dispatch({
         type: ShopActionType.CREATE_SUCCESS,
