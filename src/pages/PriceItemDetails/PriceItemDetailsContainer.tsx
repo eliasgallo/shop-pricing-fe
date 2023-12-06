@@ -9,7 +9,7 @@ import {
 } from '@types'
 import { concatDistinct } from '@utils/listUtils'
 import { CheckboxComponent } from '@shared/CheckboxComponent'
-import { FormContainer, SelectorWrapper } from '@shared/SharedElements'
+import { FormContainer, SelectorWrapper } from '../SharedElements'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { Spinner } from '@shared/Spinner'
 import { DecimalInput } from '@shared/DecimalInput'

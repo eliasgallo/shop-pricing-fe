@@ -1,7 +1,7 @@
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { Spinner } from '@shared/Spinner'
 import { PriceUnitTypes, QuantityTypes, ShopItem } from '@types'
-import { FormContainer, SelectorWrapper } from '@shared/SharedElements'
+import { FormContainer, SelectorWrapper } from '../SharedElements'
 import { InputWithSuggestions } from '@shared/InputWithSuggestions'
 import { SelectorComponent } from '@shared/SelectorComponent'
 import { CheckboxComponent } from '@shared/CheckboxComponent'
