@@ -18,6 +18,7 @@ import { ShopItemDetails } from '@pages/ShopItemDetails'
 import { PriceItemDetails } from '@pages/PriceItemDetails'
 import { BreadcrumbsTrails } from './BreadcrumbTrails'
 import { Protected } from './Protected'
+import { LoginMenu } from './login-menu'
 
 const AppContainer = styled.div`
   padding: 10px;
@@ -27,6 +28,7 @@ const AppRoot = (): JSX.Element => {
   return (
     <AppContainer>
       <BreadcrumbsTrails />
+      <LoginMenu />
       <Outlet />
     </AppContainer>
   )
