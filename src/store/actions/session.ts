@@ -6,4 +6,9 @@ interface AddSessionAction {
   payload: SessionState
 }
 
-export type SessionAction = AddSessionAction
+interface UpdateSessionExpiryAction {
+  type: SessionActionType.UPDATE_SESSION_EXPIRY
+  payload: string
+}
+
+export type SessionAction = AddSessionAction | UpdateSessionExpiryAction

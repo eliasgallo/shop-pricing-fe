@@ -1,4 +1,5 @@
-import { storeUser } from '@utils/localStorage'
+import { retrieveUser, storeUser } from '@utils/localStorage'
+import { dateMinutesOffset } from '@utils/dateUtils'
 import { SessionActionType } from '../action-types/sessionActionType'
 import { SessionAction } from '../actions/session'
 
@@ -19,6 +20,15 @@ export const sessionReducer = (
         storeUser({ token, username, expiry })
       }
       return { ...state, ...action.payload }
+    }
+    case SessionActionType.UPDATE_SESSION_EXPIRY: {
+      const { token, username } = state ? { ...state } : { ...retrieveUser() }
+      if (token && username) {
+        const newExpiry = dateMinutesOffset(30)
+        storeUser({ token, username, expiry: newExpiry })
+        return { ...state, ...{ token, username, expiry: newExpiry } }
+      }
+      return state
     }
     default:
       return state

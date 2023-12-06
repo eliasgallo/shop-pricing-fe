@@ -1,16 +1,17 @@
 import axios, { AxiosResponse } from 'axios'
 import { PriceActionType } from '../action-types'
-import { PriceAction } from '../actions'
+import { PriceAction, SessionAction } from '../actions'
 import { Dispatch } from 'redux'
 import { PriceItem } from '@types'
 import { RootState } from '../reducers'
 import { withAuthHeader } from './headers'
+import { updateExpiry } from './updateExpiry'
 
 const BASE_URL = process.env.BE_BASE_URL
 
 export const fetchPriceList = () => {
   return async (
-    dispatch: Dispatch<PriceAction>,
+    dispatch: Dispatch<PriceAction | SessionAction>,
     getState: () => RootState
   ): Promise<void> => {
     dispatch({ type: PriceActionType.LOADING })
@@ -19,6 +20,7 @@ export const fetchPriceList = () => {
         `${BASE_URL}/price_control_items`,
         { headers: withAuthHeader(getState().session.token) }
       )
+      dispatch(updateExpiry(response.data['token_expiry']))
       const list: PriceItem[] = response.data['data']
       dispatch({
         type: PriceActionType.FETCH_SUCCESS,
@@ -35,7 +37,10 @@ export const fetchPriceList = () => {
 }
 
 export const updatePriceItem = (item: PriceItem) => {
-  return async (dispatch: Dispatch<PriceAction>, getState: () => RootState) => {
+  return async (
+    dispatch: Dispatch<PriceAction | SessionAction>,
+    getState: () => RootState
+  ) => {
     dispatch({ type: PriceActionType.LOADING })
     try {
       const response = await axios.put(
@@ -43,6 +48,7 @@ export const updatePriceItem = (item: PriceItem) => {
         JSON.stringify(item),
         { headers: withAuthHeader(getState().session.token) }
       )
+      dispatch(updateExpiry(response.data['token_expiry']))
       dispatch({
         type: PriceActionType.UPDATE_SUCCESS,
         payload: { oldItem: item, newItem: response.data['data'] },
@@ -61,13 +67,17 @@ export const updatePriceItem = (item: PriceItem) => {
 }
 
 export const deletePriceItem = (item: PriceItem) => {
-  return async (dispatch: Dispatch<PriceAction>, getState: () => RootState) => {
+  return async (
+    dispatch: Dispatch<PriceAction | SessionAction>,
+    getState: () => RootState
+  ) => {
     dispatch({ type: PriceActionType.LOADING })
     try {
-      await axios.delete(`${BASE_URL}/price_control_items`, {
+      const response = await axios.delete(`${BASE_URL}/price_control_items`, {
         data: JSON.stringify({ ids: [item.id] }),
         headers: withAuthHeader(getState().session.token),
       })
+      dispatch(updateExpiry(response.data['token_expiry']))
       dispatch({
         type: PriceActionType.DELETE_SUCCESS,
         payload: item,
@@ -86,7 +96,10 @@ export const deletePriceItem = (item: PriceItem) => {
 }
 
 export const createPriceItem = (item: PriceItem) => {
-  return async (dispatch: Dispatch<PriceAction>, getState: () => RootState) => {
+  return async (
+    dispatch: Dispatch<PriceAction | SessionAction>,
+    getState: () => RootState
+  ) => {
     dispatch({ type: PriceActionType.LOADING })
     try {
       const response = await axios.post(
@@ -94,6 +107,7 @@ export const createPriceItem = (item: PriceItem) => {
         JSON.stringify(item),
         { headers: withAuthHeader(getState().session.token) }
       )
+      dispatch(updateExpiry(response.data['token_expiry']))
       dispatch({
         type: PriceActionType.CREATE_SUCCESS,
         payload: response.data['data'],

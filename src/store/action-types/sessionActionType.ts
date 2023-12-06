@@ -1,3 +1,4 @@
 export enum SessionActionType {
   ADD_SESSION = 'ADD_SESSION',
+  UPDATE_SESSION_EXPIRY = 'UPDATE_SESSION_EXPIRY',
 }

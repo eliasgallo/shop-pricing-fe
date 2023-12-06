@@ -1,16 +1,17 @@
 import axios, { AxiosResponse } from 'axios'
 import { ShopActionType } from '../action-types'
-import { ShopListAction } from '../actions'
+import { SessionAction, ShopListAction } from '../actions'
 import { Dispatch } from 'redux'
 import { ShopItem } from '@types'
 import { RootState } from '../reducers'
 import { withAuthHeader } from './headers'
+import { updateExpiry } from './updateExpiry'
 
 const BASE_URL = process.env.BE_BASE_URL
 
 export const fetchShopList = () => {
   return async (
-    dispatch: Dispatch<ShopListAction>,
+    dispatch: Dispatch<ShopListAction | SessionAction>,
     getState: () => RootState
   ): Promise<void> => {
     dispatch({ type: ShopActionType.LOADING })
@@ -19,6 +20,7 @@ export const fetchShopList = () => {
         `${BASE_URL}/shopping_items`,
         { headers: withAuthHeader(getState().session.token) }
       )
+      dispatch(updateExpiry(response.data['token_expiry']))
       const list: ShopItem[] = response.data['data']
       dispatch({
         type: ShopActionType.FETCH_SUCCESS,
@@ -36,7 +38,7 @@ export const fetchShopList = () => {
 
 export const updateShopItem = (item: ShopItem) => {
   return async (
-    dispatch: Dispatch<ShopListAction>,
+    dispatch: Dispatch<ShopListAction | SessionAction>,
     getState: () => RootState
   ) => {
     dispatch({ type: ShopActionType.LOADING })
@@ -47,6 +49,7 @@ export const updateShopItem = (item: ShopItem) => {
         JSON.stringify(item),
         { headers: withAuthHeader(getState().session.token) }
       )
+      dispatch(updateExpiry(response.data['token_expiry']))
       dispatch({
         type: ShopActionType.UPDATE_SUCCESS,
         payload: { oldItem: item, newItem: response.data['data'] },
@@ -66,15 +69,16 @@ export const updateShopItem = (item: ShopItem) => {
 
 export const deleteShopItem = (item: ShopItem) => {
   return async (
-    dispatch: Dispatch<ShopListAction>,
+    dispatch: Dispatch<ShopListAction | SessionAction>,
     getState: () => RootState
   ) => {
     dispatch({ type: ShopActionType.LOADING })
     try {
-      await axios.delete(`${BASE_URL}/shopping_items`, {
+      const response = await axios.delete(`${BASE_URL}/shopping_items`, {
         data: JSON.stringify({ ids: [item.id] }),
         headers: withAuthHeader(getState().session.token),
       })
+      dispatch(updateExpiry(response.data['token_expiry']))
       dispatch({
         type: ShopActionType.DELETE_SUCCESS,
         payload: item,
@@ -94,7 +98,7 @@ export const deleteShopItem = (item: ShopItem) => {
 
 export const createShopItem = (item: ShopItem) => {
   return async (
-    dispatch: Dispatch<ShopListAction>,
+    dispatch: Dispatch<ShopListAction | SessionAction>,
     getState: () => RootState
   ) => {
     dispatch({ type: ShopActionType.LOADING })
@@ -104,6 +108,7 @@ export const createShopItem = (item: ShopItem) => {
         JSON.stringify(item),
         { headers: withAuthHeader(getState().session.token) }
       )
+      dispatch(updateExpiry(response.data['token_expiry']))
       dispatch({
         type: ShopActionType.CREATE_SUCCESS,
         payload: response.data['data'],
