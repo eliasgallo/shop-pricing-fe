@@ -9,3 +9,9 @@ export const addSession = (
 ): void => {
   dispatch({ type: SessionActionType.ADD_SESSION, payload: session })
 }
+
+export const removeSession = () => {
+  return (dispatch: Dispatch<SessionAction>) => {
+    dispatch({ type: SessionActionType.REMOVE_SESSION })
+  }
+}

@@ -1,4 +1,4 @@
-import { retrieveUser, storeUser } from '@utils/localStorage'
+import { clearUser, retrieveUser, storeUser } from '@utils/localStorage'
 import { dateMinutesOffset } from '@utils/dateUtils'
 import { SessionActionType } from '../action-types/sessionActionType'
 import { SessionAction } from '../actions/session'
@@ -29,6 +29,10 @@ export const sessionReducer = (
         return { ...state, ...{ token, username, expiry: newExpiry } }
       }
       return state
+    }
+    case SessionActionType.REMOVE_SESSION: {
+      clearUser()
+      return {}
     }
     default:
       return state

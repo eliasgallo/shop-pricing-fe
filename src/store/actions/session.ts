@@ -11,4 +11,11 @@ interface UpdateSessionExpiryAction {
   payload: string
 }
 
-export type SessionAction = AddSessionAction | UpdateSessionExpiryAction
+interface RemoveSessionAction {
+  type: SessionActionType.REMOVE_SESSION
+}
+
+export type SessionAction =
+  | AddSessionAction
+  | UpdateSessionExpiryAction
+  | RemoveSessionAction

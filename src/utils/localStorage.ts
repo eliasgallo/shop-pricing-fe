@@ -16,7 +16,7 @@ export const retrieveUser = (): User | undefined => {
   clearUser()
 }
 
-const clearUser = (): void => {
+export const clearUser = (): void => {
   storageAvailable() && localStorage.removeItem(LOGIN_STORAGE_KEY)
 }
 
