@@ -1,17 +1,5 @@
 #!/bin/sh
-FRONTEND_STAGED_FILES=($(git diff --diff-filter=d --cached --name-only ./src | grep -E '^.*src\/.*\.(tsx|ts)$'))
-
-echo $FRONTEND_STAGED_FILES
-STAGED_FILES=$FRONTEND_STAGED_FILES
-for i in "${!STAGED_FILES[@]}"; do
-  DATA=${STAGED_FILES[$i]}
-  pattern="src/"
-  DATA=${DATA/$pattern/}
-  STAGED_FILES[$i]=$DATA
-done
-
-#npm run lint --prefix . -- "${STAGED_FILES[@]}" --fix
-yarn eslint "src/${STAGED_FILES[@]}"
+yarn lint-staged
 
 ESLINT_EXIT="$?"
 

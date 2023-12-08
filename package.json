@@ -6,12 +6,6 @@
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --host 0.0.0.0 --port 3000 --stats-error-details"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -47,6 +41,7 @@
     "eslint": "^8.53.0",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.5.3",
+    "lint-staged": "^15.1.0",
     "styled-components": "^6.1.0",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
