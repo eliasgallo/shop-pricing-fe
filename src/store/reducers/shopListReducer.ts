@@ -1,7 +1,13 @@
 import { ShopItem, ShopListType } from '@types'
 import { ShopActionType } from '../action-types'
 import { ShopListAction } from '../actions'
-import { findWithId, concatDistinct, keyList } from '@utils/listUtils'
+import {
+  findWithId,
+  concatDistinct,
+  keyList,
+  sliceItemId,
+  replaceItemInKeyList,
+} from '@utils/listUtils'
 
 // TODO: move to backend
 const defaultStores = [
@@ -45,26 +51,6 @@ const shopItemOrder = (a: ShopItem, b: ShopItem): number => {
   return -1 // b.checked === true
 }
 
-const replaceItem = (
-  list: ShopListType,
-  newItem: ShopItem,
-  oldItemStore: string | undefined
-): ShopListType => {
-  const listAfterRemoval = oldItemStore
-    ? { ...list, [oldItemStore]: sliceItemId(list[oldItemStore], newItem.id!) }
-    : { ...list }
-
-  const newStoreList = (listAfterRemoval[newItem.store] || [])
-    .concat([newItem])
-    .sort(shopItemOrder)
-  return { ...listAfterRemoval, [newItem.store]: newStoreList }
-}
-
-const sliceItemId = <T extends { id?: number }>(
-  list: T[],
-  removeId: number
-): T[] => list.filter((i) => i.id !== removeId)
-
 export const shopListReducer = (
   state: ShopListState = initialState,
   action: ShopListAction
@@ -85,15 +71,18 @@ export const shopListReducer = (
         ),
       }
     case ShopActionType.UPDATE_SUCCESS: {
+      const newItem = action.payload.newItem
       const oldItemInList = findWithId<ShopItem>(
         Object.values(state.shopList).flat(),
-        action.payload.newItem.id!
+        newItem.id!
       )
 
-      const newList: ShopListType = replaceItem(
+      const newList: ShopListType = replaceItemInKeyList(
         state.shopList,
-        action.payload.newItem,
-        oldItemInList?.store
+        oldItemInList?.store,
+        newItem,
+        newItem.store,
+        shopItemOrder
       )
       return {
         ...state,

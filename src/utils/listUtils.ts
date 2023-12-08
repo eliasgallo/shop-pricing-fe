@@ -21,3 +21,29 @@ export const keyList = <Type, Key extends keyof Type>(
   })
   return result
 }
+
+export const replaceItemInKeyList = <T extends { id?: number }>(
+  keyList: { [key: string]: T[] },
+  oldItemKey: string | undefined,
+  newItem: T,
+  newItemKey: string,
+  sorting: (a: T, b: T) => number
+): { [key: string]: T[] } => {
+  const listAfterRemoval = oldItemKey
+    ? {
+        ...keyList,
+        [oldItemKey]: sliceItemId(keyList[oldItemKey], newItem.id!),
+      }
+    : { ...keyList }
+
+  const newPriceList = (listAfterRemoval[newItemKey] || [])
+    .concat([newItem])
+    .sort(sorting)
+
+  return { ...listAfterRemoval, [newItemKey]: newPriceList }
+}
+
+export const sliceItemId = <T extends { id?: number }>(
+  list: T[],
+  removeId: number
+): T[] => list.filter((i) => i.id !== removeId)

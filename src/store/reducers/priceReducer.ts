@@ -1,5 +1,10 @@
 import { PriceItem, PriceListType } from '@types'
-import { findWithId, keyList } from '@utils/listUtils'
+import {
+  findWithId,
+  keyList,
+  replaceItemInKeyList,
+  sliceItemId,
+} from '@utils/listUtils'
 import { PriceActionType } from '../action-types'
 import { PriceAction } from '../actions'
 
@@ -15,42 +20,18 @@ const initialState: PriceListState = {
   priceList: {},
 }
 
-const lowerCaseSort = (left: string, right: string): number =>
-  left.toLowerCase().localeCompare(right.toLowerCase())
+const lowerCaseSort = (
+  left: { name: string },
+  right: { name: string }
+): number => left.name.toLowerCase().localeCompare(right.name.toLowerCase())
 
 const sortLists = (list: PriceListType): PriceListType => {
   const newList: PriceListType = {}
   for (const key in list) {
-    newList[key] = list[key].sort((left, right) =>
-      lowerCaseSort(left.name, right.name)
-    )
+    newList[key] = list[key].sort(lowerCaseSort)
   }
   return newList
 }
-
-const replaceItem = (
-  list: PriceListType,
-  newItem: PriceItem,
-  oldItemCategory: string | undefined
-): PriceListType => {
-  const listAfterRemoval = oldItemCategory
-    ? {
-        ...list,
-        [oldItemCategory]: sliceItemId(list[oldItemCategory], newItem.id!),
-      }
-    : { ...list }
-
-  const newPriceList = (listAfterRemoval[newItem.category] || [])
-    .concat([newItem])
-    .sort((left, right) => lowerCaseSort(left.name, right.name))
-
-  return { ...listAfterRemoval, [newItem.category]: newPriceList }
-}
-
-const sliceItemId = <T extends { id?: number }>(
-  list: T[],
-  removeId: number
-): T[] => list.filter((i) => i.id !== removeId)
 
 export const priceListReducer = (
   state: PriceListState = initialState,
@@ -68,15 +49,18 @@ export const priceListReducer = (
         priceList: sortLists(keyList(action.payload, 'category')),
       }
     case PriceActionType.UPDATE_SUCCESS: {
+      const newItem = action.payload.newItem
       const oldItemInList = findWithId<PriceItem>(
         Object.values(state.priceList).flat(),
-        action.payload.newItem.id!
+        newItem.id!
       )
 
-      const newList: PriceListType = replaceItem(
+      const newList: PriceListType = replaceItemInKeyList(
         state.priceList,
-        action.payload.newItem,
-        oldItemInList?.category
+        oldItemInList?.category,
+        newItem,
+        newItem.category,
+        lowerCaseSort
       )
       return {
         ...state,
@@ -94,7 +78,7 @@ export const priceListReducer = (
       const newItem: PriceItem = action.payload
       const newList: PriceItem[] = (state.priceList[newItem.category] || [])
         .concat(newItem)
-        .sort((left, right) => lowerCaseSort(left.name, right.name))
+        .sort(lowerCaseSort)
       const newState: PriceListType = {
         ...state.priceList,
         [newItem.category]: newList,
