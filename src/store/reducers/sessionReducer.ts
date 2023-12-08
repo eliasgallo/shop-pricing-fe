@@ -24,7 +24,7 @@ export const sessionReducer = (
     case SessionActionType.UPDATE_SESSION_EXPIRY: {
       const { token, username } = state ? { ...state } : { ...retrieveUser() }
       if (token && username) {
-        const newExpiry = dateMinutesOffset(30)
+        const newExpiry = dateMinutesOffset(new Date(), 30)
         storeUser({ token, username, expiry: newExpiry })
         return { ...state, ...{ token, username, expiry: newExpiry } }
       }
