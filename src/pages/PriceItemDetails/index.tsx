@@ -2,12 +2,12 @@ import { connect } from 'react-redux'
 import { RootState } from '@store'
 import { createPriceItem, deletePriceItem, updatePriceItem } from '@store'
 import { PriceDetailsContainer } from './PriceItemDetailsContainer'
-import { LocationStateNewItem, PriceItem, PriceListType } from '@types'
+import { LocationStateNewItem, PriceItem } from '@types'
 import { useLocation, useParams } from 'react-router-dom'
 import { findWithId } from '@utils/listUtils'
 
 type StateProps = {
-  priceList: PriceListType
+  priceList: PriceItem[]
   loading: boolean
   error: string | null
 }
@@ -43,16 +43,16 @@ const PriceDetailsWrapper = (props: StateProps & DispatchProps) => {
   const { id }: { id?: string } = useParams<'id'>()
 
   const getItem = (): PriceItem => {
-    let item = NewPriceItem
     if (id === 'new') {
+      const item: PriceItem = NewPriceItem
       const state: LocationStateNewItem | null = location.state
       item.category = state?.data || NewPriceItem.category
-    } else if (id) {
-      const items: PriceItem[] = Object.values(props.priceList).flat()
-      const foundItemWithId = findWithId<PriceItem>(items, parseInt(id))
-      if (foundItemWithId) item = foundItemWithId
+      return item
     }
-    return item
+    return (
+      (id && findWithId<PriceItem>(props.priceList, parseInt(id))) ||
+      NewPriceItem
+    )
   }
 
   return (

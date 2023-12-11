@@ -1,6 +1,8 @@
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
+import { LocationStateNewItem, PriceItem } from '@types'
 import { Spinner } from '@shared/Spinner'
-import { LocationStateNewItem, PriceItem, PriceListType } from '@types'
+import { ListWrapper } from '@shared/ListWrapper'
+import { SectionComponent } from '@shared/SectionComponent'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { PriceListRow } from './PriceListRow'
@@ -8,15 +10,6 @@ import { PriceListRow } from './PriceListRow'
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
-
-const ListWrapper = styled.div`
-  margin-top: 5px;
-`
-
-const List = styled.ul`
-  list-style: none;
-  padding: 0;
 `
 
 const NewItem = styled.div`
@@ -28,19 +21,9 @@ const NewItem = styled.div`
   border-radius: 5px;
 `
 
-const SectionButton = styled.div`
-  cursor: pointer;
-  color: #24a0ed;
-  min-width: 30%; // increase click size in case the name is short
-`
-const Section = styled.div`
-  &:not(:first-child) {
-    margin-top: 20px;
-  }
-`
-
 type PriceListProps = {
-  priceList: PriceListType
+  priceList: PriceItem[]
+  sortedCategories: string[]
   loading: boolean
   error: string | null
   fetchList: () => void
@@ -48,6 +31,7 @@ type PriceListProps = {
 
 export const PriceListContainer: React.FC<PriceListProps> = ({
   priceList,
+  sortedCategories,
   loading,
   error,
   fetchList,
@@ -57,6 +41,30 @@ export const PriceListContainer: React.FC<PriceListProps> = ({
   useEffect(() => {
     if (Object.keys(priceList).length === 0) fetchList()
   }, [])
+
+  const priceItemRow = (item: PriceItem): ReactNode => {
+    return (
+      <PriceListRow
+        key={item.id}
+        item={{ ...item }}
+        onRowClick={() => navigate(`./${item.id}`, { relative: 'path' })}
+      />
+    )
+  }
+
+  const onSectionClick = (category: string): void => {
+    const catState: LocationStateNewItem = { data: category }
+    navigate(`./new`, { relative: 'path', state: catState })
+  }
+
+  const sectionRows = (section: string): ReactNode[] =>
+    priceList
+      .filter((item) => item.category === section)
+      .map(
+        (item: PriceItem): ReactNode => (
+          <li key={item.id}>{priceItemRow(item)}</li>
+        )
+      )
 
   return (
     <>
@@ -71,37 +79,17 @@ export const PriceListContainer: React.FC<PriceListProps> = ({
         </NewItem>
       </HeaderContainer>
       {error && `Error message: ${error}`}
-      <List>
-        {Object.keys(priceList).map((category: string) => {
-          return (
-            <Section key={category}>
-              <SectionButton
-                onClick={() => {
-                  const catState: LocationStateNewItem = { data: category }
-                  navigate(`./new`, { relative: 'path', state: catState })
-                }}
-              >
-                {category} (+)
-              </SectionButton>
-              {priceList[category].map((item: PriceItem) => {
-                return (
-                  <li key={item.id}>
-                    <ListWrapper>
-                      <PriceListRow
-                        key={item.id}
-                        item={{ ...item }}
-                        onRowClick={() =>
-                          navigate(`./${item.id}`, { relative: 'path' })
-                        }
-                      />
-                    </ListWrapper>
-                  </li>
-                )
-              })}
-            </Section>
-          )
-        })}
-      </List>
+      <ListWrapper>
+        {sortedCategories.map((category: string) => (
+          <SectionComponent
+            key={category}
+            onSectionClick={onSectionClick}
+            section={category}
+          >
+            {sectionRows(category)}
+          </SectionComponent>
+        ))}
+      </ListWrapper>
       {loading && <Spinner />}
     </>
   )

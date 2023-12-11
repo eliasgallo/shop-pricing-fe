@@ -7,7 +7,7 @@ import {
   ReliabilityType,
   TagType,
 } from '@types'
-import { concatDistinct } from '@utils/listUtils'
+import { distinct } from '@utils/listUtils'
 import { CheckboxComponent } from '@shared/CheckboxComponent'
 import { FormContainer, SelectorWrapper } from '../SharedElements'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
@@ -17,7 +17,7 @@ import { DecimalInput } from '@shared/DecimalInput'
 const toggleTag = (tags: string[], tagKey: string) => {
   return tags.includes(tagKey)
     ? tags.filter((tag) => tag !== tagKey)
-    : concatDistinct(tags, [tagKey])
+    : distinct(tags.concat(tagKey))
 }
 
 type PriceDetailsProps = {

@@ -1,37 +1,32 @@
-import { PriceItem, PriceListType } from '@types'
-import {
-  findWithId,
-  keyList,
-  replaceItemInKeyList,
-  sliceItemId,
-} from '@utils/listUtils'
+import { PriceItem } from '@types'
+import { distinct, sliceItemId } from '@utils/listUtils'
 import { PriceActionType } from '../action-types'
 import { PriceAction } from '../actions'
 
-export type PriceListState = {
+type PriceListState = {
   loading: boolean
   error: string | null
-  priceList: PriceListType
+  priceList: PriceItem[]
+  sortedCategories: string[]
 }
 
 const initialState: PriceListState = {
   loading: false,
   error: null,
-  priceList: {},
+  priceList: [],
+  sortedCategories: [],
 }
 
-const lowerCaseSort = (
+const lowerCaseNameSort = (
   left: { name: string },
   right: { name: string }
 ): number => left.name.toLowerCase().localeCompare(right.name.toLowerCase())
 
-const sortLists = (list: PriceListType): PriceListType => {
-  const newList: PriceListType = {}
-  for (const key in list) {
-    newList[key] = list[key].sort(lowerCaseSort)
-  }
-  return newList
-}
+const lowerCaseSort = (left: string, right: string): number =>
+  left.toLowerCase().localeCompare(right.toLowerCase())
+
+const sortedCategoriesList = (list: PriceItem[]): string[] =>
+  distinct(list.map((item) => item.category)).sort(lowerCaseSort)
 
 export const priceListReducer = (
   state: PriceListState = initialState,
@@ -46,47 +41,40 @@ export const priceListReducer = (
       return {
         ...state,
         loading: false,
-        priceList: sortLists(keyList(action.payload, 'category')),
+        priceList: action.payload.sort(lowerCaseNameSort),
+        sortedCategories: sortedCategoriesList(action.payload),
       }
     case PriceActionType.UPDATE_SUCCESS: {
       const newItem = action.payload.newItem
-      const oldItemInList = findWithId<PriceItem>(
-        Object.values(state.priceList).flat(),
-        newItem.id!
-      )
-
-      const newList: PriceListType = replaceItemInKeyList(
-        state.priceList,
-        oldItemInList?.category,
-        newItem,
-        newItem.category,
-        lowerCaseSort
-      )
+      const idToRemove: number = action.payload.oldItem.id || newItem.id!
+      const newList: PriceItem[] = sliceItemId(state.priceList, idToRemove)
+        .concat(newItem)
+        .sort(lowerCaseNameSort)
       return {
         ...state,
         loading: false,
         priceList: newList,
+        sortedCategories: sortedCategoriesList(newList),
       }
     }
     case PriceActionType.DELETE_SUCCESS: {
-      const { category, id } = action.payload
-      const newStoreList = sliceItemId(state.priceList[category], id!)
-      const newState = { ...state.priceList, [category]: newStoreList }
-      return { ...state, loading: false, priceList: newState }
-    }
-    case PriceActionType.CREATE_SUCCESS: {
-      const newItem: PriceItem = action.payload
-      const newList: PriceItem[] = (state.priceList[newItem.category] || [])
-        .concat(newItem)
-        .sort(lowerCaseSort)
-      const newState: PriceListType = {
-        ...state.priceList,
-        [newItem.category]: newList,
-      }
+      const newList = sliceItemId(state.priceList, action.payload.id!)
       return {
         ...state,
         loading: false,
-        priceList: newState,
+        priceList: newList,
+        sortedCategories: sortedCategoriesList(newList),
+      }
+    }
+    case PriceActionType.CREATE_SUCCESS: {
+      const newList: PriceItem[] = state.priceList
+        .concat(action.payload)
+        .sort(lowerCaseNameSort)
+      return {
+        ...state,
+        loading: false,
+        priceList: newList,
+        sortedCategories: sortedCategoriesList(newList),
       }
     }
     default:

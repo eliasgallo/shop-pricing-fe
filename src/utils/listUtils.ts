@@ -9,6 +9,9 @@ export const concatDistinct = <T>(arr1: Array<T>, arr2: Array<T>): Array<T> => {
     .filter((value, index, array) => array.indexOf(value) === index)
 }
 
+export const distinct = <T>(list: T[]) =>
+  list.filter((value, index, array) => array.indexOf(value) === index)
+
 type ReturnList<T> = { [key: string]: T[] }
 export const keyList = <Type, Key extends keyof Type>(
   list: Type[],
