@@ -1,22 +1,15 @@
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import styled from 'styled-components'
 import { ShopListRow } from './ShopListRow'
 import { Spinner } from '@shared/Spinner'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { LocationStateNewItem, ShopItem, ShopListType } from '@types'
+import { LocationStateNewItem, ShopItem } from '@types'
+import { ListWrapper } from '@shared/ListWrapper'
+import { SectionComponent } from '@shared/SectionComponent'
 
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
-
-const ShopListRowWrapper = styled.div`
-  margin-top: 5px;
-`
-
-const List = styled.ul`
-  list-style: none;
-  padding: 0;
 `
 
 const NewItem = styled.div`
@@ -29,19 +22,9 @@ const NewItem = styled.div`
   border-radius: 5px;
 `
 
-const SectionButton = styled.div`
-  cursor: pointer;
-  color: #24a0ed;
-  min-width: 30%; // increase click size in case the name is short
-`
-const Section = styled.div`
-  &:not(:first-child) {
-    margin-top: 20px;
-  }
-`
-
 type ShopListProps = {
-  shopList: ShopListType
+  shopList: ShopItem[]
+  sortedStores: string[]
   loading: boolean
   error: null | string
   fetchList: () => void
@@ -50,6 +33,7 @@ type ShopListProps = {
 
 export const ShopListContainer: React.FC<ShopListProps> = ({
   shopList,
+  sortedStores,
   loading,
   error,
   fetchList,
@@ -60,6 +44,27 @@ export const ShopListContainer: React.FC<ShopListProps> = ({
   useEffect(() => {
     if (Object.keys(shopList).length === 0) fetchList()
   }, [])
+
+  const onSectionClick = (store: string) => {
+    const catState: LocationStateNewItem = { data: store }
+    navigate(`./new`, { relative: 'path', state: catState })
+  }
+
+  const sectionRows = (section: string): ReactNode[] =>
+    shopList
+      .filter((item) => item.store === section)
+      .map(
+        (item: ShopItem): ReactNode => (
+          <ShopListRow
+            key={item.id}
+            item={{ ...item }}
+            updateItem={updateItem}
+            editButtonClick={() =>
+              navigate(`./${item.id}`, { relative: 'path' })
+            }
+          />
+        )
+      )
 
   return (
     <>
@@ -73,39 +78,18 @@ export const ShopListContainer: React.FC<ShopListProps> = ({
           New Item ＋
         </NewItem>
       </HeaderContainer>
-      <List>
-        {Object.keys(shopList).map((store: string) => {
-          return (
-            <Section key={store}>
-              <SectionButton
-                onClick={() => {
-                  const storeState: LocationStateNewItem = { data: store }
-                  navigate(`./new`, { relative: 'path', state: storeState })
-                }}
-              >
-                {store} (+)
-              </SectionButton>
-              {shopList[store].map((item: ShopItem) => {
-                return (
-                  <li key={item.id}>
-                    <ShopListRowWrapper>
-                      <ShopListRow
-                        key={item.id}
-                        item={{ ...item }}
-                        updateItem={updateItem}
-                        editButtonClick={() =>
-                          navigate(`./${item.id}`, { relative: 'path' })
-                        }
-                      />
-                    </ShopListRowWrapper>
-                  </li>
-                )
-              })}
-            </Section>
-          )
-        })}
-        {error && `Error message: ${error}`}
-      </List>
+      {error && `Error message: ${error}`}
+      <ListWrapper>
+        {sortedStores.map((store: string) => (
+          <SectionComponent
+            key={store}
+            onSectionClick={onSectionClick}
+            section={store}
+          >
+            {sectionRows(store)}
+          </SectionComponent>
+        ))}
+      </ListWrapper>
       {loading && <Spinner />}
     </>
   )

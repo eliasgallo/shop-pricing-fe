@@ -1,13 +1,7 @@
-import { ShopItem, ShopListType } from '@types'
+import { ShopItem } from '@types'
 import { ShopActionType } from '../action-types'
 import { ShopListAction } from '../actions'
-import {
-  findWithId,
-  concatDistinct,
-  keyList,
-  sliceItemId,
-  replaceItemInKeyList,
-} from '@utils/listUtils'
+import { sliceItemId, distinct } from '@utils/listUtils'
 
 // TODO: move to backend
 const defaultStores = [
@@ -23,24 +17,22 @@ const defaultStores = [
   'Dollar store',
 ]
 
+const emptyStore = 'Any store'
+
 type ShopListState = {
   loading: boolean
   error: string | null
-  shopList: ShopListType
+  shopList: ShopItem[]
+  sortedStores: string[]
   storeSuggestions: string[]
 }
 
 const initialState: ShopListState = {
   loading: false,
   error: null,
-  shopList: {},
+  shopList: [],
+  sortedStores: [],
   storeSuggestions: defaultStores,
-}
-
-const sortList = (list: ShopListType): ShopListType => {
-  const newSortedList: ShopListType = {}
-  for (const key in list) newSortedList[key] = list[key].sort(shopItemOrder)
-  return newSortedList
 }
 
 const shopItemOrder = (a: ShopItem, b: ShopItem): number => {
@@ -51,66 +43,68 @@ const shopItemOrder = (a: ShopItem, b: ShopItem): number => {
   return -1 // b.checked === true
 }
 
+const storesOrder = (left: string, right: string): number => {
+  if (left === emptyStore) return 1
+  if (right === emptyStore) return -1
+  return left.toLowerCase().localeCompare(right.toLowerCase())
+}
+
+const refreshStores = (list: ShopItem[]) =>
+  distinct(list.map((item) => item.store)).sort(storesOrder)
+const updateStoreSuggestions = (stores: string[]) =>
+  distinct(stores.concat(defaultStores)).sort(storesOrder)
+
 export const shopListReducer = (
   state: ShopListState = initialState,
   action: ShopListAction
 ): ShopListState => {
   switch (action.type) {
-    case ShopActionType.LOADING:
+    case ShopActionType.LOADING: {
       return { ...state, loading: true, error: null }
-    case ShopActionType.LOADING_ERROR:
+    }
+    case ShopActionType.LOADING_ERROR: {
       return { ...state, loading: false, error: action.error }
-    case ShopActionType.FETCH_SUCCESS:
+    }
+    case ShopActionType.FETCH_SUCCESS: {
+      const stores = refreshStores(action.payload)
       return {
         ...state,
         loading: false,
-        shopList: sortList(keyList(action.payload, 'store')),
-        storeSuggestions: concatDistinct(
-          defaultStores,
-          Object.keys(state.shopList)
-        ),
+        shopList: action.payload.sort(shopItemOrder),
+        sortedStores: stores,
+        storeSuggestions: updateStoreSuggestions(stores),
       }
+    }
     case ShopActionType.UPDATE_SUCCESS: {
       const newItem = action.payload.newItem
-      const oldItemInList = findWithId<ShopItem>(
-        Object.values(state.shopList).flat(),
-        newItem.id!
-      )
-
-      const newList: ShopListType = replaceItemInKeyList(
-        state.shopList,
-        oldItemInList?.store,
-        newItem,
-        newItem.store,
-        shopItemOrder
-      )
+      const idToRemove: number = action.payload.oldItem.id || newItem.id!
+      const newList: ShopItem[] = sliceItemId(state.shopList, idToRemove)
+        .concat(newItem)
+        .sort(shopItemOrder)
+      const stores = refreshStores(newList)
       return {
         ...state,
         loading: false,
-        shopList: newList,
-        storeSuggestions: concatDistinct(defaultStores, Object.keys(newList)),
+        shopList: newList.sort(shopItemOrder),
+        sortedStores: stores,
+        storeSuggestions: updateStoreSuggestions(stores),
       }
     }
     case ShopActionType.DELETE_SUCCESS: {
-      const { store, id } = action.payload
-      const newStoreList = sliceItemId(state.shopList[store], id!)
-      const newState = { ...state.shopList, [store]: newStoreList }
-      return { ...state, loading: false, shopList: newState }
+      const newList = sliceItemId(state.shopList, action.payload.id!)
+      return { ...state, loading: false, shopList: newList }
     }
     case ShopActionType.CREATE_SUCCESS: {
-      const newItem: ShopItem = action.payload
-      const newStoreList: ShopItem[] = (state.shopList[newItem.store] || [])
-        .concat(newItem)
+      const newList: ShopItem[] = state.shopList
+        .concat(action.payload)
         .sort(shopItemOrder)
-      const newList: ShopListType = {
-        ...state.shopList,
-        [newItem.store]: newStoreList,
-      }
+      const stores = refreshStores(newList)
       return {
         ...state,
         loading: false,
-        shopList: newList,
-        storeSuggestions: concatDistinct(defaultStores, Object.keys(newList)),
+        shopList: newList.sort(shopItemOrder),
+        sortedStores: stores,
+        storeSuggestions: updateStoreSuggestions(stores),
       }
     }
     default:

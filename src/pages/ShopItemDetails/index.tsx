@@ -5,13 +5,13 @@ import {
   deleteShopItem,
   updateShopItem,
 } from '@store'
-import { LocationStateNewItem, ShopItem, ShopListType } from '@types'
+import { LocationStateNewItem, ShopItem } from '@types'
 import { useLocation, useParams } from 'react-router-dom'
 import { findWithId } from '@utils/listUtils'
 import { ShopItemDetailsContainer } from './ShopItemDetailsContainer'
 
 type StateProps = {
-  shopList: ShopListType
+  shopList: ShopItem[]
   loading: boolean
   error: string | null
   storeSuggestions: string[]
@@ -56,11 +56,10 @@ const ShopDetailsWrapper = (props: StateProps & DispatchProps) => {
       const state: LocationStateNewItem | null = location.state
       item.store = state?.data || NewShopItem.store
       return item
-    } else if (id) {
-      const items: ShopItem[] = Object.values(props.shopList).flat()
-      return findWithId<ShopItem>(items, parseInt(id!)) || NewShopItem
     }
-    return NewShopItem
+    return (
+      (id && findWithId<ShopItem>(props.shopList, parseInt(id))) || NewShopItem
+    )
   }
 
   return (

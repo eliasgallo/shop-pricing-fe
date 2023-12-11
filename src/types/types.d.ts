@@ -17,8 +17,6 @@ export type ShopItem = {
   readonly updated_at?: string
 }
 
-export type ShopListType = { [key: string]: ShopItem[] }
-
 // Price control
 export type PriceItem = {
   id?: number
