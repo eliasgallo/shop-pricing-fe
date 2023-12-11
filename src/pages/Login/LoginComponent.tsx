@@ -2,7 +2,7 @@ import { Spinner } from '@shared/Spinner'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 
-type LoginComponentProps = {
+type LoginProps = {
   login: (username: string, pwd: string) => void
   resetLoginSuccessful: () => void
   loading: boolean
@@ -10,13 +10,13 @@ type LoginComponentProps = {
   loginSuccessful: boolean
 }
 
-export const LoginComponent: React.FC<LoginComponentProps> = ({
+export const LoginComponent = ({
   login,
   resetLoginSuccessful,
   loading,
   error,
   loginSuccessful,
-}) => {
+}: LoginProps): JSX.Element => {
   useEffect(() => {
     loginSuccessful && resetLoginSuccessful()
   }, [loginSuccessful])

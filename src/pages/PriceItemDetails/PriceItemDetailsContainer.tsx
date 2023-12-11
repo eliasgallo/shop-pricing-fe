@@ -28,13 +28,13 @@ type PriceDetailsProps = {
   deleteItem: (item: PriceItem) => void
 }
 
-export const PriceDetailsContainer: React.FC<PriceDetailsProps> = ({
+export const PriceDetailsContainer = ({
   priceItem,
   loading,
   error,
   saveItem,
   deleteItem,
-}: PriceDetailsProps) => {
+}: PriceDetailsProps): JSX.Element => {
   const navigate: NavigateFunction = useNavigate()
   const navigateBack = (): void => navigate('..', { relative: 'path' })
   const [item, setItem] = useState(priceItem)

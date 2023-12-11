@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   margin-bottom: 10px;
 `
 
-export const BreadcrumbsTrails: React.FC = () => {
+export const BreadcrumbsTrails = (): JSX.Element => {
   const location = useLocation()
   const crumbs =
     location.pathname === '/'

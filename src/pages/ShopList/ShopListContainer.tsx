@@ -31,14 +31,14 @@ type ShopListProps = {
   updateItem: (item: ShopItem) => void
 }
 
-export const ShopListContainer: React.FC<ShopListProps> = ({
+export const ShopListContainer = ({
   shopList,
   sortedStores,
   loading,
   error,
   fetchList,
   updateItem,
-}) => {
+}: ShopListProps): JSX.Element => {
   const navigate: NavigateFunction = useNavigate()
 
   useEffect(() => {

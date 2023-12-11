@@ -6,10 +6,10 @@ type ProtectedProps = {
   isLoggedIn: boolean
   children?: React.ReactNode
 }
-const ProtectedComponent: React.FC<ProtectedProps> = ({
+const ProtectedComponent = ({
   isLoggedIn,
   children,
-}) => {
+}: ProtectedProps): JSX.Element => {
   return (
     <>
       {isLoggedIn ? (

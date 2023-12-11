@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom'
 
-type LoginMenuComponentProps = {
+type LoginMenuProps = {
   username?: string
   logout: () => void
   loggedIn: boolean
 }
 
-export const LoginMenuComponent: React.FC<LoginMenuComponentProps> = ({
+export const LoginMenuComponent = ({
   username,
   logout,
   loggedIn,
-}): JSX.Element => {
+}: LoginMenuProps): JSX.Element => {
   return (
     <>
       {username && <div>{`${username}✨`}</div>}

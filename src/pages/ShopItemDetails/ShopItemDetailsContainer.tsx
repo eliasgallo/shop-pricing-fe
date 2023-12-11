@@ -17,14 +17,14 @@ type ShopItemDetailsProps = {
   onDelete: (item: ShopItem) => void
 }
 
-export const ShopItemDetailsContainer: React.FC<ShopItemDetailsProps> = ({
+export const ShopItemDetailsContainer = ({
   shopItem,
   loading,
   error,
   storeSuggestions,
   onSave,
   onDelete,
-}) => {
+}: ShopItemDetailsProps): JSX.Element => {
   const navigate: NavigateFunction = useNavigate()
   const navigateBack = (): void => navigate('..', { relative: 'path' })
   const [item, setItem] = useState(shopItem)

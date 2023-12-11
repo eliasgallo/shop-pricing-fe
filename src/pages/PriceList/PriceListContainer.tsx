@@ -29,13 +29,13 @@ type PriceListProps = {
   fetchList: () => void
 }
 
-export const PriceListContainer: React.FC<PriceListProps> = ({
+export const PriceListContainer = ({
   priceList,
   sortedCategories,
   loading,
   error,
   fetchList,
-}: PriceListProps) => {
+}: PriceListProps): JSX.Element => {
   const navigate: NavigateFunction = useNavigate()
 
   useEffect(() => {
