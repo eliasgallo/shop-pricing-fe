@@ -1,24 +1,22 @@
-import { LoginActionType } from '../action-types'
-
 interface LoadingLoginAction {
-  type: LoginActionType.LOADING
+  type: 'login/loginLoading'
 }
 
 interface FailureLoginAction {
-  type: LoginActionType.LOGIN_ERROR
-  error: string
+  type: 'login/loginError'
+  payload: string
 }
 
 interface SuccessLoginAction {
-  type: LoginActionType.LOGIN_SUCCESS
+  type: 'login/loginSuccess'
 }
 
-interface ResetLoginSuccessful {
-  type: LoginActionType.RESET_LOGIN_SUCCESSFUL
+interface ResetFlagLoginSuccessful {
+  type: 'login/resetFlagLoginSuccessful'
 }
 
 export type LoginAction =
   | LoadingLoginAction
   | FailureLoginAction
   | SuccessLoginAction
-  | ResetLoginSuccessful
+  | ResetFlagLoginSuccessful

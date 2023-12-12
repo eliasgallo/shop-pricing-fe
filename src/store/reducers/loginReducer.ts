@@ -1,5 +1,4 @@
-import { LoginActionType } from '../action-types'
-import { LoginAction } from '../actions'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 export type LoginState = {
   loading: boolean
@@ -12,34 +11,37 @@ const initialState: LoginState = {
   error: null,
   loginSuccessful: false,
 }
-
-export const loginReducer = (
-  state: LoginState = initialState,
-  action: LoginAction
-): LoginState => {
-  switch (action.type) {
-    case LoginActionType.LOADING:
-      return {
-        loading: true,
-        error: null,
-        loginSuccessful: false,
-      }
-    case LoginActionType.LOGIN_ERROR:
+const loginSlice = createSlice({
+  name: 'login', // A string name for this slice of state. Generated action type constants will use this as a prefix.
+  initialState,
+  reducers: {
+    loginLoading: () => {
+      return { loading: true, error: null, loginSuccessful: false }
+    },
+    loginError: (_state, action: PayloadAction<string>) => {
       return {
         loading: false,
-        error: action.error,
+        error: action.payload,
         loginSuccessful: false,
       }
-    case LoginActionType.LOGIN_SUCCESS: {
+    },
+    loginSuccess: () => {
       return {
         loading: false,
         error: null,
         loginSuccessful: true,
       }
-    }
-    case LoginActionType.RESET_LOGIN_SUCCESSFUL:
-      return { ...state, loginSuccessful: false }
-    default:
-      return state
-  }
-}
+    },
+    resetFlagLoginSuccessful: (state: LoginState) => {
+      state.loginSuccessful = false
+    },
+  },
+})
+
+export const {
+  loginLoading,
+  loginError,
+  loginSuccess,
+  resetFlagLoginSuccessful,
+} = loginSlice.actions
+export const loginReducer = loginSlice.reducer

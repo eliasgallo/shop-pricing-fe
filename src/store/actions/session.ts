@@ -1,18 +1,17 @@
-import { SessionActionType } from '../action-types/sessionActionType'
 import { SessionState } from '../reducers/sessionReducer'
 
 interface AddSessionAction {
-  type: SessionActionType.ADD_SESSION
+  type: 'session/addSession'
   payload: SessionState
 }
 
 interface UpdateSessionExpiryAction {
-  type: SessionActionType.UPDATE_SESSION_EXPIRY
+  type: 'session/updateSessionExpiry'
   payload: string
 }
 
 interface RemoveSessionAction {
-  type: SessionActionType.REMOVE_SESSION
+  type: 'session/removeSession'
 }
 
 export type SessionAction =
