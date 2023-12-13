@@ -1,11 +1,18 @@
 import axios, { AxiosResponse } from 'axios'
-import { ShopActionType } from '../action-types'
-import { SessionAction, ShopListAction } from '../actions'
-import { Dispatch } from 'redux'
 import { ShopItem } from '@types'
-import { RootState } from '../reducers'
+import { SessionAction, ShopListAction } from '../actions'
+import { Dispatch } from '@reduxjs/toolkit'
 import { withAuthHeader } from './headers'
-import { updateExpiry } from './updateExpiry'
+import { RootState } from '../store'
+import { updateSessionExpiry } from '../reducers/sessionReducer'
+import {
+  shopCreate,
+  shopDelete,
+  shopError,
+  shopFetch,
+  shopLoading,
+  shopUpdate,
+} from '../reducers/shopListReducer'
 
 const BASE_URL = process.env.BE_BASE_URL
 
@@ -14,23 +21,19 @@ export const fetchShopList = () => {
     dispatch: Dispatch<ShopListAction | SessionAction>,
     getState: () => RootState
   ): Promise<void> => {
-    dispatch({ type: ShopActionType.LOADING })
+    dispatch(shopLoading())
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/shopping_items`,
         { headers: withAuthHeader(getState().session.token) }
       )
-      dispatch(updateExpiry(response.data['token_expiry']))
-      const list: ShopItem[] = response.data['data']
-      dispatch({
-        type: ShopActionType.FETCH_SUCCESS,
-        payload: list,
-      })
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(shopFetch(response.data['data']))
     } catch (error: unknown) {
       if (error instanceof Error) {
-        let msg = 'Failed to fetch shop list'
+        let msg = 'Failed to update shop item'
         if (error instanceof Error) msg = error.message
-        dispatch({ type: ShopActionType.LOADING_ERROR, error: msg })
+        dispatch(shopError(msg))
       }
     }
   }
@@ -41,7 +44,7 @@ export const updateShopItem = (item: ShopItem) => {
     dispatch: Dispatch<ShopListAction | SessionAction>,
     getState: () => RootState
   ) => {
-    dispatch({ type: ShopActionType.LOADING })
+    dispatch(shopLoading())
     try {
       const response = await axios.put(
         `${BASE_URL}/shopping_items`,
@@ -49,19 +52,13 @@ export const updateShopItem = (item: ShopItem) => {
         JSON.stringify(item),
         { headers: withAuthHeader(getState().session.token) }
       )
-      dispatch(updateExpiry(response.data['token_expiry']))
-      dispatch({
-        type: ShopActionType.UPDATE_SUCCESS,
-        payload: { oldItem: item, newItem: response.data['data'] },
-      })
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(shopUpdate({ oldItem: item, newItem: response.data['data'] }))
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to update shop item'
         if (error instanceof Error) msg = error.message
-        dispatch({
-          type: ShopActionType.LOADING_ERROR,
-          error: msg,
-        })
+        dispatch(shopError(msg))
       }
     }
   }
@@ -72,25 +69,19 @@ export const deleteShopItem = (item: ShopItem) => {
     dispatch: Dispatch<ShopListAction | SessionAction>,
     getState: () => RootState
   ) => {
-    dispatch({ type: ShopActionType.LOADING })
+    dispatch(shopLoading())
     try {
       const response = await axios.delete(`${BASE_URL}/shopping_items`, {
         data: JSON.stringify({ ids: [item.id] }),
         headers: withAuthHeader(getState().session.token),
       })
-      dispatch(updateExpiry(response.data['token_expiry']))
-      dispatch({
-        type: ShopActionType.DELETE_SUCCESS,
-        payload: item,
-      })
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(shopDelete(item))
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to delete shop item'
         if (error instanceof Error) msg = error.message
-        dispatch({
-          type: ShopActionType.LOADING_ERROR,
-          error: msg,
-        })
+        dispatch(shopError(msg))
       }
     }
   }
@@ -101,26 +92,20 @@ export const createShopItem = (item: ShopItem) => {
     dispatch: Dispatch<ShopListAction | SessionAction>,
     getState: () => RootState
   ) => {
-    dispatch({ type: ShopActionType.LOADING })
+    dispatch(shopLoading())
     try {
       const response = await axios.post(
         `${BASE_URL}/shopping_items`,
         JSON.stringify(item),
         { headers: withAuthHeader(getState().session.token) }
       )
-      dispatch(updateExpiry(response.data['token_expiry']))
-      dispatch({
-        type: ShopActionType.CREATE_SUCCESS,
-        payload: response.data['data'],
-      })
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(shopCreate(response.data['data']))
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to create shop item'
         if (error instanceof Error) msg = error.message
-        dispatch({
-          type: ShopActionType.LOADING_ERROR,
-          error: msg,
-        })
+        dispatch(shopError(msg))
       }
     }
   }

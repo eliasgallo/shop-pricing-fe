@@ -1,7 +1,6 @@
 import { ShopItem } from '@types'
-import { ShopActionType } from '../action-types'
-import { ShopListAction } from '../actions'
 import { sliceItemId, distinct } from '@utils/listUtils'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 // TODO: move to backend
 const defaultStores = [
@@ -54,60 +53,64 @@ const refreshStores = (list: ShopItem[]) =>
 const updateStoreSuggestions = (stores: string[]) =>
   distinct(stores.concat(defaultStores)).sort(storesOrder)
 
-export const shopListReducer = (
-  state: ShopListState = initialState,
-  action: ShopListAction
-): ShopListState => {
-  switch (action.type) {
-    case ShopActionType.LOADING: {
-      return { ...state, loading: true, error: null }
-    }
-    case ShopActionType.LOADING_ERROR: {
-      return { ...state, loading: false, error: action.error }
-    }
-    case ShopActionType.FETCH_SUCCESS: {
+const shopListSlice = createSlice({
+  name: 'shop',
+  initialState,
+  reducers: {
+    shopLoading: (state: ShopListState) => {
+      state.error = null
+      state.loading = true
+    },
+    shopError: (state: ShopListState, action: PayloadAction<string>) => {
+      state.loading = false
+      state.error = action.payload
+    },
+    shopFetch: (state: ShopListState, action: PayloadAction<ShopItem[]>) => {
       const stores = refreshStores(action.payload)
-      return {
-        ...state,
-        loading: false,
-        shopList: action.payload.sort(shopItemOrder),
-        sortedStores: stores,
-        storeSuggestions: updateStoreSuggestions(stores),
-      }
-    }
-    case ShopActionType.UPDATE_SUCCESS: {
+      state.loading = false
+      state.shopList = action.payload.sort(shopItemOrder)
+      state.sortedStores = stores
+      state.storeSuggestions = updateStoreSuggestions(stores)
+    },
+    shopUpdate: (
+      state: ShopListState,
+      action: PayloadAction<{ oldItem: ShopItem; newItem: ShopItem }>
+    ) => {
       const newItem = action.payload.newItem
       const idToRemove: number = action.payload.oldItem.id || newItem.id!
       const newList: ShopItem[] = sliceItemId(state.shopList, idToRemove)
         .concat(newItem)
         .sort(shopItemOrder)
       const stores = refreshStores(newList)
-      return {
-        ...state,
-        loading: false,
-        shopList: newList.sort(shopItemOrder),
-        sortedStores: stores,
-        storeSuggestions: updateStoreSuggestions(stores),
-      }
-    }
-    case ShopActionType.DELETE_SUCCESS: {
+      state.loading = false
+      state.shopList = newList.sort(shopItemOrder)
+      state.sortedStores = stores
+      state.storeSuggestions = updateStoreSuggestions(stores)
+    },
+    shopDelete: (state: ShopListState, action: PayloadAction<ShopItem>) => {
       const newList = sliceItemId(state.shopList, action.payload.id!)
-      return { ...state, loading: false, shopList: newList }
-    }
-    case ShopActionType.CREATE_SUCCESS: {
+      state.loading = false
+      state.shopList = newList
+    },
+    shopCreate: (state: ShopListState, action: PayloadAction<ShopItem>) => {
       const newList: ShopItem[] = state.shopList
         .concat(action.payload)
         .sort(shopItemOrder)
       const stores = refreshStores(newList)
-      return {
-        ...state,
-        loading: false,
-        shopList: newList.sort(shopItemOrder),
-        sortedStores: stores,
-        storeSuggestions: updateStoreSuggestions(stores),
-      }
-    }
-    default:
-      return state
-  }
-}
+      state.loading = false
+      state.shopList = newList.sort(shopItemOrder)
+      state.sortedStores = stores
+      state.storeSuggestions = updateStoreSuggestions(stores)
+    },
+  },
+})
+
+export const {
+  shopLoading,
+  shopError,
+  shopFetch,
+  shopUpdate,
+  shopDelete,
+  shopCreate,
+} = shopListSlice.actions
+export const shopListReducer = shopListSlice.reducer

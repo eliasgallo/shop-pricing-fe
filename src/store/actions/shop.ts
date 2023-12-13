@@ -1,32 +1,31 @@
 import { ShopItem } from '@types'
-import { ShopActionType } from '../action-types'
 
 interface LoadingShopAction {
-  type: ShopActionType.LOADING
+  type: 'shop/shopLoading'
 }
 
 interface FailureShopAction {
-  type: ShopActionType.LOADING_ERROR
-  error: string
+  type: 'shop/shopError'
+  payload: string
 }
 
 interface SuccessShopAction {
-  type: ShopActionType.FETCH_SUCCESS
+  type: 'shop/shopFetch'
   payload: ShopItem[]
 }
 
 interface UpdateShopItemSuccessAction {
-  type: ShopActionType.UPDATE_SUCCESS
+  type: 'shop/shopUpdate'
   payload: { oldItem: ShopItem; newItem: ShopItem }
 }
 
 interface DeleteShopItemSuccessAction {
-  type: ShopActionType.DELETE_SUCCESS
+  type: 'shop/shopDelete'
   payload: ShopItem
 }
 
 interface CreateShopItemSuccessAction {
-  type: ShopActionType.CREATE_SUCCESS
+  type: 'shop/shopCreate'
   payload: ShopItem
 }
 
