@@ -35,6 +35,7 @@ const loginSlice = createSlice({
     resetFlagLoginSuccessful: (state: LoginState) => {
       state.loginSuccessful = false
     },
+    loginResetState: () => initialState,
   },
 })
 
@@ -43,5 +44,6 @@ export const {
   loginError,
   loginSuccess,
   resetFlagLoginSuccessful,
+  loginResetState,
 } = loginSlice.actions
 export const loginReducer = loginSlice.reducer

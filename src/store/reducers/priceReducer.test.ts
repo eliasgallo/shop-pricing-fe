@@ -148,4 +148,16 @@ describe('priceReducer', () => {
       expect(reducer(undefined, action)).toEqual(init)
     })
   })
+
+  it('resets state', (): void => {
+    const action = { type: 'price/priceResetState' }
+    const state = {
+      loading: true,
+      error: 'error',
+      priceList: priceItems,
+      sortedCategories,
+    }
+    const expected = init
+    expect(reducer(state, action)).toEqual(expected)
+  })
 })

@@ -34,4 +34,11 @@ describe('loginReducer', () => {
     const expected = { loading: false, error: null, loginSuccessful: false }
     expect(reducer(state, action)).toEqual(expected)
   })
+
+  it('resets the state', (): void => {
+    const action = { type: 'login/loginResetState' }
+    const state = { loading: true, error: 'error', loginSuccessful: true }
+    const expected = { loading: false, error: null, loginSuccessful: false }
+    expect(reducer(state, action)).toEqual(expected)
+  })
 })

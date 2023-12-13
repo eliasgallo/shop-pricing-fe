@@ -102,6 +102,7 @@ const shopListSlice = createSlice({
       state.sortedStores = stores
       state.storeSuggestions = updateStoreSuggestions(stores)
     },
+    shopResetState: () => initialState,
   },
 })
 
@@ -112,5 +113,6 @@ export const {
   shopUpdate,
   shopDelete,
   shopCreate,
+  shopResetState,
 } = shopListSlice.actions
 export const shopListReducer = shopListSlice.reducer

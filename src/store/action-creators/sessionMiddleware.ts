@@ -2,6 +2,9 @@ import { Dispatch, Middleware, MiddlewareAPI } from '@reduxjs/toolkit'
 import { clearUser, retrieveUser, storeUser } from '@utils/localStorage'
 import { SessionState } from '../reducers/sessionReducer'
 import { SessionAction } from '../actions'
+import { priceResetState } from '../reducers/priceReducer'
+import { shopResetState } from '../reducers/shopListReducer'
+import { loginResetState } from '../reducers/loginReducer'
 
 export const sessionMiddleware: Middleware =
   (api: MiddlewareAPI) => (next: Dispatch<SessionAction>) => (action) => {
@@ -25,6 +28,9 @@ export const sessionMiddleware: Middleware =
       }
       case 'session/removeSession': {
         clearUser()
+        api.dispatch(priceResetState())
+        api.dispatch(loginResetState())
+        api.dispatch(shopResetState())
         break
       }
     }
