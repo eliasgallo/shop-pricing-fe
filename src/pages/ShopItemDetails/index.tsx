@@ -4,6 +4,7 @@ import {
   createShopItem,
   deleteShopItem,
   updateShopItem,
+  shopSelectors,
 } from '@store'
 import { LocationStateNewItem, ShopItem } from '@types'
 import { useLocation, useParams } from 'react-router-dom'
@@ -23,10 +24,10 @@ type DispatchProps = {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  shopList: state.shop.shopList,
-  loading: state.shop.loading,
-  error: state.shop.error,
-  storeSuggestions: state.shop.storeSuggestions,
+  shopList: shopSelectors.getShopList(state),
+  loading: shopSelectors.getLoading(state),
+  error: shopSelectors.getError(state),
+  storeSuggestions: shopSelectors.getStoreSuggestions(state),
 })
 
 const mapDispatchToProps: DispatchProps = {

@@ -13,6 +13,9 @@ import {
   priceDelete,
   priceCreate,
 } from '../reducers/priceReducer'
+import { sessionSelectors } from '../reducers'
+
+const token = (state: RootState): string => sessionSelectors.getToken(state)
 
 const BASE_URL = process.env.BE_BASE_URL
 
@@ -25,7 +28,7 @@ export const fetchPriceList = () => {
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/price_control_items`,
-        { headers: withAuthHeader(getState().session.token) }
+        { headers: withAuthHeader(token(getState())) }
       )
       dispatch(updateSessionExpiry(response.data['token_expiry']))
       const list: PriceItem[] = response.data['data']
@@ -50,7 +53,7 @@ export const updatePriceItem = (item: PriceItem) => {
       const response = await axios.put(
         `${BASE_URL}/price_control_items`,
         JSON.stringify(item),
-        { headers: withAuthHeader(getState().session.token) }
+        { headers: withAuthHeader(token(getState())) }
       )
       dispatch(updateSessionExpiry(response.data['token_expiry']))
       dispatch(priceUpdate({ oldItem: item, newItem: response.data['data'] }))
@@ -73,7 +76,7 @@ export const deletePriceItem = (item: PriceItem) => {
     try {
       const response = await axios.delete(`${BASE_URL}/price_control_items`, {
         data: JSON.stringify({ ids: [item.id] }),
-        headers: withAuthHeader(getState().session.token),
+        headers: withAuthHeader(token(getState())),
       })
       dispatch(updateSessionExpiry(response.data['token_expiry']))
       dispatch(priceDelete(item))
@@ -97,7 +100,7 @@ export const createPriceItem = (item: PriceItem) => {
       const response = await axios.post(
         `${BASE_URL}/price_control_items`,
         JSON.stringify(item),
-        { headers: withAuthHeader(getState().session.token) }
+        { headers: withAuthHeader(token(getState())) }
       )
       dispatch(updateSessionExpiry(response.data['token_expiry']))
       dispatch(priceCreate(response.data['data']))

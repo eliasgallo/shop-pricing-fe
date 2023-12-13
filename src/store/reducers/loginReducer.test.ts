@@ -1,6 +1,7 @@
 import { describe, expect, it } from '@jest/globals'
-import { loginReducer as reducer } from './loginReducer'
+import { loginReducer as reducer, selectors } from './loginReducer'
 import { LoginAction } from '../actions/login'
+import { RootState } from '../store'
 
 describe('loginReducer', () => {
   it('LOADING sets a loading state', (): void => {
@@ -40,5 +41,24 @@ describe('loginReducer', () => {
     const state = { loading: true, error: 'error', loginSuccessful: true }
     const expected = { loading: false, error: null, loginSuccessful: false }
     expect(reducer(state, action)).toEqual(expected)
+  })
+})
+
+describe('selectors', () => {
+  const state = {
+    login: {
+      error: 'error',
+      loading: true,
+      loginSuccessful: true,
+    },
+  } as RootState
+  it('getError', () => {
+    expect(selectors.getError(state)).toBe('error')
+  })
+  it('getLoading', () => {
+    expect(selectors.getLoading(state)).toBe(true)
+  })
+  it('getLoginSuccessful', () => {
+    expect(selectors.getLoginSuccessful(state)).toBe(true)
   })
 })

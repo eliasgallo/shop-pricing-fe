@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { RootState, fetchShopList, updateShopItem } from '@store'
+import { RootState, fetchShopList, shopSelectors, updateShopItem } from '@store'
 import { ShopItem } from '@types'
 import { ShopListContainer } from './ShopListContainer'
 
@@ -16,10 +16,10 @@ type DispatchProps = {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  shopList: state.shop.shopList,
-  sortedStores: state.shop.sortedStores,
-  loading: state.shop.loading,
-  error: state.shop.error,
+  shopList: shopSelectors.getShopList(state),
+  loading: shopSelectors.getLoading(state),
+  error: shopSelectors.getError(state),
+  sortedStores: shopSelectors.getSortedStores(state),
 })
 
 const mapDispatchToProps: DispatchProps = {

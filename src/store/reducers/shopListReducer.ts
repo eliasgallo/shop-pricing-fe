@@ -1,6 +1,7 @@
 import { ShopItem } from '@types'
 import { sliceItemId, distinct } from '@utils/listUtils'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 // TODO: move to backend
 const defaultStores = [
@@ -116,3 +117,11 @@ export const {
   shopResetState,
 } = shopListSlice.actions
 export const shopListReducer = shopListSlice.reducer
+
+export const selectors = {
+  getLoading: (state: RootState) => state.shop.loading,
+  getError: (state: RootState) => state.shop.error,
+  getShopList: (state: RootState) => state.shop.shopList,
+  getSortedStores: (state: RootState) => state.shop.sortedStores,
+  getStoreSuggestions: (state: RootState) => state.shop.storeSuggestions,
+}

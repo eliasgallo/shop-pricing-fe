@@ -1,15 +1,17 @@
-import { RootState } from '@store'
-import { connect } from 'react-redux'
+import { RootState, sessionSelectors } from '@store'
+import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 
-type ProtectedProps = {
-  isLoggedIn: boolean
-  children?: React.ReactNode
-}
-const ProtectedComponent = ({
-  isLoggedIn,
-  children,
-}: ProtectedProps): JSX.Element => {
+type ProtectedProps = { children?: React.ReactNode }
+
+export const Protected = ({ children }: ProtectedProps): JSX.Element => {
+  const token = useSelector((state: RootState) =>
+    sessionSelectors.getToken(state)
+  )
+  const expiry = useSelector((state: RootState) =>
+    sessionSelectors.getExpiry(state)
+  )
+  const isLoggedIn = Boolean(token && expiry && new Date(expiry) > new Date())
   return (
     <>
       {isLoggedIn ? (
@@ -23,17 +25,3 @@ const ProtectedComponent = ({
     </>
   )
 }
-
-const mapStateToProps = (state: RootState) => {
-  const session = state.session
-  return {
-    isLoggedIn: Boolean(
-      session &&
-        session.token &&
-        session.expiry &&
-        new Date(session.expiry) > new Date()
-    ),
-  }
-}
-
-export const Protected = connect(mapStateToProps)(ProtectedComponent)

@@ -1,7 +1,8 @@
 import { describe, expect, it } from '@jest/globals'
 import { PriceItem } from '@types'
-import { priceListReducer as reducer } from './priceReducer'
+import { priceListReducer as reducer, selectors } from './priceReducer'
 import { PriceAction } from '../actions/price'
+import { RootState } from '../store'
 
 const init = {
   loading: false,
@@ -159,5 +160,28 @@ describe('priceReducer', () => {
     }
     const expected = init
     expect(reducer(state, action)).toEqual(expected)
+  })
+})
+
+describe('selectors', () => {
+  const state: RootState = {
+    price: {
+      loading: true,
+      error: 'error',
+      priceList: [priceItems[1]],
+      sortedCategories: ['a', '1'],
+    },
+  } as RootState
+  it('getError', () => {
+    expect(selectors.getError(state)).toBe('error')
+  })
+  it('getLoading', () => {
+    expect(selectors.getLoading(state)).toBe(true)
+  })
+  it('getPriceList', () => {
+    expect(selectors.getPriceList(state)).toEqual([priceItems[1]])
+  })
+  it('getSortedCateogries', () => {
+    expect(selectors.getSortedCateogries(state)).toEqual(['a', '1'])
   })
 })

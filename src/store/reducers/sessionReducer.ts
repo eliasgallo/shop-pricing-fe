@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 export type SessionState = {
   token: string
@@ -30,3 +31,9 @@ const sessionSlice = createSlice({
 export const { addSession, updateSessionExpiry, removeSession } =
   sessionSlice.actions
 export const sessionReducer = sessionSlice.reducer
+
+export const selectors = {
+  getToken: (state: RootState) => state.session.token,
+  getExpiry: (state: RootState) => state.session.expiry,
+  getUsername: (state: RootState) => state.session.username,
+}

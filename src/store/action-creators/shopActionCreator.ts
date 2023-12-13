@@ -13,8 +13,10 @@ import {
   shopLoading,
   shopUpdate,
 } from '../reducers/shopListReducer'
+import { sessionSelectors } from '../reducers'
 
 const BASE_URL = process.env.BE_BASE_URL
+const token = (state: RootState): string => sessionSelectors.getToken(state)
 
 export const fetchShopList = () => {
   return async (
@@ -25,7 +27,7 @@ export const fetchShopList = () => {
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/shopping_items`,
-        { headers: withAuthHeader(getState().session.token) }
+        { headers: withAuthHeader(token(getState())) }
       )
       dispatch(updateSessionExpiry(response.data['token_expiry']))
       dispatch(shopFetch(response.data['data']))
@@ -50,7 +52,7 @@ export const updateShopItem = (item: ShopItem) => {
         `${BASE_URL}/shopping_items`,
         // TODO: just update the changed fields
         JSON.stringify(item),
-        { headers: withAuthHeader(getState().session.token) }
+        { headers: withAuthHeader(token(getState())) }
       )
       dispatch(updateSessionExpiry(response.data['token_expiry']))
       dispatch(shopUpdate({ oldItem: item, newItem: response.data['data'] }))
@@ -73,7 +75,7 @@ export const deleteShopItem = (item: ShopItem) => {
     try {
       const response = await axios.delete(`${BASE_URL}/shopping_items`, {
         data: JSON.stringify({ ids: [item.id] }),
-        headers: withAuthHeader(getState().session.token),
+        headers: withAuthHeader(token(getState())),
       })
       dispatch(updateSessionExpiry(response.data['token_expiry']))
       dispatch(shopDelete(item))
@@ -97,7 +99,7 @@ export const createShopItem = (item: ShopItem) => {
       const response = await axios.post(
         `${BASE_URL}/shopping_items`,
         JSON.stringify(item),
-        { headers: withAuthHeader(getState().session.token) }
+        { headers: withAuthHeader(token(getState())) }
       )
       dispatch(updateSessionExpiry(response.data['token_expiry']))
       dispatch(shopCreate(response.data['data']))

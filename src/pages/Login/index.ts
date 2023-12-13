@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
 import { LoginComponent } from './LoginComponent'
-import { RootState, login, resetLoginSuccessful } from '@store'
+import { RootState, login, loginSelectors, resetLoginSuccessful } from '@store'
 
 const mapStateToProps = (state: RootState) => ({
-  loading: state.login.loading,
-  error: state.login.error,
-  loginSuccessful: state.login.loginSuccessful,
+  loading: loginSelectors.getLoading(state),
+  error: loginSelectors.getError(state),
+  loginSuccessful: loginSelectors.getLoginSuccessful(state),
 })
 
 const mapDispatchToProps = { login, resetLoginSuccessful }

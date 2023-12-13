@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { RootState } from '@store'
+import { RootState, priceSelectors } from '@store'
 import { createPriceItem, deletePriceItem, updatePriceItem } from '@store'
 import { PriceDetailsContainer } from './PriceItemDetailsContainer'
 import { LocationStateNewItem, PriceItem } from '@types'
@@ -18,9 +18,9 @@ type DispatchProps = {
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  priceList: state.price.priceList,
-  loading: state.price.loading,
-  error: state.price.error,
+  priceList: priceSelectors.getPriceList(state),
+  loading: priceSelectors.getLoading(state),
+  error: priceSelectors.getError(state),
 })
 
 const mapDispatchToProps: DispatchProps = {

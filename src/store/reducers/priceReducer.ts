@@ -1,6 +1,7 @@
 import { PriceItem } from '@types'
 import { distinct, sliceItemId } from '@utils/listUtils'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 type PriceListState = {
   loading: boolean
@@ -85,3 +86,10 @@ export const {
   priceResetState,
 } = priceListSlice.actions
 export const priceListReducer = priceListSlice.reducer
+
+export const selectors = {
+  getLoading: (state: RootState) => state.price.loading,
+  getError: (state: RootState) => state.price.error,
+  getPriceList: (state: RootState) => state.price.priceList,
+  getSortedCateogries: (state: RootState) => state.price.sortedCategories,
+}

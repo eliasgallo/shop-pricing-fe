@@ -9,3 +9,7 @@ export const reducers = {
   login: loginReducer,
   session: sessionReducer,
 }
+export { selectors as loginSelectors } from './loginReducer'
+export { selectors as priceSelectors } from './priceReducer'
+export { selectors as sessionSelectors } from './sessionReducer'
+export { selectors as shopSelectors } from './shopListReducer'

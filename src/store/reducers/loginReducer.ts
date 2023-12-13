@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../store'
 
 export type LoginState = {
   loading: boolean
@@ -47,3 +48,9 @@ export const {
   loginResetState,
 } = loginSlice.actions
 export const loginReducer = loginSlice.reducer
+
+export const selectors = {
+  getLoading: (state: RootState) => state.login.loading,
+  getError: (state: RootState) => state.login.error,
+  getLoginSuccessful: (state: RootState) => state.login.loginSuccessful,
+}
