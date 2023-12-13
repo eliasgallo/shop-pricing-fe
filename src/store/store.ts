@@ -16,4 +16,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sessionMiddleware), //.concat(logger),
 })
-// from https://redux-toolkit.js.org/api/getDefaultMiddleware
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
