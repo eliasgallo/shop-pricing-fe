@@ -1,7 +1,6 @@
 import { describe, expect, it } from '@jest/globals'
 import { PriceItem } from '@types'
 import { priceListReducer as reducer } from './priceReducer'
-import { PriceActionType } from '../action-types'
 import { PriceAction } from '../actions/price'
 
 const init = {
@@ -32,17 +31,14 @@ const priceItems: PriceItem[] = [
 
 describe('priceReducer', () => {
   it('LOADING sets a loading state', (): void => {
-    const action: PriceAction = { type: PriceActionType.LOADING }
+    const action: PriceAction = { type: 'price/priceLoading' }
     const state = { ...init, loading: false, error: 'error' }
     const expected = { ...init, loading: true, error: null }
     expect(reducer(state, action)).toEqual(expected)
   })
 
   it('LOADING_ERROR sets state with error', (): void => {
-    const action: PriceAction = {
-      type: PriceActionType.LOADING_ERROR,
-      error: 'error',
-    }
+    const action: PriceAction = { type: 'price/priceError', payload: 'error' }
     const state = { ...init, loading: true, error: null }
     const expected = { ...init, loading: false, error: 'error' }
     expect(reducer(state, action)).toEqual(expected)
@@ -50,7 +46,7 @@ describe('priceReducer', () => {
 
   describe('FETCH_SUCCESS', () => {
     const action: PriceAction = {
-      type: PriceActionType.FETCH_SUCCESS,
+      type: 'price/priceFetch',
       payload: priceItems,
     }
     const state = { ...init, loading: true }
@@ -74,11 +70,8 @@ describe('priceReducer', () => {
     const oldItem = priceItems[1]
     const updatedItem = { ...priceItems[1], name: 'BB', category: 'cat3' }
     const action: PriceAction = {
-      type: PriceActionType.UPDATE_SUCCESS,
-      payload: {
-        oldItem,
-        newItem: updatedItem,
-      },
+      type: 'price/priceUpdate',
+      payload: { oldItem, newItem: updatedItem },
     }
     const state = { ...init, priceList: priceItems, loading: true }
     const result = reducer(state, action)
@@ -101,7 +94,7 @@ describe('priceReducer', () => {
   describe('DELETE_SUCCESS', () => {
     const removedItem = priceItems[0]
     const action: PriceAction = {
-      type: PriceActionType.DELETE_SUCCESS,
+      type: 'price/priceDelete',
       payload: removedItem,
     }
     const state = { ...init, priceList: priceItems, loading: true }
@@ -123,7 +116,7 @@ describe('priceReducer', () => {
   describe('CREATE_SUCCESS', () => {
     const newItem = { ...initialItem, name: '0', category: 'cat2' }
     const action: PriceAction = {
-      type: PriceActionType.CREATE_SUCCESS,
+      type: 'price/priceCreate',
       payload: newItem,
     }
     const state = { ...init, priceList: priceItems, loading: true }

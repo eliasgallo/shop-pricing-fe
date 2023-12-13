@@ -1,11 +1,18 @@
 import axios, { AxiosResponse } from 'axios'
-import { PriceActionType } from '../action-types'
 import { PriceAction, SessionAction } from '../actions'
-import { Dispatch } from 'redux'
+import { Dispatch } from '@reduxjs/toolkit'
 import { PriceItem } from '@types'
-import { RootState } from '../reducers'
 import { withAuthHeader } from './headers'
-import { updateExpiry } from './updateExpiry'
+import { RootState } from '../store'
+import { updateSessionExpiry } from '../reducers/sessionReducer'
+import {
+  priceLoading,
+  priceFetch,
+  priceError,
+  priceUpdate,
+  priceDelete,
+  priceCreate,
+} from '../reducers/priceReducer'
 
 const BASE_URL = process.env.BE_BASE_URL
 
@@ -14,23 +21,20 @@ export const fetchPriceList = () => {
     dispatch: Dispatch<PriceAction | SessionAction>,
     getState: () => RootState
   ): Promise<void> => {
-    dispatch({ type: PriceActionType.LOADING })
+    dispatch(priceLoading())
     try {
       const response: AxiosResponse = await axios.get(
         `${BASE_URL}/price_control_items`,
         { headers: withAuthHeader(getState().session.token) }
       )
-      dispatch(updateExpiry(response.data['token_expiry']))
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
       const list: PriceItem[] = response.data['data']
-      dispatch({
-        type: PriceActionType.FETCH_SUCCESS,
-        payload: list,
-      })
+      dispatch(priceFetch(list))
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to fetch price list'
         if (error instanceof Error) msg = error.message
-        dispatch({ type: PriceActionType.LOADING_ERROR, error: msg })
+        dispatch(priceError(msg))
       }
     }
   }
@@ -41,26 +45,20 @@ export const updatePriceItem = (item: PriceItem) => {
     dispatch: Dispatch<PriceAction | SessionAction>,
     getState: () => RootState
   ) => {
-    dispatch({ type: PriceActionType.LOADING })
+    dispatch(priceLoading())
     try {
       const response = await axios.put(
         `${BASE_URL}/price_control_items`,
         JSON.stringify(item),
         { headers: withAuthHeader(getState().session.token) }
       )
-      dispatch(updateExpiry(response.data['token_expiry']))
-      dispatch({
-        type: PriceActionType.UPDATE_SUCCESS,
-        payload: { oldItem: item, newItem: response.data['data'] },
-      })
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(priceUpdate({ oldItem: item, newItem: response.data['data'] }))
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to update price item'
         if (error instanceof Error) msg = error.message
-        dispatch({
-          type: PriceActionType.LOADING_ERROR,
-          error: msg,
-        })
+        dispatch(priceError(msg))
       }
     }
   }
@@ -71,25 +69,19 @@ export const deletePriceItem = (item: PriceItem) => {
     dispatch: Dispatch<PriceAction | SessionAction>,
     getState: () => RootState
   ) => {
-    dispatch({ type: PriceActionType.LOADING })
+    dispatch(priceLoading())
     try {
       const response = await axios.delete(`${BASE_URL}/price_control_items`, {
         data: JSON.stringify({ ids: [item.id] }),
         headers: withAuthHeader(getState().session.token),
       })
-      dispatch(updateExpiry(response.data['token_expiry']))
-      dispatch({
-        type: PriceActionType.DELETE_SUCCESS,
-        payload: item,
-      })
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(priceDelete(item))
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to delete price item'
         if (error instanceof Error) msg = error.message
-        dispatch({
-          type: PriceActionType.LOADING_ERROR,
-          error: msg,
-        })
+        dispatch(priceError(msg))
       }
     }
   }
@@ -100,26 +92,20 @@ export const createPriceItem = (item: PriceItem) => {
     dispatch: Dispatch<PriceAction | SessionAction>,
     getState: () => RootState
   ) => {
-    dispatch({ type: PriceActionType.LOADING })
+    dispatch(priceLoading())
     try {
       const response = await axios.post(
         `${BASE_URL}/price_control_items`,
         JSON.stringify(item),
         { headers: withAuthHeader(getState().session.token) }
       )
-      dispatch(updateExpiry(response.data['token_expiry']))
-      dispatch({
-        type: PriceActionType.CREATE_SUCCESS,
-        payload: response.data['data'],
-      })
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(priceCreate(response.data['data']))
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to create price item'
         if (error instanceof Error) msg = error.message
-        dispatch({
-          type: PriceActionType.LOADING_ERROR,
-          error: msg,
-        })
+        dispatch(priceError(msg))
       }
     }
   }

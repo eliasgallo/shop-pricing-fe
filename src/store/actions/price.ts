@@ -1,32 +1,31 @@
 import { PriceItem } from '@types'
-import { PriceActionType } from '../action-types'
 
 interface LoadingPriceAction {
-  type: PriceActionType.LOADING
+  type: 'price/priceLoading'
 }
 
 interface FailurePriceAction {
-  type: PriceActionType.LOADING_ERROR
-  error: string
+  type: 'price/priceError'
+  payload: string
 }
 
 interface FetchPriceSuccessAction {
-  type: PriceActionType.FETCH_SUCCESS
+  type: 'price/priceFetch'
   payload: PriceItem[]
 }
 
 interface UpdatePriceSuccessAction {
-  type: PriceActionType.UPDATE_SUCCESS
+  type: 'price/priceUpdate'
   payload: { oldItem: PriceItem; newItem: PriceItem }
 }
 
 interface DeletePriceSuccessAction {
-  type: PriceActionType.DELETE_SUCCESS
+  type: 'price/priceDelete'
   payload: PriceItem
 }
 
 interface CreatePriceSuccessAction {
-  type: PriceActionType.CREATE_SUCCESS
+  type: 'price/priceCreate'
   payload: PriceItem
 }
 
