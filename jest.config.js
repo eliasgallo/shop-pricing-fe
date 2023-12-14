@@ -1,7 +1,7 @@
 module.exports = {
   preset: 'ts-jest',
   moduleNameMapper: {
-    '@shared/(.*)$': '<rootDir>/src/components/shared/$1',
+    '@shared/(.*)$': '<rootDir>/src/shared/$1',
     '@utils/(.*)$': '<rootDir>/src/utils/$1',
     '@images/(.*)$': '<rootDir>/src/images/$1',
     '@store/': '<rootDir>/src/store',

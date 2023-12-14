@@ -48,7 +48,7 @@
     // "baseUrl": "./",                             /* Base directory to resolve non-absolute module names. */
     "paths": {                                      /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
       "@pages/*": ["./src/pages/*"],
-      "@shared/*": ["./src/components/shared/*"],
+      "@shared/*": ["./src/shared/*"],
       "@utils/*": ["./src/utils/*"],
       "@images/*": ["./src/images/*"],
       "@store": ["./src/store"],

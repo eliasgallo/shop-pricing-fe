@@ -1,5 +1,8 @@
 import { ChangeEvent, useState } from 'react'
 import { SelectorComponent } from '@shared/SelectorComponent'
+import { Spinner } from '@shared/Spinner'
+import { DecimalInput } from '@shared/DecimalInput'
+import { CheckboxComponent } from '@shared/CheckboxComponent'
 import {
   CategoryType,
   PriceItem,
@@ -8,11 +11,8 @@ import {
   TagType,
 } from '@types'
 import { distinct } from '@utils/listUtils'
-import { CheckboxComponent } from '@shared/CheckboxComponent'
 import { FormContainer, SelectorWrapper } from '../SharedElements'
 import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { Spinner } from '@shared/Spinner'
-import { DecimalInput } from '@shared/DecimalInput'
 
 const toggleTag = (tags: string[], tagKey: string) => {
   return tags.includes(tagKey)
