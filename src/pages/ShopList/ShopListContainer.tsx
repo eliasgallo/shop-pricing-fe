@@ -1,11 +1,11 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 import styled from 'styled-components'
 import { ShopListRow } from './ShopListRow'
 import { Spinner } from '@shared/Spinner'
-import { NavigateFunction, useNavigate } from 'react-router-dom'
-import { LocationStateNewItem, ShopItem } from '@types'
+import { ShopItem } from '@types'
 import { ListWrapper } from '@shared/ListWrapper'
 import { SectionComponent } from '@shared/SectionComponent'
+import { fetchListEffect, navigation } from '../pageContainerUtils'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -39,16 +39,8 @@ export const ShopListContainer = ({
   fetchList,
   updateItem,
 }: ShopListProps): JSX.Element => {
-  const navigate: NavigateFunction = useNavigate()
-
-  useEffect(() => {
-    if (Object.keys(shopList).length === 0) fetchList()
-  }, [])
-
-  const onSectionClick = (store: string) => {
-    const catState: LocationStateNewItem = { data: store }
-    navigate(`./new`, { relative: 'path', state: catState })
-  }
+  fetchListEffect(shopList, fetchList)
+  const { editNav, newNav, sectionNav } = navigation()
 
   const sectionRows = (section: string): ReactNode[] =>
     shopList
@@ -59,9 +51,7 @@ export const ShopListContainer = ({
             key={item.id}
             item={{ ...item }}
             updateItem={updateItem}
-            editButtonClick={() =>
-              navigate(`./${item.id}`, { relative: 'path' })
-            }
+            editButtonClick={() => editNav(item.id)}
           />
         )
       )
@@ -70,20 +60,14 @@ export const ShopListContainer = ({
     <>
       <HeaderContainer>
         <h1>Shop list</h1>
-        <NewItem
-          onClick={() => {
-            navigate(`./new`, { relative: 'path' })
-          }}
-        >
-          New Item ＋
-        </NewItem>
+        <NewItem onClick={newNav}>New Item ＋</NewItem>
       </HeaderContainer>
       {error && `Error message: ${error}`}
       <ListWrapper>
         {sortedStores.map((store: string) => (
           <SectionComponent
             key={store}
-            onSectionClick={onSectionClick}
+            onSectionClick={sectionNav}
             section={store}
           >
             {sectionRows(store)}

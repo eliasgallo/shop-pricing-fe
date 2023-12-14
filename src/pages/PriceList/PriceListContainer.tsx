@@ -1,11 +1,11 @@
-import { ReactNode, useEffect } from 'react'
-import { LocationStateNewItem, PriceItem } from '@types'
+import { ReactNode } from 'react'
+import { PriceItem } from '@types'
 import { Spinner } from '@shared/Spinner'
 import { ListWrapper } from '@shared/ListWrapper'
 import { SectionComponent } from '@shared/SectionComponent'
-import { NavigateFunction, useNavigate } from 'react-router-dom'
 import { styled } from 'styled-components'
 import { PriceListRow } from './PriceListRow'
+import { navigation, fetchListEffect } from '../pageContainerUtils'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -36,25 +36,17 @@ export const PriceListContainer = ({
   error,
   fetchList,
 }: PriceListProps): JSX.Element => {
-  const navigate: NavigateFunction = useNavigate()
-
-  useEffect(() => {
-    if (Object.keys(priceList).length === 0) fetchList()
-  }, [])
+  fetchListEffect(priceList, fetchList)
+  const { editNav, newNav, sectionNav } = navigation()
 
   const priceItemRow = (item: PriceItem): ReactNode => {
     return (
       <PriceListRow
         key={item.id}
         item={{ ...item }}
-        onRowClick={() => navigate(`./${item.id}`, { relative: 'path' })}
+        onRowClick={() => editNav(item.id)}
       />
     )
-  }
-
-  const onSectionClick = (category: string): void => {
-    const catState: LocationStateNewItem = { data: category }
-    navigate(`./new`, { relative: 'path', state: catState })
   }
 
   const sectionRows = (section: string): ReactNode[] =>
@@ -70,20 +62,14 @@ export const PriceListContainer = ({
     <>
       <HeaderContainer>
         <h1>Price list</h1>
-        <NewItem
-          onClick={() => {
-            navigate(`./new`, { relative: 'path' })
-          }}
-        >
-          New Item ＋
-        </NewItem>
+        <NewItem onClick={newNav}>New Item ＋</NewItem>
       </HeaderContainer>
       {error && `Error message: ${error}`}
       <ListWrapper>
         {sortedCategories.map((category: string) => (
           <SectionComponent
             key={category}
-            onSectionClick={onSectionClick}
+            onSectionClick={sectionNav}
             section={category}
           >
             {sectionRows(category)}
