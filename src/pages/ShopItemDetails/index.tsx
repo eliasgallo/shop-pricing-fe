@@ -49,17 +49,17 @@ const NewShopItem: ShopItem = {
 
 const ShopDetailsWrapper = (props: StateProps & DispatchProps) => {
   const location = useLocation()
-  const { id }: { id?: string } = useParams<'id'>()
-
+  const { itemId }: { itemId?: string } = useParams<'itemId'>()
   const getItem = (): ShopItem => {
-    if (id === 'new') {
+    if (itemId === 'new') {
       const item = NewShopItem
       const state: LocationStateNewItem | null = location.state
       item.store = state?.data || NewShopItem.store
       return item
     }
     return (
-      (id && findWithId<ShopItem>(props.shopList, parseInt(id))) || NewShopItem
+      (itemId && findWithId<ShopItem>(props.shopList, parseInt(itemId))) ||
+      NewShopItem
     )
   }
 

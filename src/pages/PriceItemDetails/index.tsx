@@ -40,17 +40,17 @@ const NewPriceItem: PriceItem = {
 
 const PriceDetailsWrapper = (props: StateProps & DispatchProps) => {
   const location = useLocation()
-  const { id }: { id?: string } = useParams<'id'>()
+  const { itemId }: { itemId?: string } = useParams<'itemId'>()
 
   const getItem = (): PriceItem => {
-    if (id === 'new') {
+    if (itemId === 'new') {
       const item: PriceItem = NewPriceItem
       const state: LocationStateNewItem | null = location.state
       item.category = state?.data || NewPriceItem.category
       return item
     }
     return (
-      (id && findWithId<PriceItem>(props.priceList, parseInt(id))) ||
+      (itemId && findWithId<PriceItem>(props.priceList, parseInt(itemId))) ||
       NewPriceItem
     )
   }

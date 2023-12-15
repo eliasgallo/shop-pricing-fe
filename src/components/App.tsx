@@ -9,7 +9,7 @@ import {
 import styled from 'styled-components'
 import { Provider } from 'react-redux'
 
-import { store } from '@store'
+import { priceSelectors, shopSelectors, store } from '@store'
 import { Home } from '@pages/Home'
 import { Login } from '@pages/Login'
 import { PriceList } from '@pages/PriceList'
@@ -19,6 +19,7 @@ import { PriceItemDetails } from '@pages/PriceItemDetails'
 import { BreadcrumbsTrails } from './BreadcrumbTrails'
 import { Protected } from './Protected'
 import { LoginMenu } from './login-menu'
+import { VerifyId } from './VerifyId'
 
 const AppContainer = styled.div`
   padding: 10px;
@@ -57,10 +58,12 @@ const router: Router = createBrowserRouter(
         }
       />
       <Route
-        path='price-control/:id'
+        path='price-control/:itemId'
         element={
           <Protected>
-            <PriceItemDetails />
+            <VerifyId listSelector={priceSelectors.getPriceList}>
+              <PriceItemDetails />
+            </VerifyId>
           </Protected>
         }
       />
@@ -73,12 +76,18 @@ const router: Router = createBrowserRouter(
         }
       />
       <Route
-        path='shop-list/:id'
+        path='shop-list/:itemId'
         element={
           <Protected>
-            <ShopItemDetails />
+            <VerifyId listSelector={shopSelectors.getShopList}>
+              <ShopItemDetails />
+            </VerifyId>
           </Protected>
         }
+      />
+      <Route
+        path='*'
+        element={<div>Not found</div>}
       />
     </Route>
   )
