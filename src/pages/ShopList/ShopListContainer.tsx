@@ -5,7 +5,8 @@ import { Spinner } from '@shared/Spinner'
 import { ShopItem } from '@types'
 import { ListWrapper } from '@shared/ListWrapper'
 import { SectionComponent } from '@shared/SectionComponent'
-import { fetchListEffect, navigation } from '../pageContainerUtils'
+import { fetchListEffect } from '../pageContainerUtils'
+import { useNavigation } from '@customHooks/routerDomHooks'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ export const ShopListContainer = ({
   updateItem,
 }: ShopListProps): JSX.Element => {
   fetchListEffect(shopList, fetchList)
-  const { editNav, newNav, sectionNav } = navigation()
+  const { editNav, newNav, sectionNav } = useNavigation()
 
   const sectionRows = (section: string): ReactNode[] =>
     shopList

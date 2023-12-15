@@ -1,4 +1,4 @@
-import { NavigateFunction, useNavigate } from 'react-router-dom'
+import { useNavigation } from '@customHooks/routerDomHooks'
 import { Spinner } from '@shared/Spinner'
 import { InputWithSuggestions } from '@shared/InputWithSuggestions'
 import { SelectorComponent } from '@shared/SelectorComponent'
@@ -25,9 +25,8 @@ export const ShopItemDetailsContainer = ({
   onSave,
   onDelete,
 }: ShopItemDetailsProps): JSX.Element => {
-  const navigate: NavigateFunction = useNavigate()
-  const navigateBack = (): void => navigate('..', { relative: 'path' })
   const [item, setItem] = useState(shopItem)
+  const { backNav } = useNavigation()
 
   return (
     <>
@@ -35,7 +34,7 @@ export const ShopItemDetailsContainer = ({
         onSubmit={(e) => {
           e.preventDefault()
           onSave(item)
-          navigateBack()
+          backNav()
         }}
       >
         <input
@@ -118,7 +117,7 @@ export const ShopItemDetailsContainer = ({
           type='button'
           onClick={() => {
             onDelete(item)
-            navigateBack()
+            backNav()
           }}
         >
           Delete

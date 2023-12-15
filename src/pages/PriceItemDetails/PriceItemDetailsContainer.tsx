@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react'
+import { useNavigation } from '@customHooks/routerDomHooks'
 import { SelectorComponent } from '@shared/SelectorComponent'
 import { Spinner } from '@shared/Spinner'
 import { DecimalInput } from '@shared/DecimalInput'
@@ -12,7 +13,6 @@ import {
 } from '@types'
 import { distinct } from '@utils/listUtils'
 import { FormContainer, SelectorWrapper } from '../SharedElements'
-import { NavigateFunction, useNavigate } from 'react-router-dom'
 
 const toggleTag = (tags: string[], tagKey: string) => {
   return tags.includes(tagKey)
@@ -35,9 +35,8 @@ export const PriceDetailsContainer = ({
   saveItem,
   deleteItem,
 }: PriceDetailsProps): JSX.Element => {
-  const navigate: NavigateFunction = useNavigate()
-  const navigateBack = (): void => navigate('..', { relative: 'path' })
   const [item, setItem] = useState(priceItem)
+  const { backNav } = useNavigation()
 
   return (
     <>
@@ -46,7 +45,7 @@ export const PriceDetailsContainer = ({
         onSubmit={(e) => {
           e.preventDefault()
           saveItem(item)
-          navigateBack()
+          backNav()
         }}
       >
         <input
@@ -128,7 +127,7 @@ export const PriceDetailsContainer = ({
           type='button'
           onClick={() => {
             deleteItem(item)
-            navigateBack()
+            backNav()
           }}
         >
           Delete

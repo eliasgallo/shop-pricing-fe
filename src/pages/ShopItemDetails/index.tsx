@@ -6,10 +6,13 @@ import {
   updateShopItem,
   shopSelectors,
 } from '@store'
-import { LocationStateNewItem, ShopItem } from '@types'
-import { useLocation, useParams } from 'react-router-dom'
+import { ShopItem } from '@types'
 import { findWithId } from '@utils/listUtils'
 import { ShopItemDetailsContainer } from './ShopItemDetailsContainer'
+import {
+  getItemIdFromParams,
+  getSectionSearchParam,
+} from '@customHooks/routerDomHooks'
 
 type StateProps = {
   shopList: ShopItem[]
@@ -48,13 +51,12 @@ const NewShopItem: ShopItem = {
 }
 
 const ShopDetailsWrapper = (props: StateProps & DispatchProps) => {
-  const location = useLocation()
-  const { itemId }: { itemId?: string } = useParams<'itemId'>()
+  const itemId: string | undefined = getItemIdFromParams()
   const getItem = (): ShopItem => {
     if (itemId === 'new') {
       const item = NewShopItem
-      const state: LocationStateNewItem | null = location.state
-      item.store = state?.data || NewShopItem.store
+      const store: string | undefined = getSectionSearchParam()
+      item.store = store || NewShopItem.store
       return item
     }
     return (

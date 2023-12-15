@@ -31,6 +31,7 @@ module.exports = {
       '@images': path.resolve(__dirname, "./src/images/"),
       '@store': path.resolve(__dirname, "./src/store"),
       '@types': path.resolve(__dirname, "./src/types"),
+      '@customHooks': path.resolve(__dirname, "./src/customHooks/"),
     },
   },
   plugins: [

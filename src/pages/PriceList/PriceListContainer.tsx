@@ -1,11 +1,12 @@
 import { ReactNode } from 'react'
 import { PriceItem } from '@types'
+import { useNavigation } from '@customHooks/routerDomHooks'
 import { Spinner } from '@shared/Spinner'
 import { ListWrapper } from '@shared/ListWrapper'
 import { SectionComponent } from '@shared/SectionComponent'
 import { styled } from 'styled-components'
 import { PriceListRow } from './PriceListRow'
-import { navigation, fetchListEffect } from '../pageContainerUtils'
+import { fetchListEffect } from '../pageContainerUtils'
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ export const PriceListContainer = ({
   fetchList,
 }: PriceListProps): JSX.Element => {
   fetchListEffect(priceList, fetchList)
-  const { editNav, newNav, sectionNav } = navigation()
+  const { editNav, newNav, sectionNav } = useNavigation()
 
   const priceItemRow = (item: PriceItem): ReactNode => {
     return (
