@@ -37,18 +37,20 @@ const Suggestion = styled.div`
   }
 `
 
-type InputWithSuggestions = {
+interface InputWithSuggestions
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   suggestions: string[]
   currentValue: string
-  onChange: (value: string) => void
+  valueChanged: (value: string) => void
   inputPlaceholder: string
 }
 
 export const InputWithSuggestions = ({
   suggestions,
   currentValue,
-  onChange,
+  valueChanged,
   inputPlaceholder,
+  ...restProps
 }: InputWithSuggestions): JSX.Element => {
   const [showSuggestions, setShowSuggestions] = useState(false)
 
@@ -70,21 +72,21 @@ export const InputWithSuggestions = ({
     <Container>
       <Input
         autoComplete='off'
-        name='inputValue'
         placeholder={inputPlaceholder}
         value={currentValue}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          onChange(e.target.value)
+          valueChanged(e.target.value)
         }
         onFocus={handleFocus}
         onBlur={handleBlur}
         type='text'
+        {...restProps}
       />
       <SuggestionsContainer $show={showSuggestions}>
         {filteredSuggestions.map((suggestion: string) => (
           <Suggestion
             key={suggestion}
-            onClick={() => onChange(suggestion)}
+            onClick={() => valueChanged(suggestion)}
           >
             {suggestion}
           </Suggestion>

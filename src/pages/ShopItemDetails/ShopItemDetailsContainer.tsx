@@ -50,8 +50,9 @@ export const ShopItemDetailsContainer = ({
         <InputWithSuggestions
           suggestions={storeSuggestions}
           currentValue={item.store}
-          onChange={(value) => setItem({ ...item, store: value })}
+          valueChanged={(value) => setItem({ ...item, store: value })}
           inputPlaceholder='Store'
+          name='shop-item-store'
         />
         <label>
           Quantity
@@ -73,10 +74,10 @@ export const ShopItemDetailsContainer = ({
               name='quantity_type'
               allValues={QuantityTypes}
               selectedValue={item.quantity_type}
-              onChange={(value) =>
+              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                 setItem({
                   ...item,
-                  quantity_type: value,
+                  quantity_type: e.target.value,
                 })
               }
             />
@@ -97,10 +98,10 @@ export const ShopItemDetailsContainer = ({
               name='price'
               allValues={PriceUnitTypes}
               selectedValue={item.price_unit}
-              onChange={(value) =>
+              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                 setItem({
                   ...item,
-                  price_unit: value,
+                  price_unit: e.target.value,
                 })
               }
             />
@@ -108,6 +109,7 @@ export const ShopItemDetailsContainer = ({
         </label>
         <CheckboxComponent
           label='Offer? 🔖'
+          name='offer-checkbox'
           isChecked={item.offer}
           onChange={() => setItem({ ...item, offer: !item.offer })}
         />

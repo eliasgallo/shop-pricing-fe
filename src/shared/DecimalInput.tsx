@@ -1,6 +1,7 @@
 import { ChangeEvent, useState } from 'react'
 
-type DecimalInputProps = {
+interface DecimalInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   decimals: number
   startValue: number
   name: string
@@ -15,13 +16,12 @@ const placeholder = (decimals: number) => {
 export const DecimalInput = ({
   decimals,
   startValue,
-  name,
   valueChanged,
+  ...restProps
 }: DecimalInputProps) => {
   const [value, setValue] = useState(startValue.toString())
   return (
     <input
-      name={name}
       placeholder={placeholder(decimals)}
       value={value}
       onChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -32,6 +32,7 @@ export const DecimalInput = ({
         valueChanged(parseFloat(newValue))
       }}
       inputMode='decimal' // for phones?
+      {...restProps}
     />
   )
 }

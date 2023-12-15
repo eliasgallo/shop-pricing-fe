@@ -1,23 +1,17 @@
-import { ChangeEvent } from 'react'
-
-type Props = {
+interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
   selectedValue: string
-  onChange: (value: string) => void
   allValues: { [key: string]: string }
-  name: string
 }
 
 export const SelectorComponent = ({
   selectedValue,
-  onChange,
   allValues,
-  name,
+  ...restProps
 }: Props) => {
   return (
     <select
-      name={name}
       value={selectedValue}
-      onChange={(e: ChangeEvent<HTMLSelectElement>) => onChange(e.target.value)}
+      {...restProps}
     >
       {Object.keys(allValues).map((key: string) => {
         return (

@@ -15,7 +15,7 @@ const Container = styled.div`
   justify-content: space-between;
 `
 
-const ItemInfo = styled.label`
+const ItemInfo = styled.span`
   padding: 10px 0 10px 5px;
   flex-grow: 1;
   white-space: nowrap;

@@ -71,10 +71,10 @@ export const PriceDetailsContainer = ({
             name='comparison_price_unit'
             allValues={PriceUnitTypes}
             selectedValue={item.comparison_price_unit}
-            onChange={(value) =>
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
               setItem({
                 ...item,
-                comparison_price_unit: value,
+                comparison_price_unit: e.target.value,
               })
             }
           />
@@ -85,10 +85,10 @@ export const PriceDetailsContainer = ({
             name='reliability'
             allValues={ReliabilityType}
             selectedValue={item.reliability}
-            onChange={(value) =>
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
               setItem({
                 ...item,
-                reliability: value,
+                reliability: e.target.value,
               })
             }
           />
@@ -99,10 +99,10 @@ export const PriceDetailsContainer = ({
             name='category'
             allValues={CategoryType}
             selectedValue={item.category}
-            onChange={(value) =>
+            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
               setItem({
                 ...item,
-                category: value,
+                category: e.target.value,
               })
             }
           />
@@ -111,6 +111,7 @@ export const PriceDetailsContainer = ({
           return (
             <CheckboxComponent
               key={tagKey}
+              name={tagKey}
               label={TagType[tagKey]}
               isChecked={item.tags.includes(tagKey)}
               onChange={() =>
