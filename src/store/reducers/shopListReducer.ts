@@ -37,6 +37,8 @@ const initialState: ShopListState = {
 
 const shopItemOrder = (a: ShopItem, b: ShopItem): number => {
   if (a.checked === b.checked && a.created_at === b.created_at) return 0
+  if (a.checked && b.checked)
+    return (a.updated_at || '') > (b.updated_at || '') ? -1 : 1
   if (a.checked === b.checked)
     return (a.created_at || '') > (b.created_at || '') ? 1 : -1
   if (a.checked) return 1
