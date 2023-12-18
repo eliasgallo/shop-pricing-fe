@@ -21,7 +21,7 @@ const toggleTag = (tags: string[], tagKey: string) => {
 }
 
 type PriceDetailsProps = {
-  priceItem: PriceItem
+  priceItem: PriceItem | null
   loading: boolean
   error: string | null
   saveItem: (item: PriceItem) => void
@@ -38,6 +38,7 @@ export const PriceDetailsContainer = ({
   const [item, setItem] = useState(priceItem)
   const { backNav } = useNavigation()
 
+  if (!item) return <></>
   return (
     <>
       {error && `Error message: ${error}`}

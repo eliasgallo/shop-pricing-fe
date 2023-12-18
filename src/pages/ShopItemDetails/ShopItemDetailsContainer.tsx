@@ -9,7 +9,7 @@ import { FormContainer, SelectorWrapper } from '../SharedElements'
 import { ChangeEvent, useState } from 'react'
 
 type ShopItemDetailsProps = {
-  shopItem: ShopItem
+  shopItem: ShopItem | null
   loading: boolean
   error: null | string
   storeSuggestions: string[]
@@ -28,6 +28,7 @@ export const ShopItemDetailsContainer = ({
   const [item, setItem] = useState(shopItem)
   const { backNav } = useNavigation()
 
+  if (!item) return <></>
   return (
     <>
       <FormContainer

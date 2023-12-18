@@ -30,7 +30,7 @@ export const getSectionSearchParam = (): string | undefined => {
   return searchParams.get('section')?.toString()
 }
 
-export const getItemIdFromParams = (): string | undefined => {
+export const getItemIdFromParams = (): 'new' | number => {
   const { itemId } = useParams<'itemId'>()
-  return itemId
+  return Number(itemId) || 'new'
 }

@@ -12,12 +12,9 @@ export const VerifyId = <T extends { id?: number }>({
   children,
   listSelector,
 }: VerifyIdProps<T>): JSX.Element => {
-  const itemId: string | undefined = getItemIdFromParams()
-  let showChildren = itemId === 'new'
-  if (!showChildren && itemId) {
-    const list = useSelector(listSelector)
-    showChildren = Boolean(findWithId(list, Number(itemId)))
-  }
-
+  const itemId: 'new' | number = getItemIdFromParams()
+  const showChildren =
+    itemId === 'new' ||
+    Boolean(findWithId(useSelector(listSelector), Number(itemId)))
   return <>{showChildren ? children : <div>Item not found!</div>}</>
 }

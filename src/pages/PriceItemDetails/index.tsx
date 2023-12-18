@@ -1,13 +1,9 @@
 import { connect } from 'react-redux'
 import { RootState, priceSelectors } from '@store'
 import { createPriceItem, deletePriceItem, updatePriceItem } from '@store'
-import { PriceDetailsContainer } from './PriceItemDetailsContainer'
 import { PriceItem } from '@types'
-import { findWithId } from '@utils/listUtils'
-import {
-  getItemIdFromParams,
-  getSectionSearchParam,
-} from '@customHooks/routerDomHooks'
+import { useItemFromParams } from '@customHooks/useFetchItem'
+import { PriceDetailsContainer } from './PriceItemDetailsContainer'
 
 type StateProps = {
   priceList: PriceItem[]
@@ -42,24 +38,13 @@ const NewPriceItem: PriceItem = {
 }
 
 const PriceDetailsWrapper = (props: StateProps & DispatchProps) => {
-  const itemId: string | undefined = getItemIdFromParams()
-  const getItem = (): PriceItem => {
-    if (itemId === 'new') {
-      const item: PriceItem = NewPriceItem
-      const category: string | undefined = getSectionSearchParam()
-      item.category = category || NewPriceItem.category
-      return item
-    }
-    return (
-      (itemId && findWithId<PriceItem>(props.priceList, parseInt(itemId))) ||
-      NewPriceItem
-    )
-  }
+  const item = useItemFromParams(props.priceList, NewPriceItem, 'category')
 
   return (
     <PriceDetailsContainer
       {...props}
-      priceItem={getItem()}
+      key={item ? item.id : -1}
+      priceItem={item}
     />
   )
 }

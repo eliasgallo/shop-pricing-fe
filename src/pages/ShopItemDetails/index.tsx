@@ -7,12 +7,8 @@ import {
   shopSelectors,
 } from '@store'
 import { ShopItem } from '@types'
-import { findWithId } from '@utils/listUtils'
+import { useItemFromParams } from '@customHooks/useFetchItem'
 import { ShopItemDetailsContainer } from './ShopItemDetailsContainer'
-import {
-  getItemIdFromParams,
-  getSectionSearchParam,
-} from '@customHooks/routerDomHooks'
 
 type StateProps = {
   shopList: ShopItem[]
@@ -51,24 +47,13 @@ const NewShopItem: ShopItem = {
 }
 
 const ShopDetailsWrapper = (props: StateProps & DispatchProps) => {
-  const itemId: string | undefined = getItemIdFromParams()
-  const getItem = (): ShopItem => {
-    if (itemId === 'new') {
-      const item = NewShopItem
-      const store: string | undefined = getSectionSearchParam()
-      item.store = store || NewShopItem.store
-      return item
-    }
-    return (
-      (itemId && findWithId<ShopItem>(props.shopList, parseInt(itemId))) ||
-      NewShopItem
-    )
-  }
+  const item = useItemFromParams(props.shopList, NewShopItem, 'store')
 
   return (
     <ShopItemDetailsContainer
       {...props}
-      shopItem={getItem()}
+      key={item ? item.id : -1}
+      shopItem={item}
     />
   )
 }
