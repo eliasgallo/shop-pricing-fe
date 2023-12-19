@@ -21,6 +21,7 @@ const ItemInfo = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 `
 
 const EditButton = styled.button`
@@ -29,6 +30,7 @@ const EditButton = styled.button`
   color: white;
   font-weight: bold;
   border: none;
+  cursor: pointer;
 `
 
 const Strikethrough = styled.div`

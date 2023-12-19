@@ -25,6 +25,7 @@ const ItemInfo = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 `
 const prettyTags = (tags: string[]): string =>
   tags
