@@ -1,11 +1,10 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import styled from 'styled-components'
 import { ShopListRow } from './ShopListRow'
 import { Spinner } from '@shared/Spinner'
 import { ShopItem } from '@types'
 import { ListWrapper } from '@shared/ListWrapper'
 import { SectionComponent } from '@shared/SectionComponent'
-import { useFetchList } from '@customHooks/useFetchList'
 import { useNavigation } from '@customHooks/routerDomHooks'
 import { PageTitle } from '@shared/PageTitle'
 import { NewItemComponent } from '@shared/NewItemComponent'
@@ -33,7 +32,9 @@ export const ShopListContainer = ({
   fetchList,
   updateItem,
 }: ShopListProps): JSX.Element => {
-  useFetchList(shopList, fetchList)
+  useEffect(() => {
+    shopList.length === 0 && fetchList()
+  }, [])
   const { editNav, newNav, sectionNav } = useNavigation()
 
   const sectionRows = (section: string): ReactNode[] =>
