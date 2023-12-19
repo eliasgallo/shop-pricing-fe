@@ -1,8 +1,14 @@
+import { styled } from 'styled-components'
+
 interface CheckboxComponentProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
   isChecked: boolean
 }
+
+const Label = styled.label`
+  cursor: pointer;
+`
 
 export const CheckboxComponent = ({
   label,
@@ -10,13 +16,13 @@ export const CheckboxComponent = ({
   ...restProps
 }: CheckboxComponentProps) => {
   return (
-    <label>
+    <Label>
       {label}
       <input
         type='checkbox'
         checked={isChecked}
         {...restProps}
       />
-    </label>
+    </Label>
   )
 }
