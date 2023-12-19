@@ -22,14 +22,24 @@ import { LoginMenu } from './login-menu'
 import { VerifyId } from './VerifyId'
 
 const AppContainer = styled.div`
-  padding: 10px;
+  padding: 5px;
+`
+
+const AppTopBar = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 10px;
 `
 
 const AppRoot = (): JSX.Element => {
   return (
     <AppContainer>
-      <BreadcrumbsTrails />
-      <LoginMenu />
+      <AppTopBar>
+        <BreadcrumbsTrails />
+        <LoginMenu />
+      </AppTopBar>
       <Outlet />
     </AppContainer>
   )

@@ -1,10 +1,5 @@
 import { Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { styled } from 'styled-components'
-
-const Wrapper = styled.div`
-  margin-bottom: 10px;
-`
 
 export const BreadcrumbsTrails = (): JSX.Element => {
   const location = useLocation()
@@ -13,7 +8,7 @@ export const BreadcrumbsTrails = (): JSX.Element => {
       ? [location.pathname]
       : location.pathname.split('/')
   return (
-    <Wrapper>
+    <div>
       {crumbs.map((path, index) => {
         const linkTo = `.${crumbs.slice(0, index + 1).join('/')}`
         const pathName = `${index > 0 ? path : '🏠'}`
@@ -30,6 +25,6 @@ export const BreadcrumbsTrails = (): JSX.Element => {
           </Fragment>
         )
       })}
-    </Wrapper>
+    </div>
   )
 }

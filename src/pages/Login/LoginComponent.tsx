@@ -1,6 +1,8 @@
+import { PageTitle } from '@shared/PageTitle'
 import { Spinner } from '@shared/Spinner'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
+import { styled } from 'styled-components'
 
 type LoginProps = {
   login: (username: string, pwd: string) => void
@@ -9,6 +11,14 @@ type LoginProps = {
   error: string | null
   loginSuccessful: boolean
 }
+
+const Container = styled.form`
+  display: grid;
+  gap: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+`
 
 export const LoginComponent = ({
   login,
@@ -27,7 +37,8 @@ export const LoginComponent = ({
       {loginSuccessful ? (
         <Navigate to='/' />
       ) : (
-        <>
+        <Container>
+          <PageTitle>Welcome, please login</PageTitle>
           <input
             type='text'
             name='login'
@@ -37,22 +48,17 @@ export const LoginComponent = ({
               setCreds({ ...creds, username: e.target.value })
             }
           />
-          <input
-            hidden={true} // because BE currently ignores password
-            type='password'
-            name='password'
-            placeholder='password'
-            value={creds.pwd}
-            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-              setCreds({ ...creds, pwd: e.target.value })
-            }
-          />
           {error && `Error message: ${error}`}
-          <button onClick={() => login(creds.username, creds.pwd)}>
+          <button
+            onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+              e.preventDefault()
+              login(creds.username, creds.pwd)
+            }}
+          >
             Login
           </button>
           {loading && <Spinner />}
-        </>
+        </Container>
       )}
     </>
   )

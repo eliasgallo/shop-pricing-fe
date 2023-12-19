@@ -1,13 +1,14 @@
 import { styled } from 'styled-components'
 import ShopCartImage from '@images/shopcart.png'
 import BoutiqueImage from '@images/boutique.png'
+import { PageTitle } from '@shared/PageTitle'
 import { Link } from 'react-router-dom'
 
-const HomeContainer = styled.div`
+const ButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 15px;
 `
 
 const Button = styled(Link)`
@@ -40,9 +41,12 @@ const ImageTextButton = (img: string, text: string, linkTo: string) => (
 
 export const Home = () => {
   return (
-    <HomeContainer>
-      {ImageTextButton(BoutiqueImage, 'Price Control', '/price-control')}
-      {ImageTextButton(ShopCartImage, 'Shopping List', '/shop-list')}
-    </HomeContainer>
+    <>
+      <PageTitle>Home</PageTitle>
+      <ButtonContainer>
+        {ImageTextButton(BoutiqueImage, 'Price Control', '/price-control')}
+        {ImageTextButton(ShopCartImage, 'Shopping List', '/shop-list')}
+      </ButtonContainer>
+    </>
   )
 }

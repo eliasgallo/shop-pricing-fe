@@ -7,19 +7,13 @@ import { ListWrapper } from '@shared/ListWrapper'
 import { SectionComponent } from '@shared/SectionComponent'
 import { styled } from 'styled-components'
 import { PriceListRow } from './PriceListRow'
+import { PageTitle } from '@shared/PageTitle'
+import { NewItemComponent } from '@shared/NewItemComponent'
 
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
-
-const NewItem = styled.div`
-  align-self: flex-end;
-  background-color: #24a0ed;
-  color: white;
-  padding: 5px 5px;
-  border: 2px solid black;
-  border-radius: 5px;
+  align-items: center;
 `
 
 type PriceListProps = {
@@ -62,8 +56,8 @@ export const PriceListContainer = ({
   return (
     <>
       <HeaderContainer>
-        <h1>Price list</h1>
-        <NewItem onClick={newNav}>New Item ＋</NewItem>
+        <PageTitle>Price list</PageTitle>
+        <NewItemComponent onClick={newNav} />
       </HeaderContainer>
       {error && `Error message: ${error}`}
       <ListWrapper>

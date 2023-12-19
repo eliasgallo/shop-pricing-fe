@@ -7,20 +7,13 @@ import { ListWrapper } from '@shared/ListWrapper'
 import { SectionComponent } from '@shared/SectionComponent'
 import { useFetchList } from '@customHooks/useFetchList'
 import { useNavigation } from '@customHooks/routerDomHooks'
+import { PageTitle } from '@shared/PageTitle'
+import { NewItemComponent } from '@shared/NewItemComponent'
 
 const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
-`
-
-const NewItem = styled.div`
-  align-self: flex-end;
-  /* background: #58ff00; */
-  background-color: #24a0ed;
-  color: white;
-  padding: 5px 5px;
-  border: 2px solid black;
-  border-radius: 5px;
+  align-items: center;
 `
 
 type ShopListProps = {
@@ -60,8 +53,8 @@ export const ShopListContainer = ({
   return (
     <>
       <HeaderContainer>
-        <h1>Shop list</h1>
-        <NewItem onClick={newNav}>New Item ＋</NewItem>
+        <PageTitle>Shop list</PageTitle>
+        <NewItemComponent onClick={newNav} />
       </HeaderContainer>
       {error && `Error message: ${error}`}
       <ListWrapper>
