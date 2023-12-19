@@ -6,6 +6,7 @@ const NewItem = styled.div`
   padding: 5px 5px;
   border: 2px solid black;
   border-radius: 5px;
+  cursor: pointer;
 `
 interface NewItemProps extends React.HTMLAttributes<HTMLDivElement> {}
 export const NewItemComponent = ({ ...restProps }: NewItemProps) => (
