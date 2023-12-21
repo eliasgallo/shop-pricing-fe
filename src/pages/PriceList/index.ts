@@ -1,5 +1,10 @@
 import { connect } from 'react-redux'
-import { RootState, fetchPriceList, priceSelectors } from '@store'
+import {
+  RootState,
+  clearAllPriceItems,
+  fetchPriceList,
+  priceSelectors,
+} from '@store'
 import { PriceItem } from '@types'
 import { PriceListContainer } from './PriceListContainer'
 
@@ -10,7 +15,7 @@ type StateProps = {
   error: string | null
 }
 
-type DispatchProps = { fetchList: () => void }
+type DispatchProps = { fetchList: () => void; clearList: () => void }
 
 const mapStateToProps = (state: RootState): StateProps => ({
   priceList: priceSelectors.getPriceList(state),
@@ -21,6 +26,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
 
 const mapDispatchToProps: DispatchProps = {
   fetchList: fetchPriceList,
+  clearList: clearAllPriceItems,
 }
 
 export const PriceList = connect(

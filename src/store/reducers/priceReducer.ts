@@ -72,6 +72,10 @@ const priceListSlice = createSlice({
       state.priceList = newList
       state.sortedCategories = sortedCategoriesList(newList)
     },
+    priceClearAll: (state: PriceListState) => {
+      state.loading = false
+      state.priceList = []
+    },
     priceResetState: () => initialState,
   },
 })
@@ -83,6 +87,7 @@ export const {
   priceUpdate,
   priceDelete,
   priceCreate,
+  priceClearAll,
   priceResetState,
 } = priceListSlice.actions
 export const priceListReducer = priceListSlice.reducer

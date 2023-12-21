@@ -29,6 +29,10 @@ interface CreatePriceSuccessAction {
   payload: PriceItem
 }
 
+interface ClearAllPriceItemsSuccessAction {
+  type: 'price/priceClearAll'
+}
+
 export type PriceAction =
   | LoadingPriceAction
   | FailurePriceAction
@@ -36,3 +40,4 @@ export type PriceAction =
   | UpdatePriceSuccessAction
   | DeletePriceSuccessAction
   | CreatePriceSuccessAction
+  | ClearAllPriceItemsSuccessAction

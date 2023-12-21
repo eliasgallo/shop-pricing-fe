@@ -161,6 +161,22 @@ describe('priceReducer', () => {
     const expected = init
     expect(reducer(state, action)).toEqual(expected)
   })
+
+  describe('CLEAR_ALL_SUCCESS', () => {
+    const action: PriceAction = {
+      type: 'price/priceClearAll',
+    }
+    const state = { ...init, priceList: priceItems, loading: true }
+    const result = reducer(state, action)
+
+    it('removes all the items', (): void => {
+      expect(result.priceList).toHaveLength(0)
+    })
+
+    it('sets loading to false', () => {
+      expect(result.loading).toBeFalsy()
+    })
+  })
 })
 
 describe('selectors', () => {

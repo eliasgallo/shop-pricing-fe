@@ -12,6 +12,7 @@ import {
   priceUpdate,
   priceDelete,
   priceCreate,
+  priceClearAll,
 } from '../reducers/priceReducer'
 import { sessionSelectors } from '../reducers'
 
@@ -107,6 +108,29 @@ export const createPriceItem = (item: PriceItem) => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to create price item'
+        if (error instanceof Error) msg = error.message
+        dispatch(priceError(msg))
+      }
+    }
+  }
+}
+
+export const clearAllPriceItems = () => {
+  return async (
+    dispatch: Dispatch<PriceAction | SessionAction>,
+    getState: () => RootState
+  ) => {
+    dispatch(priceLoading())
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/price_control_items/clear_all`,
+        { headers: withAuthHeader(token(getState())) }
+      )
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(priceClearAll())
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        let msg = 'Failed to clear price list'
         if (error instanceof Error) msg = error.message
         dispatch(priceError(msg))
       }
