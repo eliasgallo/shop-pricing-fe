@@ -9,7 +9,13 @@ import {
 import styled from 'styled-components'
 import { Provider } from 'react-redux'
 
-import { priceSelectors, shopSelectors, store } from '@store'
+import {
+  fetchPriceList,
+  fetchShopList,
+  priceSelectors,
+  shopSelectors,
+  store,
+} from '@store'
 import { Home } from '@pages/Home'
 import { Login } from '@pages/Login'
 import { PriceList } from '@pages/PriceList'
@@ -19,7 +25,7 @@ import { PriceItemDetails } from '@pages/PriceItemDetails'
 import { BreadcrumbsTrails } from './BreadcrumbTrails'
 import { Protected } from './Protected'
 import { LoginMenu } from './login-menu'
-import { VerifyId } from './VerifyId'
+import { VerifyItem } from './VerifyItem'
 
 const AppContainer = styled.div`
   padding: 5px;
@@ -71,9 +77,15 @@ const router: Router = createBrowserRouter(
         path='price-control/:itemId'
         element={
           <Protected>
-            <VerifyId listSelector={priceSelectors.getPriceList}>
+            <VerifyItem
+              selectors={{
+                list: priceSelectors.getPriceList,
+                loading: priceSelectors.getLoading,
+              }}
+              fetchListAC={fetchPriceList}
+            >
               <PriceItemDetails />
-            </VerifyId>
+            </VerifyItem>
           </Protected>
         }
       />
@@ -89,9 +101,15 @@ const router: Router = createBrowserRouter(
         path='shop-list/:itemId'
         element={
           <Protected>
-            <VerifyId listSelector={shopSelectors.getShopList}>
+            <VerifyItem
+              selectors={{
+                list: shopSelectors.getShopList,
+                loading: shopSelectors.getLoading,
+              }}
+              fetchListAC={fetchShopList}
+            >
               <ShopItemDetails />
-            </VerifyId>
+            </VerifyItem>
           </Protected>
         }
       />
