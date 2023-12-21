@@ -6,6 +6,8 @@ import { withAuthHeader } from './headers'
 import { RootState } from '../store'
 import { updateSessionExpiry } from '../reducers/sessionReducer'
 import {
+  shopClearAll,
+  shopClearChecked,
   shopCreate,
   shopDelete,
   shopError,
@@ -106,6 +108,52 @@ export const createShopItem = (item: ShopItem) => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         let msg = 'Failed to create shop item'
+        if (error instanceof Error) msg = error.message
+        dispatch(shopError(msg))
+      }
+    }
+  }
+}
+
+export const clearAllShopItems = () => {
+  return async (
+    dispatch: Dispatch<ShopListAction | SessionAction>,
+    getState: () => RootState
+  ) => {
+    dispatch(shopLoading())
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/shopping_items/clear_all`,
+        { headers: withAuthHeader(token(getState())) }
+      )
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(shopClearAll())
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        let msg = 'Failed to delete shop item'
+        if (error instanceof Error) msg = error.message
+        dispatch(shopError(msg))
+      }
+    }
+  }
+}
+
+export const clearCheckedShopItems = () => {
+  return async (
+    dispatch: Dispatch<ShopListAction | SessionAction>,
+    getState: () => RootState
+  ) => {
+    dispatch(shopLoading())
+    try {
+      const response = await axios.delete(
+        `${BASE_URL}/shopping_items/clear_checked_items`,
+        { headers: withAuthHeader(token(getState())) }
+      )
+      dispatch(updateSessionExpiry(response.data['token_expiry']))
+      dispatch(shopClearChecked(response.data['data']))
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        let msg = 'Failed to delete shop item'
         if (error instanceof Error) msg = error.message
         dispatch(shopError(msg))
       }

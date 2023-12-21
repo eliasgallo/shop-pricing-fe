@@ -105,6 +105,17 @@ const shopListSlice = createSlice({
       state.sortedStores = stores
       state.storeSuggestions = updateStoreSuggestions(stores)
     },
+    shopClearAll: (state: ShopListState) => {
+      state.loading = false
+      state.shopList = []
+    },
+    shopClearChecked: (
+      state: ShopListState,
+      action: PayloadAction<ShopItem[]>
+    ) => {
+      state.loading = false
+      state.shopList = action.payload
+    },
     shopResetState: () => initialState,
   },
 })
@@ -116,6 +127,8 @@ export const {
   shopUpdate,
   shopDelete,
   shopCreate,
+  shopClearAll,
+  shopClearChecked,
   shopResetState,
 } = shopListSlice.actions
 export const shopListReducer = shopListSlice.reducer

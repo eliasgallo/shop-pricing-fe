@@ -1,5 +1,12 @@
 import { connect } from 'react-redux'
-import { RootState, fetchShopList, shopSelectors, updateShopItem } from '@store'
+import {
+  RootState,
+  clearAllShopItems,
+  clearCheckedShopItems,
+  fetchShopList,
+  shopSelectors,
+  updateShopItem,
+} from '@store'
 import { ShopItem } from '@types'
 import { ShopListContainer } from './ShopListContainer'
 
@@ -13,6 +20,8 @@ type StateProps = {
 type DispatchProps = {
   fetchList: () => void
   updateItem: (item: ShopItem) => void
+  clearList: () => void
+  clearCheckedItems: () => void
 }
 
 const mapStateToProps = (state: RootState): StateProps => ({
@@ -25,6 +34,8 @@ const mapStateToProps = (state: RootState): StateProps => ({
 const mapDispatchToProps: DispatchProps = {
   fetchList: fetchShopList,
   updateItem: updateShopItem,
+  clearList: clearAllShopItems,
+  clearCheckedItems: clearCheckedShopItems,
 }
 
 export const ShopList = connect(

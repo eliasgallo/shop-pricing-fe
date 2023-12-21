@@ -18,7 +18,6 @@ const Container = styled.div`
 const ItemInfo = styled.span`
   padding: 10px 0 10px 5px;
   flex-grow: 1;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;

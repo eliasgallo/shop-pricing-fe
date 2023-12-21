@@ -29,6 +29,15 @@ interface CreateShopItemSuccessAction {
   payload: ShopItem
 }
 
+interface ClearAllShopItemsSuccessAction {
+  type: 'shop/shopClearAll'
+}
+
+interface ClearCheckedShopItemsSuccessAction {
+  type: 'shop/shopClearChecked'
+  payload: ShopItem[]
+}
+
 export type ShopListAction =
   | LoadingShopAction
   | FailureShopAction
@@ -36,3 +45,5 @@ export type ShopListAction =
   | UpdateShopItemSuccessAction
   | DeleteShopItemSuccessAction
   | CreateShopItemSuccessAction
+  | ClearAllShopItemsSuccessAction
+  | ClearCheckedShopItemsSuccessAction
