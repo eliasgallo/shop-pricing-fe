@@ -50,8 +50,8 @@ export const ShopItemDetailsContainer = ({
         <InputWithSuggestions
           suggestions={storeSuggestions}
           currentValue={item.store}
-          valueChanged={(value) => setItem({ ...item, store: value })}
-          inputPlaceholder='Store'
+          onChange={(value: string) => setItem({ ...item, store: value })}
+          placeholder='Store'
           name='shop-item-store'
         />
         <label>
@@ -74,11 +74,8 @@ export const ShopItemDetailsContainer = ({
               name='quantity_type'
               allValues={QuantityTypes}
               selectedValue={item.quantity_type}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                setItem({
-                  ...item,
-                  quantity_type: e.target.value,
-                })
+              onChange={(value: string) =>
+                setItem({ ...item, quantity_type: value })
               }
             />
           </SelectorWrapper>
@@ -90,7 +87,7 @@ export const ShopItemDetailsContainer = ({
               decimals={2}
               name='price'
               startValue={item.price}
-              valueChanged={(newValue: number) =>
+              onChange={(newValue: number) =>
                 setItem({ ...item, price: newValue })
               }
             />
@@ -98,11 +95,8 @@ export const ShopItemDetailsContainer = ({
               name='price'
               allValues={PriceUnitTypes}
               selectedValue={item.price_unit}
-              onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                setItem({
-                  ...item,
-                  price_unit: e.target.value,
-                })
+              onChange={(value: string) =>
+                setItem({ ...item, price_unit: value })
               }
             />
           </SelectorWrapper>

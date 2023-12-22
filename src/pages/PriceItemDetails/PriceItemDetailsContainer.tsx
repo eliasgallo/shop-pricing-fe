@@ -63,7 +63,7 @@ export const PriceDetailsContainer = ({
             decimals={2}
             name='price'
             startValue={item.comparison_price}
-            valueChanged={(newValue: number) =>
+            onChange={(newValue: number) =>
               setItem({ ...item, comparison_price: newValue })
             }
           />
@@ -71,11 +71,8 @@ export const PriceDetailsContainer = ({
             name='comparison_price_unit'
             allValues={PriceUnitTypes}
             selectedValue={item.comparison_price_unit}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              setItem({
-                ...item,
-                comparison_price_unit: e.target.value,
-              })
+            onChange={(value: string) =>
+              setItem({ ...item, comparison_price_unit: value })
             }
           />
         </SelectorWrapper>
@@ -85,11 +82,8 @@ export const PriceDetailsContainer = ({
             name='reliability'
             allValues={ReliabilityType}
             selectedValue={item.reliability}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              setItem({
-                ...item,
-                reliability: e.target.value,
-              })
+            onChange={(value: string) =>
+              setItem({ ...item, reliability: value })
             }
           />
         </SelectorWrapper>
@@ -99,12 +93,7 @@ export const PriceDetailsContainer = ({
             name='category'
             allValues={CategoryType}
             selectedValue={item.category}
-            onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-              setItem({
-                ...item,
-                category: e.target.value,
-              })
-            }
+            onChange={(value: string) => setItem({ ...item, category: value })}
           />
         </SelectorWrapper>
         {Object.keys(TagType).map((tagKey) => {

@@ -1,7 +1,7 @@
+import { ComponentPropsWithoutRef } from 'react'
 import { styled } from 'styled-components'
 
-interface CheckboxComponentProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+type CheckboxComponentProps = ComponentPropsWithoutRef<'input'> & {
   label: string
   isChecked: boolean
 }

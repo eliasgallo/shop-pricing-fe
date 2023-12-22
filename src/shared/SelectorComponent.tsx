@@ -1,4 +1,10 @@
-interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
+import { OverrideProps } from '@types'
+import { ComponentPropsWithoutRef } from 'react'
+
+type SelectorProps = OverrideProps<
+  ComponentPropsWithoutRef<'select'>,
+  { onChange: (value: string) => void }
+> & {
   selectedValue: string
   allValues: { [key: string]: string }
 }
@@ -6,11 +12,15 @@ interface Props extends React.SelectHTMLAttributes<HTMLSelectElement> {
 export const SelectorComponent = ({
   selectedValue,
   allValues,
+  onChange,
   ...restProps
-}: Props) => {
+}: SelectorProps) => {
   return (
     <select
       value={selectedValue}
+      onChange={(e) => {
+        onChange(e.target.value)
+      }}
       {...restProps}
     >
       {Object.keys(allValues).map((key: string) => {

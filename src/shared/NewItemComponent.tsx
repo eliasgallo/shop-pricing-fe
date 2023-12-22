@@ -1,3 +1,4 @@
+import { ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
 
 const NewItem = styled.div`
@@ -9,7 +10,7 @@ const NewItem = styled.div`
   cursor: pointer;
   width: fit-content;
 `
-interface NewItemProps extends React.HTMLAttributes<HTMLDivElement> {}
+type NewItemProps = ComponentPropsWithoutRef<'div'>
 export const NewItemComponent = ({ ...restProps }: NewItemProps) => (
   <NewItem {...restProps}>New Item ＋</NewItem>
 )

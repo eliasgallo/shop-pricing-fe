@@ -1,11 +1,13 @@
-import { ChangeEvent, useState } from 'react'
+import { OverrideProps } from '@types'
+import { ChangeEvent, ComponentPropsWithoutRef, useState } from 'react'
 
-interface DecimalInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+type DecimalInputProps = OverrideProps<
+  ComponentPropsWithoutRef<'input'>,
+  { onChange: (value: number) => void }
+> & {
   decimals: number
   startValue: number
   name: string
-  valueChanged: (newValue: number) => void
 }
 
 const placeholder = (decimals: number) => {
@@ -16,7 +18,7 @@ const placeholder = (decimals: number) => {
 export const DecimalInput = ({
   decimals,
   startValue,
-  valueChanged,
+  onChange,
   ...restProps
 }: DecimalInputProps) => {
   const [value, setValue] = useState(startValue.toString())
@@ -29,7 +31,7 @@ export const DecimalInput = ({
           .replace(',', '.')
           .replace(RegExp(`^(\\d+(?:.\\d{0,${decimals}})?).*`, 'gm'), '$1')
         setValue(newValue)
-        valueChanged(parseFloat(newValue))
+        onChange(parseFloat(newValue))
       }}
       inputMode='decimal' // for phones?
       {...restProps}

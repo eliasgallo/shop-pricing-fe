@@ -1,4 +1,5 @@
-import { ChangeEvent, useState } from 'react'
+import { OverrideProps } from '@types'
+import { ChangeEvent, ComponentPropsWithoutRef, useState } from 'react'
 import { styled } from 'styled-components'
 
 const Container = styled.div`
@@ -37,19 +38,18 @@ const Suggestion = styled.div`
   }
 `
 
-interface InputWithSuggestions
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+type InputWithSuggestions = OverrideProps<
+  ComponentPropsWithoutRef<'input'>,
+  { onChange: (value: string) => void }
+> & {
   suggestions: string[]
   currentValue: string
-  valueChanged: (value: string) => void
-  inputPlaceholder: string
 }
 
 export const InputWithSuggestions = ({
+  onChange,
   suggestions,
   currentValue,
-  valueChanged,
-  inputPlaceholder,
   ...restProps
 }: InputWithSuggestions): JSX.Element => {
   const [showSuggestions, setShowSuggestions] = useState(false)
@@ -72,10 +72,9 @@ export const InputWithSuggestions = ({
     <Container>
       <Input
         autoComplete='off'
-        placeholder={inputPlaceholder}
         value={currentValue}
         onChange={(e: ChangeEvent<HTMLInputElement>) =>
-          valueChanged(e.target.value)
+          onChange(e.target.value)
         }
         onFocus={handleFocus}
         onBlur={handleBlur}
@@ -86,7 +85,7 @@ export const InputWithSuggestions = ({
         {filteredSuggestions.map((suggestion: string) => (
           <Suggestion
             key={suggestion}
-            onClick={() => valueChanged(suggestion)}
+            onClick={() => onChange(suggestion)}
           >
             {suggestion}
           </Suggestion>

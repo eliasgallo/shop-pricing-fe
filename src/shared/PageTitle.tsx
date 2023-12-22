@@ -1,3 +1,4 @@
+import { ComponentPropsWithoutRef } from 'react'
 import { styled } from 'styled-components'
 
 const Header = styled.h3`
@@ -5,7 +6,7 @@ const Header = styled.h3`
   margin: 0;
 `
 
-interface PageTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {
+type PageTitleProps = ComponentPropsWithoutRef<'header'> & {
   children: React.ReactNode
 }
 
