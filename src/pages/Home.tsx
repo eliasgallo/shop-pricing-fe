@@ -3,6 +3,7 @@ import ShopCartImage from '@images/shopcart.png'
 import BoutiqueImage from '@images/boutique.png'
 import { PageTitle } from '@shared/PageTitle'
 import { Link } from 'react-router-dom'
+import { ThemePicker } from '../components/ThemePicker'
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -46,6 +47,7 @@ export const Home = () => {
       <ButtonContainer>
         {ImageTextButton(BoutiqueImage, 'Price Control', '/price-control')}
         {ImageTextButton(ShopCartImage, 'Shopping List', '/shop-list')}
+        <ThemePicker />
       </ButtonContainer>
     </>
   )

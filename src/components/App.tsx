@@ -6,10 +6,11 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { Provider } from 'react-redux'
 
 import {
+  appSelectors,
   fetchPriceList,
   fetchShopList,
   priceSelectors,
@@ -26,9 +27,16 @@ import { BreadcrumbsTrails } from './BreadcrumbTrails'
 import { Protected } from './Protected'
 import { LoginMenu } from './login-menu'
 import { VerifyItem } from './VerifyItem'
+import { themes } from '@shared/Theme'
+import { useAppSelector } from '@customHooks/useTypeSelector'
 
-const AppContainer = styled.div`
-  padding: 5px;
+const GlobalStyles = createGlobalStyle`
+  body {
+    margin: 10px;
+    background-color: ${(props) => props.theme.background};
+    color: ${(props) => props.theme.color};
+    font-family: ${(props) => props.theme.fontFamily}
+  }
 `
 
 const AppTopBar = styled.div`
@@ -41,13 +49,14 @@ const AppTopBar = styled.div`
 
 const AppRoot = (): JSX.Element => {
   return (
-    <AppContainer>
+    <>
+      <GlobalStyles />
       <AppTopBar>
         <BreadcrumbsTrails />
         <LoginMenu />
       </AppTopBar>
       <Outlet />
-    </AppContainer>
+    </>
   )
 }
 
@@ -121,10 +130,19 @@ const router: Router = createBrowserRouter(
   )
 )
 
-export const App = (): JSX.Element => {
+const AppWithReduxStore = () => (
+  <Provider store={store}>
+    <AppComponent />
+  </Provider>
+)
+
+const AppComponent = (): JSX.Element => {
+  const theme = useAppSelector(appSelectors.getThemeMode)
   return (
-    <Provider store={store}>
+    <ThemeProvider theme={themes[theme]}>
       <RouterProvider router={router} />
-    </Provider>
+    </ThemeProvider>
   )
 }
+
+export default AppWithReduxStore

@@ -3,6 +3,11 @@ import { reducers } from './reducers'
 import { SessionState } from './reducers/sessionReducer'
 import { retrieveUser } from '@utils/localStorage'
 import { sessionMiddleware } from './action-creators/sessionMiddleware'
+import { retrieveTheme } from '@utils/themeLocalStorage'
+import {
+  AppState,
+  initialState as appInitialState,
+} from './reducers/appReducer'
 // import logger from 'redux-logger'
 
 const getSession = (): SessionState | undefined => {
@@ -10,9 +15,16 @@ const getSession = (): SessionState | undefined => {
   return user && { ...user }
 }
 
+const getApp = (): AppState => {
+  return {
+    ...appInitialState,
+    themeMode: retrieveTheme() || appInitialState.themeMode,
+  }
+}
+
 export const store = configureStore({
   reducer: reducers,
-  preloadedState: { session: getSession() },
+  preloadedState: { session: getSession(), app: getApp() },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sessionMiddleware), //.concat(logger),
 })

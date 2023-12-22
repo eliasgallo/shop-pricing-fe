@@ -2,8 +2,7 @@ import { ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
 
 const NewItem = styled.div`
-  background-color: #24a0ed;
-  color: white;
+  ${(props) => props.theme.buttonMixin};
   padding: 5px 5px;
   border: 2px solid black;
   border-radius: 5px;

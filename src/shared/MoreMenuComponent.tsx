@@ -3,12 +3,11 @@ import { useState } from 'react'
 import { ReplaceAnimationComponent } from './ReplaceAnimationComponent'
 
 const ShowMenuContainer = styled.span`
+  ${(props) => props.theme.buttonMixin};
   cursor: pointer;
   padding: 2px 10px;
-  background-color: #24a0ed;
   border: 2px solid black;
   border-radius: 5px;
-  color: white;
 `
 
 const Menu = styled.div`
@@ -17,14 +16,11 @@ const Menu = styled.div`
 `
 
 const Content = styled.span`
-  color: black;
+  ${(props) => props.theme.buttonMixin};
   padding: 0 10px;
   cursor: pointer;
   border: 2px solid black;
   border-radius: 5px;
-  &:hover {
-    background-color: #00000033;
-  }
 `
 
 type Option = { title: string; handleOption: () => void }

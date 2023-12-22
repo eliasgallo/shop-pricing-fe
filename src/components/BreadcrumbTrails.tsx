@@ -1,5 +1,11 @@
 import { Fragment } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import styled from 'styled-components'
+
+const LinkText = styled.span`
+  color: ${(props) => props.theme.altButtonColor};
+  text-decoration: underline;
+`
 
 export const BreadcrumbsTrails = (): JSX.Element => {
   const location = useLocation()
@@ -18,7 +24,9 @@ export const BreadcrumbsTrails = (): JSX.Element => {
               <>{pathName}</>
             ) : (
               <>
-                <Link to={linkTo}>{pathName}</Link>
+                <Link to={linkTo}>
+                  <LinkText>{pathName}</LinkText>
+                </Link>
                 {' / '}
               </>
             )}

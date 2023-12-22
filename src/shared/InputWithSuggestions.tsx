@@ -19,11 +19,11 @@ const SuggestionsContainer = styled.div<{ $show: boolean }>`
   overflow-y: scroll;
   border: 1px solid #f3f3f3;
   background-color: white;
+  color: black;
   max-height: 20rem;
   width: 100%;
   height: fit-content;
   position: absolute;
-  /* z-index: 10; */
   visibility: ${(props) => (props.$show ? 'visible' : 'hidden')};
 `
 

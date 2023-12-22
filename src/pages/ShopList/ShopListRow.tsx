@@ -24,9 +24,8 @@ const ItemInfo = styled.span`
 `
 
 const EditButton = styled.button`
+  ${(props) => props.theme.buttonMixin};
   padding: 0 20px;
-  background-color: #24a0ed;
-  color: white;
   font-weight: bold;
   border: none;
   cursor: pointer;
