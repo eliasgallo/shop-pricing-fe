@@ -29,6 +29,7 @@ import { LoginMenu } from './LoginMenu'
 import { VerifyItem } from './VerifyItem'
 import { themes } from '@shared/Theme'
 import { useAppSelector } from '@customHooks/useTypeSelector'
+import { NotFound } from '@pages/NotFound'
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -124,7 +125,7 @@ const router: Router = createBrowserRouter(
       />
       <Route
         path='*'
-        element={<div>Not found</div>}
+        element={<NotFound />}
       />
     </Route>
   )
