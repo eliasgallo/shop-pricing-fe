@@ -3,6 +3,7 @@ import { findWithId } from '@utils/listUtils'
 import { getItemIdFromParams } from '@customHooks/routerDomHooks'
 import { useAppDispatch, useAppSelector } from '@customHooks/useTypeSelector'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Spinner } from '@shared/Spinner'
 
 type VerifyIdProps<T> = {
@@ -27,6 +28,7 @@ export const VerifyItem = <T extends { id?: number }>({
   const loading = useAppSelector(selectors.loading)
   const itemId: 'new' | number = getItemIdFromParams()
   const emptyList = list.length === 0
+  const { t } = useTranslation()
   useEffect(() => {
     if (typeof itemId === 'number' && emptyList) {
       dispatch(fetchListAC())
@@ -36,11 +38,14 @@ export const VerifyItem = <T extends { id?: number }>({
     itemId === 'new' || Boolean(findWithId(list, Number(itemId)))
   return (
     <>
-      {showChildren ? children : noItemFound(emptyList)}
+      {showChildren
+        ? children
+        : `${
+            emptyList
+              ? t('verify-item.empty-list')
+              : t('verify-item.item-not-found')
+          }`}
       {loading && <Spinner />}
     </>
   )
 }
-
-const noItemFound = (emptyList: boolean) =>
-  `${emptyList ? 'Empty list!' : 'Item not found!'}`

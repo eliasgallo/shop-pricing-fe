@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { PriceUnitTypes, QuantityTypes, ShopItem } from '@types'
 
 type ShopListRowProps = {
@@ -39,24 +40,24 @@ const Strikethrough = styled.div`
   width: 100%;
 `
 
-const itemInfo = (item: ShopItem): string => {
-  const quantity =
-    item.quantity_value > 0 &&
-    `${item.quantity_value}${QuantityTypes[item.quantity_type]}`
-  const price =
-    item.price > 0 && `${item.price}${PriceUnitTypes[item.price_unit]}`
-  const offer = item.offer && '🔖'
-  return [quantity, item.name, price, offer].filter(Boolean).join(' ')
-}
-
 export const ShopListRow = ({
   item,
   updateItem,
   editButtonClick,
 }: ShopListRowProps) => {
+  const { t } = useTranslation()
   const itemChecked = (): void => {
     item.checked = !item.checked
     updateItem(item)
+  }
+  const itemInfo = (item: ShopItem): string => {
+    const quantity =
+      item.quantity_value > 0 &&
+      `${item.quantity_value}${QuantityTypes[item.quantity_type]}`
+    const price =
+      item.price > 0 && `${item.price}${PriceUnitTypes[item.price_unit]}`
+    const offer = item.offer && t('detail.shop.offer-label')
+    return [quantity, item.name, price, offer].filter(Boolean).join(' ')
   }
 
   return (
@@ -65,7 +66,9 @@ export const ShopListRow = ({
         {itemInfo(item)}
         {item.checked && <Strikethrough />}
       </ItemInfo>
-      <EditButton onClick={editButtonClick}>ℹ</EditButton>
+      <EditButton onClick={editButtonClick}>
+        {t('detail.shop.edit-label')}
+      </EditButton>
     </Container>
   )
 }

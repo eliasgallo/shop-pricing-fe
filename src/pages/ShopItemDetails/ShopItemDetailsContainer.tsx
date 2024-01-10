@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useNavigation } from '@customHooks/routerDomHooks'
 import { Spinner } from '@shared/Spinner'
 import { InputWithSuggestions } from '@shared/InputWithSuggestions'
@@ -27,6 +28,7 @@ export const ShopItemDetailsContainer = ({
 }: ShopItemDetailsProps): JSX.Element => {
   const [item, setItem] = useState(shopItem)
   const { backNav } = useNavigation()
+  const { t } = useTranslation()
 
   if (!item) return <></>
   return (
@@ -41,7 +43,7 @@ export const ShopItemDetailsContainer = ({
         <input
           type='text'
           name='shop_item_name'
-          placeholder='Name'
+          placeholder={t('detail.common.name-input')}
           value={item.name}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setItem({ ...item, name: e.target.value })
@@ -51,16 +53,16 @@ export const ShopItemDetailsContainer = ({
           suggestions={storeSuggestions}
           currentValue={item.store}
           onChange={(value: string) => setItem({ ...item, store: value })}
-          placeholder='Store'
+          placeholder={t('detail.shop.store-input')}
           name='shop-item-store'
         />
         <label>
-          Quantity
+          {t('detail.shop.quantity-section')}
           <SelectorWrapper>
             <input
               type='number'
               name='quantity'
-              placeholder='quantity'
+              placeholder={t('detail.shop.quantity-input')}
               min={0}
               value={item.quantity_value || ''}
               onChange={(e: ChangeEvent<HTMLInputElement>) =>
@@ -81,7 +83,7 @@ export const ShopItemDetailsContainer = ({
           </SelectorWrapper>
         </label>
         <label>
-          Price
+          {t('detail.shop.price-section')}
           <SelectorWrapper>
             <DecimalInput
               decimals={2}
@@ -102,12 +104,14 @@ export const ShopItemDetailsContainer = ({
           </SelectorWrapper>
         </label>
         <CheckboxComponent
-          label='Offer? 🔖'
+          label={`${t('detail.shop.offer-text')} ${t(
+            'detail.shop.offer-label'
+          )}`}
           name='offer-checkbox'
           isChecked={item.offer}
           onChange={() => setItem({ ...item, offer: !item.offer })}
         />
-        <button type='submit'>Save</button>
+        <button type='submit'>{t('detail.save-button')}</button>
         <button
           type='button'
           onClick={() => {
@@ -115,7 +119,7 @@ export const ShopItemDetailsContainer = ({
             backNav()
           }}
         >
-          Delete
+          {t('detail.delete-button')}
         </button>
       </FormContainer>
       {error && `Error message: ${error}`}

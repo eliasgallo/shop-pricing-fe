@@ -1,5 +1,6 @@
 import { ReactNode, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import { ShopListRow } from './ShopListRow'
 import { Spinner } from '@shared/Spinner'
 import { ShopItem } from '@types'
@@ -44,6 +45,7 @@ export const ShopListContainer = ({
     shopList.length === 0 && fetchList()
   }, [])
   const { editNav, newNav, sectionNav } = useNavigation()
+  const { t } = useTranslation()
 
   const sectionRows = (section: string): ReactNode[] =>
     shopList
@@ -73,23 +75,28 @@ export const ShopListContainer = ({
         confirm={handleClearCheckedItems}
         open={modalCheckedOpen}
         onClose={() => setModalCheckedOpen(false)}
-        title='Clear all checked items'
+        title={t('list.modal.clear-checked-title')}
+        description={t('list.modal.clear-description')}
       />
       <ConfirmationModal
         confirm={handleClearList}
         open={modalAllOpen}
         onClose={() => setModalAllOpen(false)}
-        title='Clear all items'
+        title={t('list.modal.clear-all-title')}
+        description={t('list.modal.clear-description')}
       />
       <HeaderContainer>
-        <PageTitle>Shop list</PageTitle>
+        <PageTitle>{t('list.shop.title')}</PageTitle>
         <MoreMenuComponent
           options={[
             {
-              title: '🗑️checked',
+              title: t('list.more-menu.remove-checked-title'),
               handleOption: () => setModalCheckedOpen(true),
             },
-            { title: '🗑️all', handleOption: () => setModalAllOpen(true) },
+            {
+              title: t('list.more-menu.remove-all-title'),
+              handleOption: () => setModalAllOpen(true),
+            },
           ]}
         />
       </HeaderContainer>

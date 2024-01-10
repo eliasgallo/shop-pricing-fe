@@ -3,6 +3,7 @@ import { Spinner } from '@shared/Spinner'
 import { ChangeEvent, useEffect, useState } from 'react'
 import { Navigate } from 'react-router-dom'
 import { styled } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 
 type LoginProps = {
   login: (username: string, pwd: string) => void
@@ -32,17 +33,19 @@ export const LoginComponent = ({
   }, [loginSuccessful])
 
   const [creds, setCreds] = useState({ username: 'elias', pwd: '' })
+  const { t } = useTranslation()
+
   return (
     <>
       {loginSuccessful ? (
         <Navigate to='/' />
       ) : (
         <Container>
-          <PageTitle>Welcome, please login</PageTitle>
+          <PageTitle>{t('login.title')}</PageTitle>
           <input
             type='text'
             name='login'
-            placeholder='username'
+            placeholder={t('login.username-input')}
             value={creds.username}
             onChange={(e: ChangeEvent<HTMLInputElement>) =>
               setCreds({ ...creds, username: e.target.value })
@@ -55,7 +58,7 @@ export const LoginComponent = ({
               login(creds.username, creds.pwd)
             }}
           >
-            Login
+            {t('login.login-button')}
           </button>
           {loading && <Spinner />}
         </Container>

@@ -1,4 +1,5 @@
 import { styled } from 'styled-components'
+import { useTranslation } from 'react-i18next'
 import ShopCartImage from '@images/shopcart.png'
 import BoutiqueImage from '@images/boutique.png'
 import { PageTitle } from '@shared/PageTitle'
@@ -41,13 +42,14 @@ const ImageTextButton = (img: string, text: string, linkTo: string) => (
 )
 
 export const Home = () => {
+  const { t } = useTranslation()
   return (
     <>
-      <PageTitle>Home</PageTitle>
+      <PageTitle>{t('home.title')}</PageTitle>
       <ButtonContainer>
-        {ImageTextButton(BoutiqueImage, 'Price Control', '/price-control')}
-        {ImageTextButton(ShopCartImage, 'Shopping List', '/shop-list')}
-        <ThemePicker />
+        {ImageTextButton(BoutiqueImage, t('home.price'), '/price-control')}
+        {ImageTextButton(ShopCartImage, t('home.shop'), '/shop-list')}
+        <ThemePicker labelText={t('home.theme')} />
       </ButtonContainer>
     </>
   )
