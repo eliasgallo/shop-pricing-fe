@@ -1,7 +1,5 @@
 import 'styled-components'
 
-export const ALL_THEMES = ['light', 'dark']
-
 type ThemeStyles = {
   background: string
   color: string

@@ -10,7 +10,8 @@
     "title": "Hem",
     "price": "Prislista",
     "shop": "Köplista",
-    "theme": "Tema"
+    "theme": "Tema",
+    "language": "Språk"
   },
 
   "list": {

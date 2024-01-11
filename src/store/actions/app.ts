@@ -1,4 +1,7 @@
 interface SetThemeModeAction {
   type: 'app/themeMode'
 }
-export type AppAction = SetThemeModeAction
+interface SetLanguageAction {
+  type: 'app/language'
+}
+export type AppAction = SetThemeModeAction | SetLanguageAction

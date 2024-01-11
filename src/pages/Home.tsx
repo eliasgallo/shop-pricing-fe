@@ -5,6 +5,7 @@ import BoutiqueImage from '@images/boutique.png'
 import { PageTitle } from '@shared/PageTitle'
 import { Link } from 'react-router-dom'
 import { ThemePicker } from '../components/ThemePicker'
+import { LanguagePicker } from '../components/LanguagePicker'
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ export const Home = () => {
         {ImageTextButton(BoutiqueImage, t('home.price'), '/price-control')}
         {ImageTextButton(ShopCartImage, t('home.shop'), '/shop-list')}
         <ThemePicker labelText={t('home.theme')} />
+        <LanguagePicker labelText={t('home.language')} />
       </ButtonContainer>
     </>
   )

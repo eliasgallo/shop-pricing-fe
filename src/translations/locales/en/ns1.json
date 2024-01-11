@@ -10,7 +10,8 @@
     "title": "Home",
     "price": "Price Control",
     "shop": "Shop List",
-    "theme": "Theme"
+    "theme": "Theme",
+    "language": "Language"
   },
 
   "list": {

@@ -1,16 +1,15 @@
 import { connect } from 'react-redux'
-import { ThemePickerComponent } from './ThemePickerComponent'
 import { RootState, appSelectors, setThemeMode } from '@store'
-import { ALL_THEMES } from '@shared/Theme'
+import { SimplePicker } from '../SimplePicker'
 
 const mapStateToProps = (state: RootState) => ({
-  themeMode: appSelectors.getThemeMode(state) || ALL_THEMES[0],
-  allThemeModes: ALL_THEMES,
+  current: appSelectors.getThemeMode(state),
+  allOptions: appSelectors.getAllThemes(state),
 })
 
-const mapDispatchToProps = { setThemeMode }
+const mapDispatchToProps = { setCurrent: setThemeMode }
 
 export const ThemePicker = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ThemePickerComponent)
+)(SimplePicker)

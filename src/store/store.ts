@@ -8,6 +8,7 @@ import {
   AppState,
   initialState as appInitialState,
 } from './reducers/appReducer'
+import { retrieveLanguage } from '@utils/languageLocalStorage'
 // import logger from 'redux-logger'
 
 const getSession = (): SessionState | undefined => {
@@ -19,6 +20,7 @@ const getApp = (): AppState => {
   return {
     ...appInitialState,
     themeMode: retrieveTheme() || appInitialState.themeMode,
+    language: retrieveLanguage() || appInitialState.language,
   }
 }
 
