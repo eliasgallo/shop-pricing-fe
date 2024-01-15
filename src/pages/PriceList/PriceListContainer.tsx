@@ -1,4 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { PriceItem } from '@types'
 import { useNavigation } from '@customHooks/routerDomHooks'
 import { Spinner } from '@shared/Spinner'
@@ -35,6 +36,7 @@ export const PriceListContainer = ({
   clearList,
 }: PriceListProps): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false)
+  const { t } = useTranslation()
   useEffect(() => {
     priceList.length === 0 && fetchList()
   }, [])
@@ -68,12 +70,18 @@ export const PriceListContainer = ({
         confirm={handleClearAllItems}
         open={modalOpen}
         onClose={() => setModalOpen(false)}
-        title='Clear all items'
+        title={t('list.modal.clear-all-title')}
+        description={t('list.modal.clear-description')}
       />
       <HeaderContainer>
-        <PageTitle>Price list</PageTitle>
+        <PageTitle>{t('list.price.title')}</PageTitle>
         <MoreMenuComponent
-          options={[{ title: '🗑️all', handleOption: () => setModalOpen(true) }]}
+          options={[
+            {
+              title: t('list.more-menu.remove-all-title'),
+              handleOption: () => setModalOpen(true),
+            },
+          ]}
         />
       </HeaderContainer>
       {error && `Error message: ${error}`}

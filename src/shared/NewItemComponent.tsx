@@ -1,4 +1,5 @@
 import { ComponentPropsWithoutRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import styled from 'styled-components'
 
 const NewItem = styled.div`
@@ -11,5 +12,5 @@ const NewItem = styled.div`
 `
 type NewItemProps = ComponentPropsWithoutRef<'div'>
 export const NewItemComponent = ({ ...restProps }: NewItemProps) => (
-  <NewItem {...restProps}>New Item ＋</NewItem>
+  <NewItem {...restProps}>{useTranslation().t('list.new-item-button')}</NewItem>
 )

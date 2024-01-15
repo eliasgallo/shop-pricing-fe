@@ -66,15 +66,17 @@ const ConfirmationButtons = styled.button`
 
 type ConfirmationModalProps = {
   open: boolean
-  onClose: () => void
   title: string
+  description: string
+  onClose: () => void
   confirm: () => void
 }
 
 export const ConfirmationModal = ({
   open,
-  onClose,
   title,
+  description,
+  onClose,
   confirm,
 }: ConfirmationModalProps): JSX.Element | null => {
   if (!open) return null
@@ -84,7 +86,7 @@ export const ConfirmationModal = ({
       onClose={onClose}
     >
       <Title>{title}</Title>
-      <p>Are you sure?</p>
+      <p>{description}</p>
       <ConfirmationsContainer>
         <ConfirmationButtons onClick={onClose}>Cancel</ConfirmationButtons>
         <ConfirmationButtons onClick={confirm}>Yes</ConfirmationButtons>

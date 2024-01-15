@@ -1,0 +1,58 @@
+{
+  "login": {
+    "title": "Välkommen",
+    "login-button": "Logga in",
+    "logout-button": "Logga ut",
+    "username-input": "användarnamn"
+  },
+
+  "home": {
+    "title": "Hem",
+    "price": "Prislista",
+    "shop": "Köplista",
+    "theme": "Tema",
+    "language": "Språk"
+  },
+
+  "list": {
+    "new-item-button": "Ny artikel ＋",
+    "modal": {
+      "clear-all-title": "Rensa lista",
+      "clear-checked-title": "Rensa alla strukta artiklar",
+      "clear-description": "Är du säker?"
+    },
+    "more-menu": {
+      "remove-all-title": "🗑️allt",
+      "remove-checked-title": "🗑️struket"
+    },
+    "price": { "title": "Prislista" },
+    "shop": { "title": "Köplista" }
+  },
+
+  "detail": {
+    "save-button": "Spara",
+    "delete-button": "Ta bort",
+    "common": { "name-input": "Namn" },
+    "price": { "category": "Categori", "delete": "Radera" },
+    "shop": {
+      "quantity-section": "Kvantitet",
+      "price-section": "Pris",
+      "offer-label": "🔖",
+      "offer-text": "Erbjudande?",
+      "store-input": "Butik",
+      "quantity-input": "Kvantitet",
+      "edit-label": "ℹ"
+    }
+  },
+  "breadcrumbs.home": "🏠",
+
+  "verify-item": {
+    "empty-list": "Tom lista",
+    "item-not-found": "Artikel ej funnen"
+  },
+
+  "not-found": {
+    "logged-in": "Tillbaka till hem",
+    "logged-out": "Logga in här"
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "login": {
+    "title": "Welcome, please login",
+    "login-button": "Log in",
+    "logout-button": "Log out",
+    "username-input": "username"
+  },
+
+  "home": {
+    "title": "Home",
+    "price": "Price Control",
+    "shop": "Shop List",
+    "theme": "Theme",
+    "language": "Language"
+  },
+
+  "list": {
+    "new-item-button": "New Item ＋",
+    "modal": {
+      "clear-all-title": "Clear all items",
+      "clear-checked-title": "Clear checked items",
+      "clear-description": "Are you sure?"
+    },
+    "more-menu": {
+      "remove-all-title": "🗑️all",
+      "remove-checked-title": "🗑️checked"
+    },
+    "price": { "title": "Price list" },
+    "shop": { "title": "Shop list" }
+  },
+
+  "detail": {
+    "save-button": "Save",
+    "delete-button": "Delete",
+    "common": { "name-input": "Name" },
+    "price": { "category": "Category", "delete": "Delete" },
+    "shop": {
+      "quantity-section": "Quantity",
+      "price-section": "Price",
+      "offer-label": "🔖",
+      "offer-text": "Offer?",
+      "store-input": "Store",
+      "quantity-input": "Quantity",
+      "edit-label": "ℹ"
+    }
+  },
+  "breadcrumbs.home": "🏠",
+
+  "verify-item": {
+    "empty-list": "Empty list",
+    "item-not-found": "Item not found"
+  },
+
+  "not-found": {
+    "logged-in": "Go back to home page",
+    "logged-out": "Login here"
+  }
+}

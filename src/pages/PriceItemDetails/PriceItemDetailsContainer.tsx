@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigation } from '@customHooks/routerDomHooks'
 import { SelectorComponent } from '@shared/SelectorComponent'
 import { Spinner } from '@shared/Spinner'
@@ -37,6 +38,7 @@ export const PriceDetailsContainer = ({
 }: PriceDetailsProps): JSX.Element => {
   const [item, setItem] = useState(priceItem)
   const { backNav } = useNavigation()
+  const { t } = useTranslation()
 
   if (!item) return <></>
   return (
@@ -52,7 +54,7 @@ export const PriceDetailsContainer = ({
         <input
           type='text'
           name='price_item_name'
-          placeholder='name'
+          placeholder={t('detail.common.name-input')}
           value={item.name}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setItem({ ...item, name: e.target.value })
@@ -88,7 +90,7 @@ export const PriceDetailsContainer = ({
           />
         </SelectorWrapper>
         <SelectorWrapper>
-          Category
+          {t('detail.price.category')}
           <SelectorComponent
             name='category'
             allValues={CategoryType}
@@ -112,7 +114,7 @@ export const PriceDetailsContainer = ({
             />
           )
         })}
-        <button type='submit'>Save</button>
+        <button type='submit'>{t('detail.save-button')}</button>
         <button
           type='button'
           onClick={() => {
@@ -120,7 +122,7 @@ export const PriceDetailsContainer = ({
             backNav()
           }}
         >
-          Delete
+          {t('detail.price.delete')}
         </button>
       </FormContainer>
       {loading && <Spinner />}
