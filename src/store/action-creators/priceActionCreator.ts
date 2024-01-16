@@ -13,6 +13,7 @@ import {
   priceDelete,
   priceCreate,
   priceClearAll,
+  setFilterValue,
 } from '../reducers/priceReducer'
 import { sessionSelectors } from '../reducers'
 
@@ -135,5 +136,11 @@ export const clearAllPriceItems = () => {
         dispatch(priceError(msg))
       }
     }
+  }
+}
+
+export const filterPriceList = (filterString: string) => {
+  return (dispatch: Dispatch<PriceAction>) => {
+    dispatch(setFilterValue(filterString))
   }
 }

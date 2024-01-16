@@ -25,7 +25,10 @@
       "remove-all-title": "🗑️allt",
       "remove-checked-title": "🗑️struket"
     },
-    "price": { "title": "Prislista" },
+    "price": {
+      "title": "Prislista",
+      "search-input-placeholder": "Sök"
+    },
     "shop": { "title": "Köplista" }
   },
 

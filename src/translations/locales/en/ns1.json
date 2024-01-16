@@ -25,7 +25,10 @@
       "remove-all-title": "🗑️all",
       "remove-checked-title": "🗑️checked"
     },
-    "price": { "title": "Price list" },
+    "price": {
+      "title": "Price list",
+      "search-input-placeholder": "Search"
+    },
     "shop": { "title": "Shop list" }
   },
 

@@ -18,6 +18,12 @@ const HeaderContainer = styled.div`
   align-items: center;
 `
 
+const ListContainer = styled.div`
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+`
+
 type ShopListProps = {
   shopList: ShopItem[]
   sortedStores: string[]
@@ -101,18 +107,20 @@ export const ShopListContainer = ({
         />
       </HeaderContainer>
       {error && `Error message: ${error}`}
-      <ListWrapper>
+      <ListContainer>
         <NewItemComponent onClick={newNav} />
-        {sortedStores.map((store: string) => (
-          <SectionComponent
-            key={store}
-            onSectionClick={sectionNav}
-            section={store}
-          >
-            {sectionRows(store)}
-          </SectionComponent>
-        ))}
-      </ListWrapper>
+        <ListWrapper>
+          {sortedStores.map((store: string) => (
+            <SectionComponent
+              key={store}
+              onSectionClick={sectionNav}
+              section={store}
+            >
+              {sectionRows(store)}
+            </SectionComponent>
+          ))}
+        </ListWrapper>
+      </ListContainer>
       {loading && <Spinner />}
     </>
   )

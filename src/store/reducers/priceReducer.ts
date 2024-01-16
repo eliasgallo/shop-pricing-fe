@@ -8,6 +8,7 @@ type PriceListState = {
   error: string | null
   priceList: PriceItem[]
   sortedCategories: string[]
+  filterValue: string
 }
 
 const initialState: PriceListState = {
@@ -15,6 +16,7 @@ const initialState: PriceListState = {
   error: null,
   priceList: [],
   sortedCategories: [],
+  filterValue: '',
 }
 
 const lowerCaseNameSort = (
@@ -76,6 +78,9 @@ const priceListSlice = createSlice({
       state.loading = false
       state.priceList = []
     },
+    setFilterValue: (state: PriceListState, action: PayloadAction<string>) => {
+      state.filterValue = action.payload
+    },
     priceResetState: () => initialState,
   },
 })
@@ -88,6 +93,7 @@ export const {
   priceDelete,
   priceCreate,
   priceClearAll,
+  setFilterValue,
   priceResetState,
 } = priceListSlice.actions
 export const priceListReducer = priceListSlice.reducer
@@ -97,4 +103,10 @@ export const selectors = {
   getError: (state: RootState) => state.price.error,
   getPriceList: (state: RootState) => state.price.priceList,
   getSortedCateogries: (state: RootState) => state.price.sortedCategories,
+  getFilteredList: (state: RootState): PriceItem[] => {
+    const filterValue = state.price.filterValue.trim()
+    if (filterValue === '') return state.price.priceList
+    const ignoreCase = new RegExp(filterValue, 'i')
+    return state.price.priceList.filter((item) => ignoreCase.test(item.name))
+  },
 }

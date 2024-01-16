@@ -9,6 +9,7 @@ const init = {
   error: null,
   priceList: [],
   sortedCategories: [],
+  filterValue: '',
 }
 
 const initialItem: PriceItem = {
@@ -157,6 +158,7 @@ describe('priceReducer', () => {
       error: 'error',
       priceList: priceItems,
       sortedCategories,
+      filterValue: '',
     }
     const expected = init
     expect(reducer(state, action)).toEqual(expected)
@@ -184,8 +186,9 @@ describe('selectors', () => {
     price: {
       loading: true,
       error: 'error',
-      priceList: [priceItems[1]],
+      priceList: priceItems,
       sortedCategories: ['a', '1'],
+      filterValue: '',
     },
   } as RootState
   it('getError', () => {
@@ -195,9 +198,19 @@ describe('selectors', () => {
     expect(selectors.getLoading(state)).toBe(true)
   })
   it('getPriceList', () => {
-    expect(selectors.getPriceList(state)).toEqual([priceItems[1]])
+    expect(selectors.getPriceList(state)).toEqual(priceItems)
   })
   it('getSortedCateogries', () => {
     expect(selectors.getSortedCateogries(state)).toEqual(['a', '1'])
+  })
+  it('getFilteredList', () => {
+    expect(selectors.getFilteredList(state)).toEqual(priceItems)
+    state.price.filterValue = '   '
+    expect(selectors.getFilteredList(state)).toEqual(priceItems)
+    state.price.filterValue = ' iTem'
+    expect(selectors.getFilteredList(state).length).toBe(1)
+    expect(selectors.getFilteredList(state)[0].name).toEqual('item 1')
+    state.price.filterValue = 'tem'
+    expect(selectors.getFilteredList(state)[0].name).toEqual('item 1')
   })
 })

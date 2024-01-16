@@ -9,6 +9,7 @@ const NewItem = styled.div`
   border-radius: 5px;
   cursor: pointer;
   width: fit-content;
+  place-self: end;
 `
 type NewItemProps = ComponentPropsWithoutRef<'div'>
 export const NewItemComponent = ({ ...restProps }: NewItemProps) => (

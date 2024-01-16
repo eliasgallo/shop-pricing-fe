@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react'
+import { ChangeEvent, ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { PriceItem } from '@types'
 import { useNavigation } from '@customHooks/routerDomHooks'
@@ -18,6 +18,18 @@ const HeaderContainer = styled.div`
   align-items: center;
 `
 
+const ListContainer = styled.div`
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+`
+
+const SearchInput = styled.input`
+  border: solid;
+  border-radius: 5px;
+  padding: 5px;
+`
+
 type PriceListProps = {
   priceList: PriceItem[]
   sortedCategories: string[]
@@ -25,6 +37,7 @@ type PriceListProps = {
   error: string | null
   fetchList: () => void
   clearList: () => void
+  filterChanged: (filterValue: string) => void
 }
 
 export const PriceListContainer = ({
@@ -34,6 +47,7 @@ export const PriceListContainer = ({
   error,
   fetchList,
   clearList,
+  filterChanged,
 }: PriceListProps): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false)
   const { t } = useTranslation()
@@ -52,18 +66,17 @@ export const PriceListContainer = ({
     )
   }
 
-  const sectionRows = (section: string): ReactNode[] =>
-    priceList
-      .filter((item) => item.category === section)
-      .map(
-        (item: PriceItem): ReactNode => (
-          <li key={item.id}>{priceItemRow(item)}</li>
-        )
+  const sectionRows = (priceItems: PriceItem[]): ReactNode[] =>
+    priceItems.map(
+      (item: PriceItem): ReactNode => (
+        <li key={item.id}>{priceItemRow(item)}</li>
       )
+    )
   const handleClearAllItems = () => {
     setModalOpen(false)
     clearList()
   }
+
   return (
     <>
       <ConfirmationModal
@@ -85,18 +98,32 @@ export const PriceListContainer = ({
         />
       </HeaderContainer>
       {error && `Error message: ${error}`}
-      <ListWrapper>
+      <ListContainer>
+        <SearchInput
+          type='search'
+          placeholder={`🔎 ${t('list.price.search-input-placeholder')}`}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            filterChanged(e.target.value)
+          }
+        />
         <NewItemComponent onClick={newNav} />
-        {sortedCategories.map((category: string) => (
-          <SectionComponent
-            key={category}
-            onSectionClick={sectionNav}
-            section={category}
-          >
-            {sectionRows(category)}
-          </SectionComponent>
-        ))}
-      </ListWrapper>
+        <ListWrapper>
+          {sortedCategories.map((category: string) => {
+            const list = priceList.filter((item) => item.category === category)
+            return (
+              Boolean(list.length) && (
+                <SectionComponent
+                  key={category}
+                  onSectionClick={sectionNav}
+                  section={category}
+                >
+                  {sectionRows(list)}
+                </SectionComponent>
+              )
+            )
+          })}
+        </ListWrapper>
+      </ListContainer>
       {loading && <Spinner />}
     </>
   )

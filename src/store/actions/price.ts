@@ -29,6 +29,11 @@ interface CreatePriceSuccessAction {
   payload: PriceItem
 }
 
+interface FilterPriceListAction {
+  type: 'price/setFilterValue'
+  payload: string
+}
+
 interface ClearAllPriceItemsSuccessAction {
   type: 'price/priceClearAll'
 }
@@ -40,4 +45,5 @@ export type PriceAction =
   | UpdatePriceSuccessAction
   | DeletePriceSuccessAction
   | CreatePriceSuccessAction
+  | FilterPriceListAction
   | ClearAllPriceItemsSuccessAction

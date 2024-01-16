@@ -4,6 +4,7 @@ import {
   clearAllPriceItems,
   fetchPriceList,
   priceSelectors,
+  filterPriceList,
 } from '@store'
 import { PriceItem } from '@types'
 import { PriceListContainer } from './PriceListContainer'
@@ -15,10 +16,14 @@ type StateProps = {
   error: string | null
 }
 
-type DispatchProps = { fetchList: () => void; clearList: () => void }
+type DispatchProps = {
+  fetchList: () => void
+  clearList: () => void
+  filterChanged: (filterValue: string) => void
+}
 
 const mapStateToProps = (state: RootState): StateProps => ({
-  priceList: priceSelectors.getPriceList(state),
+  priceList: priceSelectors.getFilteredList(state),
   sortedCategories: priceSelectors.getSortedCateogries(state),
   loading: priceSelectors.getLoading(state),
   error: priceSelectors.getError(state),
@@ -27,6 +32,7 @@ const mapStateToProps = (state: RootState): StateProps => ({
 const mapDispatchToProps: DispatchProps = {
   fetchList: fetchPriceList,
   clearList: clearAllPriceItems,
+  filterChanged: filterPriceList,
 }
 
 export const PriceList = connect(
