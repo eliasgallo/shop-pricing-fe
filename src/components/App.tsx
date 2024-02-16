@@ -6,7 +6,7 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom'
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components'
+import { ThemeProvider, createGlobalStyle } from 'styled-components'
 import { Provider } from 'react-redux'
 
 import {
@@ -23,7 +23,7 @@ import { PriceList } from '@pages/PriceList'
 import { ShopList } from '@pages/ShopList'
 import { ShopItemDetails } from '@pages/ShopItemDetails'
 import { PriceItemDetails } from '@pages/PriceItemDetails'
-import { BreadcrumbsTrails } from './BreadcrumbTrails'
+import { TopNavigation } from './TopNavigation'
 import { Protected } from './Protected'
 import { LoginMenu } from './LoginMenu'
 import { VerifyItem } from './VerifyItem'
@@ -40,22 +40,12 @@ const GlobalStyles = createGlobalStyle`
   }
 `
 
-const AppTopBar = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 10px;
-`
-
 const AppRoot = (): JSX.Element => {
   return (
     <>
       <GlobalStyles />
-      <AppTopBar>
-        <BreadcrumbsTrails />
-        <LoginMenu />
-      </AppTopBar>
+      <LoginMenu />
+      <TopNavigation />
       <Outlet />
     </>
   )

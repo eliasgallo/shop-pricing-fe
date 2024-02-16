@@ -1,10 +1,10 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
 const Container = styled.div<{ $invisible: boolean }>`
-  display: grid;
-  justify-items: center;
+  display: flex;
+  justify-content: end;
   visibility: ${(props) => (props.$invisible ? 'hidden' : 'visible')};
 `
 
@@ -19,12 +19,10 @@ export const LoginMenuComponent = ({
   logout,
   loggedIn,
 }: LoginMenuProps): JSX.Element => {
-  const location = useLocation()
-  const homePage = location.pathname !== '/'
   const { t } = useTranslation()
 
   return (
-    <Container $invisible={homePage}>
+    <Container $invisible={false}>
       {username && <>{`${username}✨`}</>}
       <Link to='login'>
         {loggedIn ? (
