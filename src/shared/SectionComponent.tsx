@@ -10,7 +10,7 @@ export const Section = styled.div`
 
 export const SectionTitle = styled.div`
   cursor: pointer;
-  color: ${(props) => props.theme.altButtonColor};
+  ${(props) => props.theme.secondaryButtonMixin};
   min-width: 30%; // increase click size in case the name is short
 `
 type SectionProps = {

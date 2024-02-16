@@ -6,8 +6,6 @@ const ShowMenuContainer = styled.span`
   ${(props) => props.theme.buttonMixin};
   cursor: pointer;
   padding: 2px 10px;
-  border: 2px solid black;
-  border-radius: 5px;
 `
 
 const Menu = styled.div`

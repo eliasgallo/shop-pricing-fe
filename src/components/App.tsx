@@ -30,13 +30,21 @@ import { VerifyItem } from './VerifyItem'
 import { themes } from '@shared/Theme'
 import { useAppSelector } from '@customHooks/useTypeSelector'
 import { NotFound } from '@pages/NotFound'
+import { ThemeMode } from '@types'
 
 const GlobalStyles = createGlobalStyle`
+  html {
+    min-height: 100%;
+  }
   body {
     margin: 10px;
-    background-color: ${(props) => props.theme.background};
-    color: ${(props) => props.theme.color};
-    font-family: ${(props) => props.theme.fontFamily}
+    height: 100%;
+    background: ${(props) => props.theme.background};
+    ${(props) => props.theme.color};
+    font-family: ${(props) => props.theme.fontFamily};
+    button {
+      ${(props) => props.theme.buttonMixin};
+    }
   }
 `
 
@@ -128,7 +136,8 @@ const AppWithReduxStore = () => (
 )
 
 const AppComponent = (): JSX.Element => {
-  const theme = useAppSelector(appSelectors.getThemeMode)
+  // Let it crash if it is not a ThemeMode
+  const theme = useAppSelector(appSelectors.getThemeMode) as ThemeMode
   return (
     <ThemeProvider theme={themes[theme]}>
       <RouterProvider router={router} />

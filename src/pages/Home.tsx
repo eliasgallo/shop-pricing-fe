@@ -17,17 +17,13 @@ const Button = styled(Link)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: double;
-  border-color: lightgray;
-  background-color: transparent;
+  ${(props) => props.theme.buttonMixin};
   gap: 10px;
   text-decoration: none;
-  color: #007aff;
   font-weight: bold;
   padding: 5px;
   max-width: 150px;
   text-align: center;
-  box-shadow: 10px 10px 5px 1px #0000ff33;
 `
 
 const Image = styled.img`

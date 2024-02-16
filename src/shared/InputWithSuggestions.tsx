@@ -17,9 +17,8 @@ const Input = styled.input`
 
 const SuggestionsContainer = styled.div<{ $show: boolean }>`
   overflow-y: scroll;
+  ${(props) => props.theme.buttonMixin};
   border: 1px solid #f3f3f3;
-  background-color: white;
-  color: black;
   max-height: 20rem;
   width: 100%;
   height: fit-content;
@@ -34,7 +33,7 @@ const Suggestion = styled.div`
   display: flex;
   align-items: center;
   &:hover {
-    background-color: #f3f3f3;
+    background-color: rgba(0, 0, 0, 0.2);
   }
 `
 
