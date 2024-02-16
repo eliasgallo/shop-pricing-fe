@@ -1,6 +1,11 @@
 import { connect } from 'react-redux'
-import { RootState, priceSelectors } from '@store'
-import { createPriceItem, deletePriceItem, updatePriceItem } from '@store'
+import {
+  RootState,
+  priceSelectors,
+  createPriceItem,
+  deletePriceItem,
+  updatePriceItem,
+} from '@store'
 import { PriceItem } from '@types'
 import { useItemFromParams } from '@customHooks/useFetchItem'
 import { PriceDetailsContainer } from './PriceItemDetailsContainer'

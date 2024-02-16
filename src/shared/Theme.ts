@@ -1,5 +1,4 @@
 import { ThemeMode } from '@types'
-import 'styled-components'
 import { CSSProp, css } from 'styled-components'
 
 type ThemeStyles = {
