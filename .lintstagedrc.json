@@ -1,1 +1,1 @@
-{ "*.ts|*.tsx": "eslint -c .eslintrc.json" }
+{ "*.ts|*.tsx": "eslint --max-warnings=0" }
