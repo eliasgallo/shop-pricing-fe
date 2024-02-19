@@ -3,7 +3,7 @@ import {
   Outlet,
   Route,
   RouterProvider,
-  createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
 } from 'react-router-dom'
 import { ThemeProvider, createGlobalStyle } from 'styled-components'
@@ -59,7 +59,7 @@ const AppRoot = (): JSX.Element => {
   )
 }
 
-const router: Router = createBrowserRouter(
+const router: Router = createHashRouter(
   createRoutesFromElements(
     <Route
       path='/'
