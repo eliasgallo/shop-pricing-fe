@@ -6,6 +6,7 @@ const Container = styled.div<{ $invisible: boolean }>`
   display: flex;
   justify-content: end;
   visibility: ${(props) => (props.$invisible ? 'hidden' : 'visible')};
+  padding: 10px 0;
 `
 
 type LoginMenuProps = {

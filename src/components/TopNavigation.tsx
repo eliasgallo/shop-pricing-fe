@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 
@@ -26,8 +26,12 @@ const paths: {
   { title: 'home.shop', link: '/shop-list' },
 ]
 
-export const TopNavigation = (): JSX.Element => {
+export const TopNavigation = (): JSX.Element | null => {
   const { t } = useTranslation()
+  const location = useLocation()
+  const inLoginPage = location.pathname == '/login'
+  if (inLoginPage) return null
+
   return (
     <Container>
       {paths.map((path) => {
